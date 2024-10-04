@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Posts on IT兵的技术小站</title>
-    <link>http://itbing.cn/posts/</link>
-    <description>Recent content in Posts on IT兵的技术小站</description>
+    <title>ntp on IT兵的技术小站</title>
+    <link>http://itbing.cn/tags/ntp/</link>
+    <description>Recent content in ntp on IT兵的技术小站</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Fri, 30 Oct 2015 21:05:43 +0800</lastBuildDate><atom:link href="http://itbing.cn/posts/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 30 Oct 2015 21:05:43 +0800</lastBuildDate><atom:link href="http://itbing.cn/tags/ntp/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>生产上Ntp Server的研究与配置</title>
       <link>http://itbing.cn/posts/2015/2015-10-30-ntp-server-conf/</link>

@@ -7,7 +7,7 @@
 	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
 	<meta name="description" content="">
 		<meta property="og:title" content="Posts" />
-<meta property="og:description" content="John Doe&#39;s Personal blog about everything" />
+<meta property="og:description" content="itbign&#39;s site" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="http://itbing.cn/posts/" />
 
@@ -33,7 +33,7 @@
 		<a class="logo__link" href="/" title="IT兵的技术小站" rel="home">
 			<div class="logo__item logo__text">
 					<div class="logo__title">IT兵的技术小站</div>
-					<div class="logo__tagline">Just another site</div>
+					
 				</div>
 		</a>
 	</div>
@@ -51,18 +51,21 @@
 	<header class="list__header">
 		<h2 class="list__title post__title">
 			<a href="/posts/2015/2015-10-30-ntp-server-conf/" rel="bookmark">
-			2015 10 30 Ntp Server Conf
+			生产上Ntp Server的研究与配置
 			</a>
 		</h2>
 		<div class="list__meta meta">
 <div class="meta__item-datetime meta__item">
-	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0a14 14 0 1 1 0 28 1 1 0 0 1 0-28m0 3a3 3 0 1 0 0 22 3 3 0 0 0 0-22m1 4h-2v8.4l6.8 4.4L22 18l-6-3.8z"/></svg><time class="meta__text" datetime="2024-10-04T21:05:43&#43;08:00">October 04, 2024</time></div></div>
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0a14 14 0 1 1 0 28 1 1 0 0 1 0-28m0 3a3 3 0 1 0 0 22 3 3 0 0 0 0-22m1 4h-2v8.4l6.8 4.4L22 18l-6-3.8z"/></svg><time class="meta__text" datetime="2015-10-30T21:05:43&#43;08:00">October 30, 2015</time></div></div>
 	</header>
 	<div class="content list__excerpt post__content clearfix">
 		有的可能是集群，一个域名后面有很多服务器。可以通过ntpdate -q cn.pool.ntp.org
 [php][root@bogon ~]# ntpdate -q cn.pool.ntp.org server 202.118.1.130, stratum 2, offset -0.011422, delay 0.18146 server 202.120.2.101, stratum 3, offset -0.051815, delay 0.07179 server 202.118.1.81, stratum 2, offset -0.010541, delay 0.18280 server 202.112.29.82, stratum 2, offset -0.021839, delay 0.15935 25 Nov 20:53:54 ntpdate[4641]: adjust time server 202.112.29.82 offset -0.021839 sec 转载本站文章请注明出处：itbing.cn [/php]
 NTP服务器：三台 （一定要两台或者两台以上） （两台可以设为对等模式，互为备份） （如果只有一台NTP服务器，一旦出现问题，后面的服务器可能都会跟着出问题） （生产中有碰到过当时只有一台NTP服务器，有次突然快了一分钟，结果跟它同步的服务器全部快了一分钟，有两台的话就能避免这种情况） 转载本站文章请注明出处：itbing.cn [php] 172.30.1.2 （redhat6.4） 172.30.1.3 （redhat6.4) 172.30.1.4 （redhat6.4) [/php]
 客户端： 客户端应用、数据库服务器有Redhat、Oracle Linux、HP-UX、Solaris
+	</div>
+	<div class="list__footer clearfix">
+		<a class="list__footer-readmore btn" href="/posts/2015/2015-10-30-ntp-server-conf/">Read more…</a>
 	</div>
 </article>
 </main>
@@ -81,8 +84,15 @@ NTP服务器：三台 （一定要两台或者两台以上） （两台可以设
 	<h4 class="widget__title">Recent Posts</h4>
 	<div class="widget__content">
 		<ul class="widget__list">
-			<li class="widget__item"><a class="widget__link" href="/posts/2015/2015-10-30-ntp-server-conf/">2015 10 30 Ntp Server Conf</a></li>
+			<li class="widget__item"><a class="widget__link" href="/posts/2015/2015-10-30-ntp-server-conf/">生产上Ntp Server的研究与配置</a></li>
 		</ul>
+	</div>
+</div>
+<div class="widget-taglist widget">
+	<h4 class="widget__title">Tags</h4>
+	<div class="widget__content">
+		<a class="widget-taglist__link widget__link btn" href="/tags/linux/" title="linux">linux</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/ntp/" title="ntp">ntp</a>
 	</div>
 </div>
 </aside>
