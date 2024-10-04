@@ -2,9 +2,9 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Categories on IT兵的技术小站</title>
-    <link>http://example.org/categories/</link>
+    <link>http://itbing.cn/categories/</link>
     <description>Recent content in Categories on IT兵的技术小站</description>
     <generator>Hugo -- gohugo.io</generator>
-    <language>en-us</language><atom:link href="http://example.org/categories/index.xml" rel="self" type="application/rss+xml" />
+    <language>zh-cn</language><atom:link href="http://itbing.cn/categories/index.xml" rel="self" type="application/rss+xml" />
   </channel>
 </rss>

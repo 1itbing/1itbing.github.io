@@ -2,13 +2,21 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>http://example.org/posts/</loc>
+    <loc>http://itbing.cn/posts/linux/</loc>
+    <lastmod>2024-10-04T16:50:13+08:00</lastmod>
+  </url><url>
+    <loc>http://itbing.cn/posts/</loc>
+    <lastmod>2024-10-04T16:50:13+08:00</lastmod>
     <priority>0</priority>
   </url><url>
-    <loc>http://example.org/categories/</loc>
+    <loc>http://itbing.cn/posts/linux/2015/2024-10-04-ntp-server-conf/</loc>
+    <lastmod>2024-10-04T16:50:13+08:00</lastmod>
   </url><url>
-    <loc>http://example.org/</loc>
+    <loc>http://itbing.cn/</loc>
+    <lastmod>2024-10-04T16:50:13+08:00</lastmod>
   </url><url>
-    <loc>http://example.org/tags/</loc>
+    <loc>http://itbing.cn/categories/</loc>
+  </url><url>
+    <loc>http://itbing.cn/tags/</loc>
   </url>
 </urlset>
