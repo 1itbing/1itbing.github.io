@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>2015 10 30 Ntp Server Conf - IT兵的技术小站</title>
+	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
+	<meta name="description" content="">
+		<meta property="og:title" content="2015 10 30 Ntp Server Conf" />
+<meta property="og:description" content="有的可能是集群，一个域名后面有很多服务器。可以通过ntpdate -q cn.pool.ntp.org
+[php][root@bogon ~]# ntpdate -q cn.pool.ntp.org server 202.118.1.130, stratum 2, offset -0.011422, delay 0.18146 server 202.120.2.101, stratum 3, offset -0.051815, delay 0.07179 server 202.118.1.81, stratum 2, offset -0.010541, delay 0.18280 server 202.112.29.82, stratum 2, offset -0.021839, delay 0.15935 25 Nov 20:53:54 ntpdate[4641]: adjust time server 202.112.29.82 offset -0.021839 sec 转载本站文章请注明出处：itbing.cn [/php]
+NTP服务器：三台 （一定要两台或者两台以上） （两台可以设为对等模式，互为备份） （如果只有一台NTP服务器，一旦出现问题，后面的服务器可能都会跟着出问题） （生产中有碰到过当时只有一台NTP服务器，有次突然快了一分钟，结果跟它同步的服务器全部快了一分钟，有两台的话就能避免这种情况） 转载本站文章请注明出处：itbing.cn [php] 172.30.1.2 （redhat6.4） 172.30.1.3 （redhat6.4) 172.30.1.4 （redhat6.4) [/php]
+客户端： 客户端应用、数据库服务器有Redhat、Oracle Linux、HP-UX、Solaris" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://itbing.cn/posts/2015/2015-10-30-ntp-server-conf/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2024-10-04T21:05:43+08:00" />
+<meta property="article:modified_time" content="2024-10-04T21:05:43+08:00" />
+
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link rel="dns-prefetch" href="//fonts.googleapis.com">
+	<link rel="dns-prefetch" href="//fonts.gstatic.com">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700">
+
+	<link rel="stylesheet" href="/css/style.css">
+	
+
+	<link rel="shortcut icon" href="/favicon.ico">
+		
+		
+</head>
+<body class="body">
+	<div class="container container--outer">
+		<header class="header">
+	<div class="container header__container">
+		
+	<div class="logo">
+		<a class="logo__link" href="/" title="IT兵的技术小站" rel="home">
+			<div class="logo__item logo__text">
+					<div class="logo__title">IT兵的技术小站</div>
+					<div class="logo__tagline">Just another site</div>
+				</div>
+		</a>
+	</div>
+		<div class="divider"></div>
+	</div>
+</header>
+		<div class="wrapper flex">
+			<div class="primary">
+			
+<main class="main" role="main">
+	<article class="post">
+		<header class="post__header">
+			<h1 class="post__title">2015 10 30 Ntp Server Conf</h1>
+			<div class="post__meta meta">
+<div class="meta__item-datetime meta__item">
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0a14 14 0 1 1 0 28 1 1 0 0 1 0-28m0 3a3 3 0 1 0 0 22 3 3 0 0 0 0-22m1 4h-2v8.4l6.8 4.4L22 18l-6-3.8z"/></svg><time class="meta__text" datetime="2024-10-04T21:05:43&#43;08:00">October 04, 2024</time></div></div>
+		</header>
+		<div class="content post__content clearfix">
+			<!-- raw HTML omitted -->
+<p><!-- raw HTML omitted -->
+有的可能是集群，一个域名后面有很多服务器。可以通过ntpdate -q cn.pool.ntp.org</p>
+<p>[php][root@bogon ~]# ntpdate -q cn.pool.ntp.org
+server 202.118.1.130, stratum 2, offset -0.011422, delay 0.18146
+server 202.120.2.101, stratum 3, offset -0.051815, delay 0.07179
+server 202.118.1.81, stratum 2, offset -0.010541, delay 0.18280
+server 202.112.29.82, stratum 2, offset -0.021839, delay 0.15935
+25 Nov 20:53:54 ntpdate[4641]: adjust time server 202.112.29.82 offset -0.021839 sec
+转载本站文章请注明出处：itbing.cn
+[/php]</p>
+<!-- raw HTML omitted -->
+<p><!-- raw HTML omitted --><!-- raw HTML omitted -->NTP服务器：三台<!-- raw HTML omitted --><!-- raw HTML omitted -->
+<!-- raw HTML omitted -->（一定要两台或者两台以上）<!-- raw HTML omitted -->
+<!-- raw HTML omitted --> （两台可以设为对等模式，互为备份）<!-- raw HTML omitted -->
+<!-- raw HTML omitted --> （如果只有一台NTP服务器，一旦出现问题，后面的服务器可能都会跟着出问题）<!-- raw HTML omitted -->
+<!-- raw HTML omitted --> （生产中有碰到过当时只有一台NTP服务器，有次突然快了一分钟，结果跟它同步的服务器全部快了一分钟，有两台的话就能避免这种情况）<!-- raw HTML omitted -->
+转载本站文章请注明出处：itbing.cn
+[php]
+172.30.1.2 （redhat6.4）
+172.30.1.3 （redhat6.4)
+172.30.1.4 （redhat6.4)
+[/php]</p>
+<p>客户端：
+客户端应用、数据库服务器有Redhat、Oracle Linux、HP-UX、Solaris</p>
+<!-- raw HTML omitted -->
+<p>[php]
+[root@172.31.1.2  ~]# cat /etc/ntp.conf</p>
+<p>#IPv4 的用户只能同步时间
+restrict default kod nomodify notrap nopeer noquery
+#IPv6 的用户只能同步时间
+restrict -6 default kod nomodify notrap nopeer noquery
+#因为上级NTP全部是域名，最好这级不要写ignore,要不然可能同步不会正常</p>
+<p>#默认值，放行本机来源
+restrict 127.0.0.1
+restrict -6 ::1</p>
+<p>#放行局域网来源（不能修改查询时间）
+restrict 172.28.9.0 mask 255.255.255.0 nomodify
+restrict 172.31.1.0 mask 255.255.255.0 nomodify
+restrict 172.28.6.0 mask 255.255.255.0 nomodify
+restrict 192.168.0.0 mask 255.255.255.0 nomodify</p>
+<p>server time.pool.aliyun.com iburst
+server cn.pool.ntp.org iburst
+server 2.cn.pool.ntp.org iburst
+server s1a.time.edu.cn iburst
+server s2c.time.edu.cn iburst
+server s2m.time.edu.cn iburst
+server time.asia.apple.com iburst
+server 1.asia.pool.ntp.org iburst
+server 3.asia.pool.ntp.org iburst
+server 202.112.10.60 iburst
+server 202.112.10.36 iburst</p>
+<p>server 127.127.1.0
+fudge  127.127.1.0 stratum 8</p>
+<p>logfile /var/log/ntp.log
+broadcastdelay 0.008
+driftfile /var/lib/ntp/drift
+keys /etc/ntp/keys</p>
+<p>转载本站文章请注明出处：itbing.cn
+[/php]</p>
+<p><!-- raw HTML omitted --><!-- raw HTML omitted -->二、各种服务器客户端的设置：<!-- raw HTML omitted --><!-- raw HTML omitted --></p>
+<p>[php][root@ ~]# cat /etc/ntp.conf</p>
+<p>restrict default ignore         #拒绝 IPv4 上的所有类型的 NTP 连接</p>
+<p>restrict -6 default ignore      #拒绝 IPv6 上的所有类型的 NTP 连接</p>
+<p>restrict 127.0.0.1              #默认值，放行本机来源</p>
+<p>restrict -6 ::1                 #默认值，放行本机来源</p>
+<p>restrict 172.31.1.0 mask 255.255.255.0 #放行局域网来源</p>
+<p>server 172.31.1.2 iburst
+server 172.31.1.3 iburst
+server 172.31.1.4  iburst
+&lt;/pre&gt;
+&lt;pre&gt;#对于上级不要用优先prefer级，让客户端自动选择&lt;/pre&gt;
+&lt;pre&gt;
+#server 127.127.1.0
+#fudge 127.127.1.0 stratum 11
+#如果是最后一级的客户端，可以不添加上面两句，这样上面一级变成同步LOCAL,这一级也能正常同步。
+logfile /var/log/ntp.log
+driftfile /var/lib/ntp/drift
+keys /etc/ntp/keys
+转载本站文章请注明出处：itbing.cn
+[/php]</p>
+<p><!-- raw HTML omitted --><!-- raw HTML omitted -->三、开启&quot;微调模式&quot; <!-- raw HTML omitted --><!-- raw HTML omitted -->
+也就是在options中要加入 -x的选项，（NTP服务器和下面的各系统最后都配置一下
+<!-- raw HTML omitted -->（注：数据库服务器一定要开启微调模式，其它应用服务器可根据实际情况决定是否开启）<!-- raw HTML omitted -->
+<!-- raw HTML omitted --> （不过对于ntp4.2.2版本的话，加上-x，重启ntp服务时会同步一次，如果不加-x，重启时不会同步时间，不过重启后也会跳跃同步时间）<!-- raw HTML omitted -->
+<!-- raw HTML omitted --> （对于4.2.4版本的话，加-x，重启时不会同步时间,不加-x,虽然重启时不会同步时间，但重启后会很快跳跃同步时间）<!-- raw HTML omitted --></p>
+<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+<p>[php]
+[root@ ~]# vi /etc/sysconfig/ntpd
+#The following item added by Robinson
+#Set to &lsquo;yes&rsquo; to sycn hw clock after successful ntpdate
+SYNC_HWCLOCK=yes  	                                  #开启同步更新硬件时间
+OPTIONS=&quot;-x -u ntp:ntp -p /var/run/ntpd.pid -g&quot;            #加-x 参数，开启微调模式
+转载本站文章请注明出处：itbing.cn
+[/php]</p>
+<p><!-- raw HTML omitted --><!-- raw HTML omitted -->四、NTP服务<!-- raw HTML omitted --><!-- raw HTML omitted --></p>
+<p>[php][root@~]# chkconfig ntpd on[/php]</p>
+<p><!-- raw HTML omitted --><!-- raw HTML omitted -->重启一下，使配置生效<!-- raw HTML omitted --><!-- raw HTML omitted --></p>
+<p>[php][root@~]# service ntpd restart[/php]</p>
+<p><!-- raw HTML omitted --><!-- raw HTML omitted -->五、检查ntpd的状态<!-- raw HTML omitted --><!-- raw HTML omitted -->
+通常需要一段时间（5-10分钟）才能与上层NTP服务器通信</p>
+<h1 id="remote---------refid---st--t--when-poll-reach---delay---offset--jitter">[php][root@~]# ntpq -pn
+remote         refid   st  t  when poll reach   delay   offset  jitter</h1>
+<p>*172.31.1.3   172.31.1.1   9  u  316  512  377    0.335    0.057   0.619
++172.31.1.4   172.31.1.1   9  u  329  512  377    0.462    0.061   0.778
+127.127.1.0     .LOCL.   10  l  82h   64    0    0.000    0.000   0.000
+[/php]</p>
+<p><!-- raw HTML omitted --><!-- raw HTML omitted -->六、如果有开防火墙，还需要添加一条策略<!-- raw HTML omitted --><!-- raw HTML omitted --></p>
+<p>[php]
+iptables -A INPUT -p udp -s 172.31.1.0/24 &ndash;dport 123 -j ACCEPT
+[/php]</p>
+<!-- raw HTML omitted -->
+
+		</div>
+	</article>
+</main>
+
+<div class="authorbox clearfix">
+	<figure class="authorbox__avatar">
+		<img alt="John Doe avatar" src="/img/avatar.png" class="avatar" height="90" width="90">
+	</figure>
+	<div class="authorbox__header">
+		<span class="authorbox__name">About John Doe</span>
+	</div>
+	<div class="authorbox__description">
+		John Doe&rsquo;s true identity is unknown. Maybe he is a successful blogger or writer. Nobody knows it.
+	</div>
+</div>
+
+
+
+			</div>
+			<aside class="sidebar"><div class="widget-search widget">
+	<form class="widget-search__form" role="search" method="get" action="https://google.com/search">
+		<input class="widget-search__field" type="search" placeholder="Search…" value="" name="q" aria-label="Search…">
+		<input class="widget-search__submit" type="submit" value="Search">
+		<input type="hidden" name="sitesearch" value="http://itbing.cn/">
+	</form>
+</div>
+<div class="widget-recent widget">
+	<h4 class="widget__title">Recent Posts</h4>
+	<div class="widget__content">
+		<ul class="widget__list">
+			<li class="widget__item"><a class="widget__link" href="/posts/2015/2015-10-30-ntp-server-conf/">2015 10 30 Ntp Server Conf</a></li>
+		</ul>
+	</div>
+</div>
+</aside>
+		</div>
+		<footer class="footer">
+	<div class="container footer__container flex">
+		
+		<div class="footer__copyright">
+			&copy; 2024 IT兵的技术小站.
+			<span class="footer__copyright-credits">Generated with <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/Vimux/Mainroad/" rel="nofollow noopener" target="_blank">Mainroad</a> theme.</span>
+		</div>
+	</div>
+</footer>
+	</div>
+<script async defer src="/js/menu.js"></script>
+</body>
+</html>
