@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>mysql on IT兵的技术小站</title>
+    <link>http://itbing.cn/tags/mysql/</link>
+    <description>Recent content in mysql on IT兵的技术小站</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Wed, 15 Jul 2020 15:31:35 +0800</lastBuildDate><atom:link href="http://itbing.cn/tags/mysql/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>MySQL报错Ignoring query to other database的真正原因</title>
+      <link>http://itbing.cn/posts/2020/2020-07-15-mysql-ignoring-query/</link>
+      <pubDate>Wed, 15 Jul 2020 15:31:35 +0800</pubDate>
+      
+      <guid>http://itbing.cn/posts/2020/2020-07-15-mysql-ignoring-query/</guid>
+      <description>大家都知道报这个错的原因是忘了用户名前加-u这个参数造成的，比如是这样登录了MySQL
+mysql -root -p (注意看，-root前面没有加u） 登录后，不管你执行什么命令，都会提示Ignoring query to other database
+mysql&amp;gt;show databases; Ignoring query to other database 要解决这个问题，只要退出后加上-u这个参数就可以了。 # mysql -uroot -p</description>
+    </item>
+    
+    <item>
+      <title>一次MySQL主备同步出错恢复</title>
+      <link>http://itbing.cn/posts/2018/2018-05-31-mysql-sync-error/</link>
+      <pubDate>Thu, 31 May 2018 22:36:10 +0800</pubDate>
+      
+      <guid>http://itbing.cn/posts/2018/2018-05-31-mysql-sync-error/</guid>
+      <description>错误提示：
+Last_IO_Errno: 1236 Last_IO_Error: Got fatal error 1236 from master when reading data from binary log: &amp;#39;Client requested master to start replication from position &amp;gt; file size; the first event &amp;#39;mysql-bin.</description>
+    </item>
+    
+    <item>
+      <title>[MySQL错误]Can&#39;t find file: ./mysql/plugin.frm</title>
+      <link>http://itbing.cn/posts/2018/2018-05-31-mysql-cant-find-file/</link>
+      <pubDate>Thu, 31 May 2018 00:17:33 +0800</pubDate>
+      
+      <guid>http://itbing.cn/posts/2018/2018-05-31-mysql-cant-find-file/</guid>
+      <description>错误提示：
+/usr/libexec/mysqld: Can&amp;#39;t find file: &amp;#39;./mysql/plugin.frm&amp;#39; (errno: 13) 180530 15:19:43 [ERROR] Can&amp;#39;t open the mysql.plugin table. Please run mysql_upgrade to create it.</description>
+    </item>
+    
+  </channel>
+</rss>

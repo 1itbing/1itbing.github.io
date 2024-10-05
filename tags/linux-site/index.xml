@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>linux site on IT兵的技术小站</title>
+    <link>http://itbing.cn/tags/linux-site/</link>
+    <description>Recent content in linux site on IT兵的技术小站</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Sun, 12 Aug 2018 15:59:08 +0800</lastBuildDate><atom:link href="http://itbing.cn/tags/linux-site/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Linux运维常用的一些网站</title>
+      <link>http://itbing.cn/posts/2018/2018-08-12-linux-site/</link>
+      <pubDate>Sun, 12 Aug 2018 15:59:08 +0800</pubDate>
+      
+      <guid>http://itbing.cn/posts/2018/2018-08-12-linux-site/</guid>
+      <description>一、技术问答网站 https://stackoverflow.com https://www.linuxquestions.org
+二、软件下载站： 2.1 Linux软件包下载 http://pkgs.org 各种开源的Linux(CentOS/Debian/Ubuntu)系统软件基本都有下载
+2.2 rpm包软件的下载站 http://rpmfind.net/ http://rpm.pbone.net
+2.3 主要是SUSE下的软件 https://software.opensuse.org/package/dstat 注意下拉查看显示其它版本
+2.4 托管站，有各种开源软件 http://sourceforge.net https://github.com</description>
+    </item>
+    
+  </channel>
+</rss>

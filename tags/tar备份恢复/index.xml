@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>tar备份恢复 on IT兵的技术小站</title>
+    <link>http://itbing.cn/tags/tar%E5%A4%87%E4%BB%BD%E6%81%A2%E5%A4%8D/</link>
+    <description>Recent content in tar备份恢复 on IT兵的技术小站</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Thu, 14 Apr 2016 15:58:58 +0800</lastBuildDate><atom:link href="http://itbing.cn/tags/tar%E5%A4%87%E4%BB%BD%E6%81%A2%E5%A4%8D/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>用tar备份和恢复Linux操作系统</title>
+      <link>http://itbing.cn/posts/2016/2016-04-14-linux-tar-backup/</link>
+      <pubDate>Thu, 14 Apr 2016 15:58:58 +0800</pubDate>
+      
+      <guid>http://itbing.cn/posts/2016/2016-04-14-linux-tar-backup/</guid>
+      <description>环境：主要是针对redhat等系列系统
+其实备份系统平时看来可能用处不大，因为一般平时无论是数据库，还是应用，都会做自己的备份。实在系统坏了，也可以重装，重新配置就行。
+但是有些系统可能用了很久，中间转了好几个人，里面的配置可能后来的人都搞不清楚了，重新配置需要花费很大精力。这个时候系统的备份就显得非常重要了。
+或者有时候一小心删除了某个目录也可以用备份恢复。 备份系统应有选择性的备份某些服务器系统，或某些重要的系统文件，不用全部服务器做备份。 可以专门准备一个服务器或空间，根据服务器IP创建目录，再根据日期来存放tar好的各服务器的备份文件。
+备份： 一般LINUX分区至少分三个： 一个/boot分区 一个/根分区 一个/swap交换分区 我们以这个为基础来实施备份策略。
+/boot分区安装系统后一般不会变动，所以安装完系统后就可以备份一份，以后如果有升级系统，可以再备份
+#tar -zcpf /boot.tgz /boot
+/根分区 #备份整个根目录要排除一些动态的目录和一些不必要的目录 #备份根目录应等业务应用配置完成，运行一段时间稳定后再备份，这样以后恢复出来后也能马上使用。以后应用有重大修改，运行稳定后再备份，前面的备份就可以删除</description>
+    </item>
+    
+  </channel>
+</rss>

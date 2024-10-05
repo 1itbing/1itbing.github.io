@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>僵尸进程 on IT兵的技术小站</title>
+    <link>http://itbing.cn/tags/%E5%83%B5%E5%B0%B8%E8%BF%9B%E7%A8%8B/</link>
+    <description>Recent content in 僵尸进程 on IT兵的技术小站</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Tue, 08 Mar 2016 10:49:11 +0800</lastBuildDate><atom:link href="http://itbing.cn/tags/%E5%83%B5%E5%B0%B8%E8%BF%9B%E7%A8%8B/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>[故障分析]出现大量僵尸进程（zombie)</title>
+      <link>http://itbing.cn/posts/2016/2016-03-08-failure-analysis-zombie/</link>
+      <pubDate>Tue, 08 Mar 2016 10:49:11 +0800</pubDate>
+      
+      <guid>http://itbing.cn/posts/2016/2016-03-08-failure-analysis-zombie/</guid>
+      <description>环境：SUSE Linux Enterprise Server 11 SP2
+检测到一个suse系统的zombie达到100多个
+登录服务器检测
+首先查询是哪个进程引起的 ps -ef|grep defu sfhadm 7444 7443 0 02:10 ? 00:00:00 [test.</description>
+    </item>
+    
+  </channel>
+</rss>

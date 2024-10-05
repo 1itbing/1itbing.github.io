@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>GOPATH on IT兵的技术小站</title>
+    <link>http://itbing.cn/tags/gopath/</link>
+    <description>Recent content in GOPATH on IT兵的技术小站</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Wed, 27 Mar 2019 19:42:24 +0800</lastBuildDate><atom:link href="http://itbing.cn/tags/gopath/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>GO语言的GOROOT和GOPATH</title>
+      <link>http://itbing.cn/posts/2019/2019-03-27-golang-goroot-gopath/</link>
+      <pubDate>Wed, 27 Mar 2019 19:42:24 +0800</pubDate>
+      
+      <guid>http://itbing.cn/posts/2019/2019-03-27-golang-goroot-gopath/</guid>
+      <description>GOROOT #Golang安装目录
+GOPATH #Golang项目目录
+GOPATH： src #存放源码，开发项目存放在这个目录下 bin #编译后生成的可执行文件存放目录 pkg #第三方包目录
+Go1.11版本之后官方推出go module版本管理工具，并且从Go1.13版本开始，go module将是Go语言默认的依赖管理工具。 所以后面开发项目文件就可以不用在GOPATH中的src中了。</description>
+    </item>
+    
+  </channel>
+</rss>

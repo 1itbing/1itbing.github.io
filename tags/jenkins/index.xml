@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>jenkins on IT兵的技术小站</title>
+    <link>http://itbing.cn/tags/jenkins/</link>
+    <description>Recent content in jenkins on IT兵的技术小站</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Sat, 07 Sep 2019 21:01:42 +0800</lastBuildDate><atom:link href="http://itbing.cn/tags/jenkins/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Jenkins常用插件</title>
+      <link>http://itbing.cn/posts/2019/2019-09-07-jenkins-plugins/</link>
+      <pubDate>Sat, 07 Sep 2019 21:01:42 +0800</pubDate>
+      
+      <guid>http://itbing.cn/posts/2019/2019-09-07-jenkins-plugins/</guid>
+      <description>Pipeline Pipeline Maven Integration pipeline中使用withMaven语法必须安装的插件
+Credentials Binding 凭据插件
+HTTP Request Plugin 代替curl，curl也可以调用凭据的
+Image Tag Parameter 通过harbor获取镜像列表作为参数
+simple theme jenkins的皮肤风格插件，可以美化jenkins页面
+timestamps 时间插件，可以让日志显示时间</description>
+    </item>
+    
+  </channel>
+</rss>

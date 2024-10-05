@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>GOPROXY on IT兵的技术小站</title>
+    <link>http://itbing.cn/tags/goproxy/</link>
+    <description>Recent content in GOPROXY on IT兵的技术小站</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Mon, 18 Mar 2019 19:40:53 +0800</lastBuildDate><atom:link href="http://itbing.cn/tags/goproxy/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Go设置代理，加速库的下载</title>
+      <link>http://itbing.cn/posts/2019/2019-03-18-golang-goproxymd/</link>
+      <pubDate>Mon, 18 Mar 2019 19:40:53 +0800</pubDate>
+      
+      <guid>http://itbing.cn/posts/2019/2019-03-18-golang-goproxymd/</guid>
+      <description>由于很多go库很多是国外网站，所以要么下载库会很慢，或者干脆访问不了。 Golang V1.13之后支持通过设置变量GOPROXY来修改代理地址，默认的代理服务器可以改成国内地址https://goproxy.cn
+go env -w GOPROXY=&amp;ldquo;https://goproxy.cn,direct&amp;rdquo;
+阿里云 https://mirrors.aliyun.com/goproxy/
+nexus社区提供的 https://gonexus.dev ngoproxy.io https://goproxy.io\
+基于athens的公共服务 https://athens.azurefd.net\</description>
+    </item>
+    
+  </channel>
+</rss>

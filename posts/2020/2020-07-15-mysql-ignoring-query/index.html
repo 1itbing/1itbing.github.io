@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>MySQL报错Ignoring query to other database的真正原因 - IT兵的技术小站</title>
+	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
+	<meta name="description" content="">
+		<meta property="og:title" content="MySQL报错Ignoring query to other database的真正原因" />
+<meta property="og:description" content="大家都知道报这个错的原因是忘了用户名前加-u这个参数造成的，比如是这样登录了MySQL
+mysql -root -p (注意看，-root前面没有加u） 登录后，不管你执行什么命令，都会提示Ignoring query to other database
+mysql&gt;show databases; Ignoring query to other database 要解决这个问题，只要退出后加上-u这个参数就可以了。 # mysql -uroot -p" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://itbing.cn/posts/2020/2020-07-15-mysql-ignoring-query/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2020-07-15T15:31:35+08:00" />
+<meta property="article:modified_time" content="2020-07-15T15:31:35+08:00" />
+
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link rel="dns-prefetch" href="//fonts.googleapis.com">
+	<link rel="dns-prefetch" href="//fonts.gstatic.com">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700">
+
+	<link rel="stylesheet" href="/css/style.css">
+	
+
+	<link rel="shortcut icon" href="/favicon.ico">
+		
+		
+</head>
+<body class="body">
+	<div class="container container--outer">
+		<header class="header">
+	<div class="container header__container">
+		
+	<div class="logo">
+		<a class="logo__link" href="/" title="IT兵的技术小站" rel="home">
+			<div class="logo__item logo__text">
+					<div class="logo__title">IT兵的技术小站</div>
+					
+				</div>
+		</a>
+	</div>
+		<div class="divider"></div>
+	</div>
+</header>
+		<div class="wrapper flex">
+			<div class="primary">
+			
+<main class="main" role="main">
+	<article class="post">
+		<header class="post__header">
+			<h1 class="post__title">MySQL报错Ignoring query to other database的真正原因</h1>
+			<div class="post__meta meta">
+<div class="meta__item-datetime meta__item">
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0a14 14 0 1 1 0 28 1 1 0 0 1 0-28m0 3a3 3 0 1 0 0 22 3 3 0 0 0 0-22m1 4h-2v8.4l6.8 4.4L22 18l-6-3.8z"/></svg><time class="meta__text" datetime="2020-07-15T15:31:35&#43;08:00">July 15, 2020</time></div></div>
+		</header>
+		<div class="content post__content clearfix">
+			<p>大家都知道报这个错的原因是忘了用户名前加-u<!-- raw HTML omitted -->这个参数造成的，比如是这样登录了MySQL</p>
+<h1 id="mysql--root--p-注意看-root前面没有加u">mysql -root -p (注意看，-root前面没有加u）</h1>
+<p>登录后，不管你执行什么命令，都会提示Ignoring query to other database</p>
+<pre tabindex="0"><code>mysql&gt;show databases;
+Ignoring query to other database
+</code></pre><p>要解决这个问题，只要退出后加上-u这个参数就可以了。
+<code># mysql -uroot -p</code></p>
+<p>网上很多都写到这里为止了，但并没有去分析为什么没有加-u也能登录成功，为什么登录成功后执行sql语句会报错。</p>
+<p>这里我就给大家分析一下为什么会这样的真正原因。</p>
+<p>这是因为当没有带上-u执行 “mysql -root -p ”时，mysql命令把-root识别成了它的参数，而不是root这个用户。并且把root这个词识别成了四个参数，拆开来就是“-r -o -o -t&quot;。</p>
+<p>当不带有-u参数时，默认就是以root用户登录的。</p>
+<p>所以当没有带-u参数时，整个命令其实是这样的：</p>
+<p><code>#mysql -r -o -o -t -p -uroot   //其中-uroot是隐式带上的</code></p>
+<p>所以虽然没有带上-u参数，是可以登录成功的，而登录成功后，报错，是因为有-o这个参数造成的。</p>
+<p>我们看看-o这个参数的解释：</p>
+<pre tabindex="0"><code>-o，--one-database
+Ignore statements except those that occur while the default database is the one named on the command line. This option is rudimentary and should be used with care. Statement filtering is based only on USE statements.
+</code></pre><p>翻译过来就是，当带上-o参数时，会忽略sql语句，但如果在-o参数后面带上某数据库名，这个数据库可以排除在外，也就是这个数据库可以执行sql语句。</p>
+<p>比如我们想登录数据库后，只能在mysql这个数据库执行命令sql命令，在其它数据库中都执行不了sql命令</p>
+<pre tabindex="0"><code># mysql -o mysql -p
+mysql&amp;gt; use test
+Database changed
+mysql&amp;gt; show tables;
+Ignoring query to other database
+mysql&amp;gt; use mysql
+Database changed
+mysql&amp;gt; show tables;
++---------------------------+
+| Tables_in_mysql           |
++---------------------------+
+| columns_priv              |
+| db                        |
+| event                     |
+| func                      |
+| general_log               |
+| help_category             |
+| help_keyword              |
+| help_relation             |
+| help_topic                |
+| host                      |
+| ndb_binlog_index          |
+| plugin                    |
+| proc                      |
+| procs_priv                |
+| proxies_priv              |
+| servers                   |
+| slow_log                  |
+| tables_priv               |
+| time_zone                 |
+| time_zone_leap_second     |
+| time_zone_name            |
+| time_zone_transition      |
+| time_zone_transition_type |
+| user                      |
++---------------------------+
+24 rows in set (0.00 sec)
+
+mysql&amp;gt; select * from test.test1;
++------+
+| id   |
++------+
+|    1 |
++------+
+1 row in set (0.00 sec)
+
+mysql&gt;; use test
+Database changed
+mysql&amp;gt; select * from mysql.user;
+Ignoring query to other database
+</code></pre><p>可以看出，当使用use切换到mysql数据库，就可以执行sql命令，当使用use切换到别的数据库下，就执行不了，会报错。</p>
+<p>知道这个-o参数的作用后，我们就知道为什么前面登录后执行命令会报错了。</p>
+
+		</div>
+		<footer class="post__footer">
+			
+<div class="post__tags tags clearfix">
+	<svg class="tags__badge icon icon-tag" width="16" height="16" viewBox="0 0 32 32"><path d="M4 0h8s2 0 4 2l15 15s2 2 0 4L21 31s-2 2-4 0L2 16s-2-2-2-4V3s0-3 4-3m3 10a3 3 0 0 0 0-6 3 3 0 0 0 0 6"/></svg>
+	<ul class="tags__list">
+		<li class="tags__item">
+			<a class="tags__link btn" href="/tags/linux/" rel="tag">linux</a>
+		</li>
+		<li class="tags__item">
+			<a class="tags__link btn" href="/tags/mysql/" rel="tag">MySQL</a>
+		</li>
+	</ul>
+</div>
+		</footer>
+	</article>
+</main>
+
+<div class="authorbox clearfix">
+	<div class="authorbox__header">
+		<span class="authorbox__name">About itbing</span>
+	</div>
+	<div class="authorbox__description">
+		从事于Linux/Unix系统类运维工作
+	</div>
+</div>
+
+<nav class="pager flex">
+	<div class="pager__item pager__item--prev">
+		<a class="pager__link" href="/posts/2020/2020-06-11-linux-autofs/" rel="prev">
+			<span class="pager__subtitle">«&thinsp;Previous</span>
+			<p class="pager__title">Linux上自动挂载磁盘的几种方法</p>
+		</a>
+	</div>
+	<div class="pager__item pager__item--next">
+		<a class="pager__link" href="/posts/2020/2020-08-19-linux-kvm-setup/" rel="next">
+			<span class="pager__subtitle">Next&thinsp;»</span>
+			<p class="pager__title">linux上用kvm快速创建虚拟机</p>
+		</a>
+	</div>
+</nav>
+
+
+			</div>
+			<aside class="sidebar">
+<div class="widget-recent widget">
+	<h4 class="widget__title">Recent Posts</h4>
+	<div class="widget__content">
+		<ul class="widget__list">
+			<li class="widget__item"><a class="widget__link" href="/posts/2022/2022-05-08-k8s-docker-remove/">kubernetes1.24版本开始不再直接支持Docker</a></li>
+			<li class="widget__item"><a class="widget__link" href="/posts/2022/2022-03-06-k8s-kubectl-auto/">让kubectl命令能自动补全</a></li>
+			<li class="widget__item"><a class="widget__link" href="/posts/2021/2021-12-01-k8s-minikube-k3s/">k8s环境的几个替代产品-可用于入门、测试和开发等环境</a></li>
+			<li class="widget__item"><a class="widget__link" href="/posts/2021/2021-11-16-k8s-coredns/">在Kubernetes中自定义域名解析</a></li>
+			<li class="widget__item"><a class="widget__link" href="/posts/2021/2021-11-15-k8s-record-rollout/">Kubernetes更新和回滚</a></li>
+		</ul>
+	</div>
+</div>
+<div class="widget-taglist widget">
+	<h4 class="widget__title">Tags</h4>
+	<div class="widget__content">
+		<a class="widget-taglist__link widget__link btn" href="/tags/ansible/" title="ansible">ansible</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/clamav/" title="clamav">clamav</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/coding/" title="coding">coding</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/dashboard/" title="dashboard">dashboard</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/do_ypcall/" title="do_ypcall">do_ypcall</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/docker/" title="Docker">Docker</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/expect/" title="expect">expect</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/fdisk/" title="fdisk">fdisk</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/go-module/" title="go module">go module</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/gopath/" title="GOPATH">GOPATH</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/goproxy/" title="GOPROXY">GOPROXY</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/goroot/" title="GOROOT">GOROOT</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/go%E8%AF%AD%E8%A8%80/" title="go语言">go语言</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/history/" title="history">history</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/influxdb/" title="InfluxDB">InfluxDB</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/ip%E9%99%90%E5%88%B6/" title="IP限制">IP限制</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/jenkins/" title="jenkins">jenkins</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/k3s/" title="k3s">k3s</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/k8s/" title="k8s">k8s</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/kubernetes/" title="Kubernetes">Kubernetes</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/kvm/" title="kvm">kvm</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/linux/" title="linux">linux</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/linux-site/" title="linux site">linux site</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/lsehll/" title="lsehll">lsehll</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/mkfifo/" title="mkfifo">mkfifo</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/mysql/" title="mysql">mysql</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/mysql%E9%94%99%E8%AF%AF/" title="MySQL错误">MySQL错误</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/ntp/" title="ntp">ntp</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/parted/" title="parted">parted</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/print/" title="Print">Print</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/puppet/" title="Puppet">Puppet</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/rancher/" title="rancher">rancher</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/saltstack/" title="SaltStack">SaltStack</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/script/" title="script">script</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/scriptreplay/" title="scriptreplay">scriptreplay</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/sendemail/" title="sendEmail">sendEmail</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/shell/" title="shell">shell</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/solaris/" title="solaris">solaris</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/sshpass/" title="sshpass">sshpass</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/suse/" title="suse">suse</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/tar%E5%A4%87%E4%BB%BD%E6%81%A2%E5%A4%8D/" title="tar备份恢复">tar备份恢复</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/tcp_wrappers/" title="tcp_wrappers">tcp_wrappers</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/telnet-server/" title="telnet server">telnet server</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/ypbind/" title="ypbind">ypbind</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/zfs/" title="zfs">zfs</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E4%B8%BB%E5%A4%87%E5%90%8C%E6%AD%A5/" title="主备同步">主备同步</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E5%83%B5%E5%B0%B8%E8%BF%9B%E7%A8%8B/" title="僵尸进程">僵尸进程</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E5%9F%BA%E6%9C%AC%E9%85%8D%E7%BD%AE%E6%93%8D%E4%BD%9C/" title="基本配置操作">基本配置操作</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E5%A0%A1%E5%9E%92%E6%9C%BA/" title="堡垒机">堡垒机</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E6%95%85%E9%9A%9C%E5%88%86%E6%9E%90/" title="故障分析">故障分析</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E6%9D%80%E6%AF%92%E8%BD%AF%E4%BB%B6/" title="杀毒软件">杀毒软件</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E8%87%AA%E5%8A%A8%E6%8C%82%E8%BD%BD/" title="自动挂载">自动挂载</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E8%BD%AF%E4%BB%B6%E5%AE%89%E8%A3%85/" title="软件安装">软件安装</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E8%BF%90%E7%BB%B4%E5%B7%A5%E7%A8%8B%E5%B8%88/" title="运维工程师">运维工程师</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E9%98%B2%E7%81%AB%E5%A2%99/" title="防火墙">防火墙</a>
+	</div>
+</div>
+</aside>
+		</div>
+		<footer class="footer">
+	<div class="container footer__container flex">
+		
+		<div class="footer__copyright">
+			&copy; 2024 IT兵的技术小站.
+			<span class="footer__copyright-credits">Generated with <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/Vimux/Mainroad/" rel="nofollow noopener" target="_blank">Mainroad</a> theme.</span>
+		</div>
+	</div>
+</footer>
+	</div>
+<script async defer src="/js/menu.js"></script>
+</body>
+</html>

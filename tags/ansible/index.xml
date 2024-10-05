@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>ansible on IT兵的技术小站</title>
+    <link>http://itbing.cn/tags/ansible/</link>
+    <description>Recent content in ansible on IT兵的技术小站</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Wed, 19 Jun 2019 23:49:24 +0800</lastBuildDate><atom:link href="http://itbing.cn/tags/ansible/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>ansible升级到2.8之后的问题</title>
+      <link>http://itbing.cn/posts/2019/2019-06-19-ansible-28/</link>
+      <pubDate>Wed, 19 Jun 2019 23:49:24 +0800</pubDate>
+      
+      <guid>http://itbing.cn/posts/2019/2019-06-19-ansible-28/</guid>
+      <description>以前一直使用ansible1.9的版本，最近升级到2.8版本了，发现有挺多问题的。
+1、没有了-S -R参数 以前要使用su切换的话，使用-S -R就可以切换 #ansible test -S -R root -m shell -a &#39;ls&#39;
+升级到2.8之后，可以使用如下命令： 一是指定用户 #ansible test &amp;ndash;become-user=root -m shell -a &amp;rsquo;ls&#39;\</description>
+    </item>
+    
+    <item>
+      <title>批量管理服务器的几种方法</title>
+      <link>http://itbing.cn/posts/2015/2015-12-20-linux-expect-sshpass/</link>
+      <pubDate>Sun, 20 Dec 2015 23:05:17 +0800</pubDate>
+      
+      <guid>http://itbing.cn/posts/2015/2015-12-20-linux-expect-sshpass/</guid>
+      <description>一、shell+expect 二、shell+sshpass 三、ansible、Puppet、SaltStack&amp;hellip; 四、堡垒机系统 五、一些运维系统 </description>
+    </item>
+    
+  </channel>
+</rss>

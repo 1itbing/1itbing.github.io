@@ -49,25 +49,419 @@
 	
 	<header class="list__header">
 		<h2 class="list__title post__title">
-			<a href="/posts/2015/2015-10-30-ntp-server-conf/" rel="bookmark">
-			生产上Ntp Server的研究与配置
+			<a href="/posts/2022/2022-05-08-k8s-docker-remove/" rel="bookmark">
+			kubernetes1.24版本开始不再直接支持Docker
 			</a>
 		</h2>
 		<div class="list__meta meta">
 <div class="meta__item-datetime meta__item">
-	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0a14 14 0 1 1 0 28 1 1 0 0 1 0-28m0 3a3 3 0 1 0 0 22 3 3 0 0 0 0-22m1 4h-2v8.4l6.8 4.4L22 18l-6-3.8z"/></svg><time class="meta__text" datetime="2015-10-30T21:05:43&#43;08:00">October 30, 2015</time></div></div>
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0a14 14 0 1 1 0 28 1 1 0 0 1 0-28m0 3a3 3 0 1 0 0 22 3 3 0 0 0 0-22m1 4h-2v8.4l6.8 4.4L22 18l-6-3.8z"/></svg><time class="meta__text" datetime="2022-05-08T15:22:36&#43;08:00">May 08, 2022</time></div></div>
 	</header>
 	<div class="content list__excerpt post__content clearfix">
-		###推荐使用的NTP服务器：http://www.pool.ntp.org/zone/cn
-time.pool.aliyun.com cn.pool.ntp.org 2.cn.pool.ntp.org s1a.time.edu.cn s2c.time.edu.cn s2m.time.edu.cn time.asia.apple.com 1.asia.pool.ntp.org 3.asia.pool.ntp.org #加两个IP的，防止DNS域名解析有问题 202.112.10.60 202.112.10.36 有的可能是集群，一个域名后面有很多服务器。可以通过ntpdate -q cn.pool.ntp.org
-# ntpdate -q cn.pool.ntp.org server 202.
+		可以说当年kubernetes是借着Docker的东风才发展状大的。当然，kubernetes本身也的确优秀，毕竟它是google多年先进编排理念积累的成果。
+kubernetes当年为了兼容特别火的Docker，开发了&quot;dockershim&quot;来调用Docker的API接口，通过这么一种方式，从它2014年6月7日首次发布用到了2020年12月。
+2020年12月2日，kubernetes宣布将docker-shim标识为deprecated（不赞成使用），未来将被remove。（官方文档：https://kubernetes.io/zh-cn/blog/2020/12/02/dont-panic-kubernetes-and-docker/)
+2022年5月3日，Kubernetes 1.24发布，dockershim彻底被移除。（官方文档：https://kubernetes.io/zh-cn/blog/2022/05/03/kubernetes-1-24-release-announcement/ ）
+这个变化对于其它人其实没啥感觉，因为底层的变化对于k8s整个使用没有任何影响，只是运维人员需要注意。
+首先，k8s1.24及之后的版本还是可以继续使用Docker的，只不过现在不直接支持了，需要安装一个cri-dockerd（Docker官方Mirantis开发的，源码https://github.com/Mirantis/cri-dockerd）。 但这种使用docker的方式是不推荐在生产环境中使用了。
+现在选择新的容器运行时，可以有两种选择：containerd或者CRI-O。 首推选择containerd，因为它跟docker命令几乎一模一样，只要把命令中的docker改为crictl基本上就可以直接用。很多国内的云服务商也几乎都是用containerd来替代docker。
+	</div>
+</article><article class="list__item post">
+	
+	<header class="list__header">
+		<h2 class="list__title post__title">
+			<a href="/posts/2022/2022-03-06-k8s-kubectl-auto/" rel="bookmark">
+			让kubectl命令能自动补全
+			</a>
+		</h2>
+		<div class="list__meta meta">
+<div class="meta__item-datetime meta__item">
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0a14 14 0 1 1 0 28 1 1 0 0 1 0-28m0 3a3 3 0 1 0 0 22 3 3 0 0 0 0-22m1 4h-2v8.4l6.8 4.4L22 18l-6-3.8z"/></svg><time class="meta__text" datetime="2022-03-06T10:42:56&#43;08:00">March 06, 2022</time></div></div>
+	</header>
+	<div class="content list__excerpt post__content clearfix">
+		kubectl命令一般都挺长的，经常重复输入还挺麻烦的，其实也是可以让它自动补全的。
+默认bash包含了自动补全，只要输入命令的前几个字母，再按TAB键，如果这几个字母有很多命令匹配到会全部列出让选择，如果只匹配到一个，就会直接补全命令。 但这种补全一般是只针对命令和文件名。
+比如默认情况下输入&quot;kubectl&quot;,这个时候按TAB键，只会匹配出当前目录下的文件，不会列出这个命令的参数。 还比如输入&quot;kubectl -n k&quot;,这个时候按TAB键，并不能匹配出以k开头的命名空间来。
+想要让kubectl命令也补全这种信息，就需要安装bash的一个扩展包bash-completion。
+Linux下安装和设置： 1、安装bash-completion yum install bash-completion 或者 apt install bash-completion 2、使其生效 source /usr/share/bash-completion/bash_completion source &lt;(kubectl completion bash) 3、添加环境变量(让以后开机就生效） echo &quot;source &lt;(kubectl completion bash)&quot; &gt;&gt; ~/.
 	</div>
 	<div class="list__footer clearfix">
-		<a class="list__footer-readmore btn" href="/posts/2015/2015-10-30-ntp-server-conf/">Read more…</a>
+		<a class="list__footer-readmore btn" href="/posts/2022/2022-03-06-k8s-kubectl-auto/">Read more…</a>
+	</div>
+</article><article class="list__item post">
+	
+	<header class="list__header">
+		<h2 class="list__title post__title">
+			<a href="/posts/2021/2021-12-01-k8s-minikube-k3s/" rel="bookmark">
+			k8s环境的几个替代产品-可用于入门、测试和开发等环境
+			</a>
+		</h2>
+		<div class="list__meta meta">
+<div class="meta__item-datetime meta__item">
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0a14 14 0 1 1 0 28 1 1 0 0 1 0-28m0 3a3 3 0 1 0 0 22 3 3 0 0 0 0-22m1 4h-2v8.4l6.8 4.4L22 18l-6-3.8z"/></svg><time class="meta__text" datetime="2021-12-01T11:22:36&#43;08:00">December 01, 2021</time></div></div>
+	</header>
+	<div class="content list__excerpt post__content clearfix">
+		【Minikube】 Minikube是由Kubernetes官方维护的单机版的Kubernetes，支持Kubernetes的大部分功能，从基础的容器编排管理，到高级特性如负载均衡、Ingress，权限控制等。使用最新的官方stable版本。 非常适合作为Kubernetes入门、实验和开发测试环境使用。 支持macOS、Linux和Windows等多平台。
+网址：https://minikube.sigs.k8s.io
+【k3s】 SUSE(Rancher)公司出品，轻量型k8s。只支持Linux平台。 网址：https://k3s.io
+【Rancher Desktop带k3s】 SUSE(Rancher)公司出品，Rancher Desktop带k3s环境。安装快捷方便。 支持macOS、Linux和Windows等多平台。
+网址：https://rancherdesktop.io
+【Docker Desktop带k8s】 Docker公司出品。 支持macOS、Linux和Windows等多平台。 网址：https://www.docker.com
+	</div>
+</article><article class="list__item post">
+	
+	<header class="list__header">
+		<h2 class="list__title post__title">
+			<a href="/posts/2021/2021-11-16-k8s-coredns/" rel="bookmark">
+			在Kubernetes中自定义域名解析
+			</a>
+		</h2>
+		<div class="list__meta meta">
+<div class="meta__item-datetime meta__item">
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0a14 14 0 1 1 0 28 1 1 0 0 1 0-28m0 3a3 3 0 1 0 0 22 3 3 0 0 0 0-22m1 4h-2v8.4l6.8 4.4L22 18l-6-3.8z"/></svg><time class="meta__text" datetime="2021-11-16T10:32:26&#43;08:00">November 16, 2021</time></div></div>
+	</header>
+	<div class="content list__excerpt post__content clearfix">
+		有时候需要在k8s容器中给一些主机名做一下域名解析指向某一个IP地址，一般想到的都是在容器中的/etc/hosts添加配置，但这种方法不够智能，修改一次就要重新创建一个镜像，非常麻烦。
+这里有两种方便设置的方法：
+一种是用hostAliases 在yaml中的spec块中添加一个hostAliases，然后根据格式写上IP地址和想要解析的域名。
+....... spec: hostAliases: - ip: &#34;172.11.0.23&#34; hostnames: - pre.itbing.local ...... 这样就会把pre.itbing.local解析到172.11.0.23。 hostAliases的机制是会把这个域名解析添加进容器中的/etc/hosts。
+一种是在coreDNS添加 # kubectl -n kube-system edit configmap coredns .
+	</div>
+	<div class="list__footer clearfix">
+		<a class="list__footer-readmore btn" href="/posts/2021/2021-11-16-k8s-coredns/">Read more…</a>
+	</div>
+</article><article class="list__item post">
+	
+	<header class="list__header">
+		<h2 class="list__title post__title">
+			<a href="/posts/2021/2021-11-15-k8s-record-rollout/" rel="bookmark">
+			Kubernetes更新和回滚
+			</a>
+		</h2>
+		<div class="list__meta meta">
+<div class="meta__item-datetime meta__item">
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0a14 14 0 1 1 0 28 1 1 0 0 1 0-28m0 3a3 3 0 1 0 0 22 3 3 0 0 0 0-22m1 4h-2v8.4l6.8 4.4L22 18l-6-3.8z"/></svg><time class="meta__text" datetime="2021-11-15T14:12:16&#43;08:00">November 15, 2021</time></div></div>
+	</header>
+	<div class="content list__excerpt post__content clearfix">
+		如果对Deployment的Pod template部分进行更改，例如更新template 中的 label 和容器镜像时，就会创建出一个新的 revision版本记录，如果想回滚恢复到以前某个版本状态，可以随时进行操作恢复。
+1.先创建一个deploy 这里直接用命令创建一个nginx服务的deploy # kubectl create deploy nginx-deploy --image=nginx:1.19.0 --replicas=2 -n dev
+这里用的nginx镜像是1.19.0版本
+2.查看revision版本记录 查看nginx的deploy历史版本记录
+	</div>
+	<div class="list__footer clearfix">
+		<a class="list__footer-readmore btn" href="/posts/2021/2021-11-15-k8s-record-rollout/">Read more…</a>
+	</div>
+</article><article class="list__item post">
+	
+	<header class="list__header">
+		<h2 class="list__title post__title">
+			<a href="/posts/2021/2021-10-01-k8s-configmap-secret/" rel="bookmark">
+			k8s:configmap/secret存储二进制文件研究
+			</a>
+		</h2>
+		<div class="list__meta meta">
+<div class="meta__item-datetime meta__item">
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0a14 14 0 1 1 0 28 1 1 0 0 1 0-28m0 3a3 3 0 1 0 0 22 3 3 0 0 0 0-22m1 4h-2v8.4l6.8 4.4L22 18l-6-3.8z"/></svg><time class="meta__text" datetime="2021-10-01T10:11:18&#43;08:00">October 01, 2021</time></div></div>
+	</header>
+	<div class="content list__excerpt post__content clearfix">
+		一直以为configmap/secret没办法存储二进制文件，最近有个p12的证书，也类似于二进制文件，用secret存储挂载进容器中，居然可以正常使用。 就想着其它二进制文件应该也可以吧，就拿linux下面的ls命令的文件，用configmap/secret分别存储然后挂载进容器中，也都可以正常使用。
+简单的实验步骤： 制作一个configmap，存储文件是ls这个命令文件。
+# kubectl create configmap configmap-ls --from-file=/root/ls
+注意：要把容器里的ls命令复制到你执行kubectl命令的这个系统上用来configmap存储，因为可能你执行命令的这个系统和容器的系统不一样，你如果用这个系统上的ls命令挂载进去，可能没办法正常使用。
+然后在deploy中，制作一个挂载配置，把这个configmap挂载进容器中。
+............ volumeMounts: - mountPath: /configmap/ name: configmap-ls ........... volumes: - configMap: defaultMode: 420 name: configmap-ls name: configmap-ls ls这个命令文件就会在这个容器挂载的目录/configmap/下。因为这个容器中的挂载目录是只读的，需要从挂载目录中把ls文件复制出来，再授予它执行权限就可以正常使用了。(具体步骤可以自己去操作）
+	</div>
+	<div class="list__footer clearfix">
+		<a class="list__footer-readmore btn" href="/posts/2021/2021-10-01-k8s-configmap-secret/">Read more…</a>
+	</div>
+</article><article class="list__item post">
+	
+	<header class="list__header">
+		<h2 class="list__title post__title">
+			<a href="/posts/2021/2021-07-07-k8s-rancher-import/" rel="bookmark">
+			rancher导入k8s/k3s集群
+			</a>
+		</h2>
+		<div class="list__meta meta">
+<div class="meta__item-datetime meta__item">
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0a14 14 0 1 1 0 28 1 1 0 0 1 0-28m0 3a3 3 0 1 0 0 22 3 3 0 0 0 0-22m1 4h-2v8.4l6.8 4.4L22 18l-6-3.8z"/></svg><time class="meta__text" datetime="2021-07-07T10:12:18&#43;08:00">July 07, 2021</time></div></div>
+	</header>
+	<div class="content list__excerpt post__content clearfix">
+		把k8s/k3s集群导入rancher中进行管理，步骤还是很简单的。 rancher本身也是有提示说明的。
+1、登录rancher。 点击“集群”，再点击右边的“添加集群”按钮
+2、点击右边的“导入”链接 3、设置集群的名称（可随意）。 也可以在这里添加对集群管理的用户（成员角色），不过一般都是在后面细分权限划分。
+4、这里会根据你的rancher环境生成相应的命令。到要导入的集群系统上执行这个命令就行。 [root@master1 ~]# kubectl apply -f https://rancher.xxxxxx.net/v3/import/2cp2nlnkjv2l4d9tcwg6lbj72tfmjcxtvrndvhv6kx4tjcwppctnln.yaml clusterrole.rbac.authorization.k8s.io/proxy-clusterrole-kubeapiserver created clusterrolebinding.rbac.authorization.k8s.io/proxy-role-binding-kubernetes-master created namespace/cattle-system created serviceaccount/cattle created Warning: rbac.
+	</div>
+	<div class="list__footer clearfix">
+		<a class="list__footer-readmore btn" href="/posts/2021/2021-07-07-k8s-rancher-import/">Read more…</a>
+	</div>
+</article><article class="list__item post">
+	
+	<header class="list__header">
+		<h2 class="list__title post__title">
+			<a href="/posts/2021/2021-07-06-k8s-rancher/" rel="bookmark">
+			rancher的安装与设置
+			</a>
+		</h2>
+		<div class="list__meta meta">
+<div class="meta__item-datetime meta__item">
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0a14 14 0 1 1 0 28 1 1 0 0 1 0-28m0 3a3 3 0 1 0 0 22 3 3 0 0 0 0-22m1 4h-2v8.4l6.8 4.4L22 18l-6-3.8z"/></svg><time class="meta__text" datetime="2021-07-06T21:12:15&#43;08:00">July 06, 2021</time></div></div>
+	</header>
+	<div class="content list__excerpt post__content clearfix">
+		Docker安装方法： 以前1.x版本，镜像名是rancher/server，现在一般都是用2.x版本，镜像名是rancher/rancher
+$ docker pull rancher/rancher
+这个会安装最新版本的rancher，如果想指定版本安装，可以先查询有哪些版本，再加上版本号进行安装。
+$ curl -s https://registry.hub.docker.com/v2/repositories/rancher/rancher/tags/?page_size=100| jq \&#39;.&#34;results&#34;[] .name\&#39; &#34;v2.7-head&#34; &#34;v2.7-828fe615a30ed0302d39df1a78366ce4f4a8b381-head&#34; &#34;v2.7-828fe615a30ed0302d39df1a78366ce4f4a8b381-linux-amd64&#34; &#34;v2.7-828fe615a30ed0302d39df1a78366ce4f4a8b381-linux-arm64&#34; &#34;v2.7-828fe615a30ed0302d39df1a78366ce4f4a8b381-linux-s390x&#34; &#34;v2.7-cd8eea1fdf0dd0071bfdcae4f1eb7de2c5b3722f-head&#34; &#34;v2.
+	</div>
+	<div class="list__footer clearfix">
+		<a class="list__footer-readmore btn" href="/posts/2021/2021-07-06-k8s-rancher/">Read more…</a>
+	</div>
+</article><article class="list__item post">
+	
+	<header class="list__header">
+		<h2 class="list__title post__title">
+			<a href="/posts/2021/2021-05-10-k8s-dashboard/" rel="bookmark">
+			Kubernetes的web管理：dashboard的安装
+			</a>
+		</h2>
+		<div class="list__meta meta">
+<div class="meta__item-datetime meta__item">
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0a14 14 0 1 1 0 28 1 1 0 0 1 0-28m0 3a3 3 0 1 0 0 22 3 3 0 0 0 0-22m1 4h-2v8.4l6.8 4.4L22 18l-6-3.8z"/></svg><time class="meta__text" datetime="2021-05-10T16:25:29&#43;08:00">May 10, 2021</time></div></div>
+	</header>
+	<div class="content list__excerpt post__content clearfix">
+		k8s在使用时，不仅是运维人员需要使用，很多时候还需要给开发人员来使用。 给开发人员使用，就不可能让他们用命令行去使用，这个时候就需要有web页面这种管理方式。 k8s的web管理方式其实不只有dashboard这一种，还有很多其它的解决方案，比如Rancher，其实就比dashboard更好用。
+一、查询kubernetes版本，下载对应的dashboard版本 安装前要先确认自己的kubernetes版本，因为dashboard要对应不同的kubernetes版本来进行安装使用，如果版本不对应，安装完打开可能会报错。
+# kubectl version Client Version: version.Info{Major:&amp;quot;1&amp;quot;, Minor:&amp;quot;19&amp;quot;, GitVersion:&amp;quot;v1.19.0&amp;quot;, GitCommit:&amp;quot;e19964183377d0ec2052d1f1fa930c4d7575bd50&amp;quot;, GitTreeState:&amp;quot;clean&amp;quot;, BuildDate:&amp;quot;2020-08-26T14:30:33Z&amp;quot;, GoVersion:&amp;quot;go1.15&amp;quot;, Compiler:&amp;quot;gc&amp;quot;, Platform:&amp;quot;linux/amd64&amp;quot;} Server Version: version.
+	</div>
+	<div class="list__footer clearfix">
+		<a class="list__footer-readmore btn" href="/posts/2021/2021-05-10-k8s-dashboard/">Read more…</a>
+	</div>
+</article><article class="list__item post">
+	
+	<header class="list__header">
+		<h2 class="list__title post__title">
+			<a href="/posts/2021/2021-03-20-k8s-setup/" rel="bookmark">
+			Kubernetes的安装部署
+			</a>
+		</h2>
+		<div class="list__meta meta">
+<div class="meta__item-datetime meta__item">
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0a14 14 0 1 1 0 28 1 1 0 0 1 0-28m0 3a3 3 0 1 0 0 22 3 3 0 0 0 0-22m1 4h-2v8.4l6.8 4.4L22 18l-6-3.8z"/></svg><time class="meta__text" datetime="2021-03-20T20:17:18&#43;08:00">March 20, 2021</time></div></div>
+	</header>
+	<div class="content list__excerpt post__content clearfix">
+		Kubernetes的安装方法主要有两种： 一种是用源码编译安装 一种是使用kubeadm工具安装 用源码安装的话，相对比较麻烦，初学者应该先用kubeadm来安装部署k8s，等熟悉了再用源码来安装。
+	</div>
+</article><article class="list__item post">
+	
+	<header class="list__header">
+		<h2 class="list__title post__title">
+			<a href="/posts/2021/2021-03-20-k8s-name/" rel="bookmark">
+			Kubernetes的一些名词概念
+			</a>
+		</h2>
+		<div class="list__meta meta">
+<div class="meta__item-datetime meta__item">
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0a14 14 0 1 1 0 28 1 1 0 0 1 0-28m0 3a3 3 0 1 0 0 22 3 3 0 0 0 0-22m1 4h-2v8.4l6.8 4.4L22 18l-6-3.8z"/></svg><time class="meta__text" datetime="2021-03-20T11:12:16&#43;08:00">March 20, 2021</time></div></div>
+	</header>
+	<div class="content list__excerpt post__content clearfix">
+		master： k8s集群中的管理节点，一般生产中是有三个master的，达到冗余的效果。
+node(worker)： k8s集群中的工作节点，就是各种服务实际部署的系统。根据自己的服务数量，可以有很多个。
+pod： k8s集群管理的最小单位。k8s不会直接管理docker容器，而是通过pod去管理容器，所以k8s不关心底层用的是什么容器技术。
+	</div>
+</article><article class="list__item post">
+	
+	<header class="list__header">
+		<h2 class="list__title post__title">
+			<a href="/posts/2021/2021-03-19-k8s-manage/" rel="bookmark">
+			Kubernetes管理资源的两种方式
+			</a>
+		</h2>
+		<div class="list__meta meta">
+<div class="meta__item-datetime meta__item">
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0a14 14 0 1 1 0 28 1 1 0 0 1 0-28m0 3a3 3 0 1 0 0 22 3 3 0 0 0 0-22m1 4h-2v8.4l6.8 4.4L22 18l-6-3.8z"/></svg><time class="meta__text" datetime="2021-03-19T21:07:25&#43;08:00">March 19, 2021</time></div></div>
+	</header>
+	<div class="content list__excerpt post__content clearfix">
+		Kubernetes管理资源的两种方式: 1、用纯命令管理 比如用命令创建一个nginx服务，并且设置2个pod负载
+# kubectl run nginx-deployment --image=nginx:1.7.9 --replicas=2
+比如用命令更新服务的image镜像版本 # kubectl set image deploy/nginx nginx:nginx:1.8.0
+2、用yaml文件管理 有纯命令管理的话，其实是不够规范化的，有问题了也不好追溯。 所以生产上其实都是用yaml文件来管理k8s，这也是官方推荐的方式。
+用yaml文件创建一个nginx应用服务：
+	</div>
+	<div class="list__footer clearfix">
+		<a class="list__footer-readmore btn" href="/posts/2021/2021-03-19-k8s-manage/">Read more…</a>
+	</div>
+</article><article class="list__item post">
+	
+	<header class="list__header">
+		<h2 class="list__title post__title">
+			<a href="/posts/2020/2020-08-19-linux-kvm-setup/" rel="bookmark">
+			linux上用kvm快速创建虚拟机
+			</a>
+		</h2>
+		<div class="list__meta meta">
+<div class="meta__item-datetime meta__item">
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0a14 14 0 1 1 0 28 1 1 0 0 1 0-28m0 3a3 3 0 1 0 0 22 3 3 0 0 0 0-22m1 4h-2v8.4l6.8 4.4L22 18l-6-3.8z"/></svg><time class="meta__text" datetime="2020-08-19T21:07:25&#43;08:00">August 19, 2020</time></div></div>
+	</header>
+	<div class="content list__excerpt post__content clearfix">
+		教大家怎么快速的来使用KVM创建一个虚拟机和管理虚拟机，如果有准备好ISO系统安装文件的话，就算是第一次使用KVM，只要跟着操作，也可以很快能创建出一个虚拟机了。
+一、查看系统是否支持KVM虚拟化 查看cpu是否支持虚拟化
+# grep -E&#39;(vmx|svm)&#39; /proc/cpuinfo flags :fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflushdts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tscart arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc aperfmperfeagerfpu pni pclmulqdq dtes64 monitor ds_cpl vmx est tm2 ssse3 sdbg fma cx16 xtpr pdcm pcid sse4_1 sse4_2 x2apic movbe popcnttsc_deadline_timer aes xsave avx f16c rdrand lahf_lm abm 3dnowprefetch epbinvpcid_single intel_pt ssbd ibrs ibpb stibp tpr_shadow vnmi flexpriority eptvpid fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid mpx rdseed adx smapclflushopt xsaveopt xsavec xgetbv1 dtherm ida arat pln pts hwp hwp_notifyhwp_act_window hwp_epp md_clear spec_ctrl intel_stibp flush_l1d 说明CPU是Intel的，如果是AMD的CPU，应该是“svm”。
+	</div>
+	<div class="list__footer clearfix">
+		<a class="list__footer-readmore btn" href="/posts/2020/2020-08-19-linux-kvm-setup/">Read more…</a>
+	</div>
+</article><article class="list__item post">
+	
+	<header class="list__header">
+		<h2 class="list__title post__title">
+			<a href="/posts/2020/2020-07-15-mysql-ignoring-query/" rel="bookmark">
+			MySQL报错Ignoring query to other database的真正原因
+			</a>
+		</h2>
+		<div class="list__meta meta">
+<div class="meta__item-datetime meta__item">
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0a14 14 0 1 1 0 28 1 1 0 0 1 0-28m0 3a3 3 0 1 0 0 22 3 3 0 0 0 0-22m1 4h-2v8.4l6.8 4.4L22 18l-6-3.8z"/></svg><time class="meta__text" datetime="2020-07-15T15:31:35&#43;08:00">July 15, 2020</time></div></div>
+	</header>
+	<div class="content list__excerpt post__content clearfix">
+		大家都知道报这个错的原因是忘了用户名前加-u这个参数造成的，比如是这样登录了MySQL
+mysql -root -p (注意看，-root前面没有加u） 登录后，不管你执行什么命令，都会提示Ignoring query to other database
+mysql&gt;show databases; Ignoring query to other database 要解决这个问题，只要退出后加上-u这个参数就可以了。 # mysql -uroot -p
+	</div>
+	<div class="list__footer clearfix">
+		<a class="list__footer-readmore btn" href="/posts/2020/2020-07-15-mysql-ignoring-query/">Read more…</a>
+	</div>
+</article><article class="list__item post">
+	
+	<header class="list__header">
+		<h2 class="list__title post__title">
+			<a href="/posts/2020/2020-06-11-linux-autofs/" rel="bookmark">
+			Linux上自动挂载磁盘的几种方法
+			</a>
+		</h2>
+		<div class="list__meta meta">
+<div class="meta__item-datetime meta__item">
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0a14 14 0 1 1 0 28 1 1 0 0 1 0-28m0 3a3 3 0 1 0 0 22 3 3 0 0 0 0-22m1 4h-2v8.4l6.8 4.4L22 18l-6-3.8z"/></svg><time class="meta__text" datetime="2020-06-11T10:30:35&#43;08:00">June 11, 2020</time></div></div>
+	</header>
+	<div class="content list__excerpt post__content clearfix">
+		一、前言 我们添加磁盘后，一般都想让磁盘在重启系统后能自动挂载。 自动挂载的方法有好几种，可根据实际情况来使用，各有各的优势，也有一些需要注意的地方。
+二、写进fstab 把磁盘挂载信息写进fstab文件中，一般是最先想到的方法。 只要把正确的格式写入进/etc/fstab文件中，这个磁盘就会在开机时自动挂载。
+fstab文件中的格式： 磁盘路径 挂载的目录 磁盘格式 挂载的参数 是否允许备份 开机是否fsck检测磁盘
+一般我们最常用的配置类似这样： /dev/vg01/lv00 /mnt xfs defaults 0 0
+	</div>
+	<div class="list__footer clearfix">
+		<a class="list__footer-readmore btn" href="/posts/2020/2020-06-11-linux-autofs/">Read more…</a>
+	</div>
+</article><article class="list__item post">
+	
+	<header class="list__header">
+		<h2 class="list__title post__title">
+			<a href="/posts/2020/2020-05-21-linux-telnet-server/" rel="bookmark">
+			在Linux系统上启用Telnet服务
+			</a>
+		</h2>
+		<div class="list__meta meta">
+<div class="meta__item-datetime meta__item">
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0a14 14 0 1 1 0 28 1 1 0 0 1 0-28m0 3a3 3 0 1 0 0 22 3 3 0 0 0 0-22m1 4h-2v8.4l6.8 4.4L22 18l-6-3.8z"/></svg><time class="meta__text" datetime="2020-05-21T11:50:46&#43;08:00">May 21, 2020</time></div></div>
+	</header>
+	<div class="content list__excerpt post__content clearfix">
+		一、前言 Telnet是一个用来远程连接服务器或者设备执行操作的一个服务。但是由于是使用明文传输，现在基本上已经弃用了。 为什么我这里还要讲这个安装呢？主要是有时候在Linux系统做升级OpenSSH时，为了保险起见，一般都需要先启用Telnet服务，以防止由于OpenSSH升级失败而登录不上服务器或者设备。 由于Telnet服务在CentOS6和CentOS7上安装和配置方法都不一样，所以需要分开来写。
+二、在CentOS6上的安装及启用 2.1 安装telnet-server 在CentOS6中，telnet服务是由xinetd管理的，没有单独的服务，所以需要一起安装xinetd才行。 注意，在Linux系统中，telnet服务相对应的软件名称是telnet-server，而不是telnet，telnet这个名称只是telnet服务的客户端。
+# yum install xinetd telnet-server
+执行 chkconfig &ndash;list，在最后一段会显示由xinetd管理的一些服务。
+# chkconfig --list .
+	</div>
+	<div class="list__footer clearfix">
+		<a class="list__footer-readmore btn" href="/posts/2020/2020-05-21-linux-telnet-server/">Read more…</a>
+	</div>
+</article><article class="list__item post">
+	
+	<header class="list__header">
+		<h2 class="list__title post__title">
+			<a href="/posts/2019/2019-09-24-docker-images-upload/" rel="bookmark">
+			Docker上传镜像保存
+			</a>
+		</h2>
+		<div class="list__meta meta">
+<div class="meta__item-datetime meta__item">
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0a14 14 0 1 1 0 28 1 1 0 0 1 0-28m0 3a3 3 0 1 0 0 22 3 3 0 0 0 0-22m1 4h-2v8.4l6.8 4.4L22 18l-6-3.8z"/></svg><time class="meta__text" datetime="2019-09-24T20:58:46&#43;08:00">September 24, 2019</time></div></div>
+	</header>
+	<div class="content list__excerpt post__content clearfix">
+		当我们制作好了一个满意的镜像后，想保存下来以后随时随地使用，就需要有一个库来保存。
+保存库主要有三种方式： 1、直接把制作好的镜像上传到Docker hub官方 2、上传到国内一些有提供私有库保存的网站，如阿里云 3、自己创建一个私有库来保存
+如果是公司用，还是自己创建私有库来保存。 如果是个人，镜像不多，可以上传到Docker国内一些网站上保存。
+	</div>
+</article><article class="list__item post">
+	
+	<header class="list__header">
+		<h2 class="list__title post__title">
+			<a href="/posts/2019/2019-09-24-dockerfile-nginx/" rel="bookmark">
+			通过实例讲解Docker：Dockerfile构建镜像创建Nginx服务
+			</a>
+		</h2>
+		<div class="list__meta meta">
+<div class="meta__item-datetime meta__item">
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0a14 14 0 1 1 0 28 1 1 0 0 1 0-28m0 3a3 3 0 1 0 0 22 3 3 0 0 0 0-22m1 4h-2v8.4l6.8 4.4L22 18l-6-3.8z"/></svg><time class="meta__text" datetime="2019-09-24T20:49:30&#43;08:00">September 24, 2019</time></div></div>
+	</header>
+	<div class="content list__excerpt post__content clearfix">
+		前一篇文章讲了用Docker普通方法创建Tomcat服务，大家对Docker容器已经有了一定的认识。 Docker更好的地方是可以完全定制化自己的镜像和容器。
+我们可以通过创建Dockerfile文件定制化自己的镜像。 Dockerfile文件支持的指令大概有十三个： FROM MAINTAINER RUN CMD EXPOSE ENV ADD COPY ENTRYPOINT VOLUME USER WORKDIR
+通过这十三个命令，我们就可以构建我们自己的镜像了。
+首先，创建一个目录，用于存放Dockerfile文件和制作镜像需要的一些文件。 # mkdir nginx # cd nginx # vim Dockerfile FROM centos:7 MAINTAINER itbing xxxxx@qq.
+	</div>
+	<div class="list__footer clearfix">
+		<a class="list__footer-readmore btn" href="/posts/2019/2019-09-24-dockerfile-nginx/">Read more…</a>
+	</div>
+</article><article class="list__item post">
+	
+	<header class="list__header">
+		<h2 class="list__title post__title">
+			<a href="/posts/2019/2019-09-24-docker-tomcat/" rel="bookmark">
+			通过实例讲解Docker：在Docker中搭建Tomcat应用
+			</a>
+		</h2>
+		<div class="list__meta meta">
+<div class="meta__item-datetime meta__item">
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0a14 14 0 1 1 0 28 1 1 0 0 1 0-28m0 3a3 3 0 1 0 0 22 3 3 0 0 0 0-22m1 4h-2v8.4l6.8 4.4L22 18l-6-3.8z"/></svg><time class="meta__text" datetime="2019-09-24T20:48:49&#43;08:00">September 24, 2019</time></div></div>
+	</header>
+	<div class="content list__excerpt post__content clearfix">
+		概述 在CentOS7上安装好Docker,只是一个开始，后面的路还很长。
+安装完就要开始用起来，现在我们就通过几个实例来简单讲一下Docker的应用，让大家有个直观的认识。 要在容器中运行程序或应用，有两种方法： 一种是直接使用别人制作好的镜像，直接下载过来使用就可以； 一种是使用Dockerfile文件自己制作镜像。（但也是在一个基础镜像上制作）
+一、在容器中运行Tomcat 先查询Docker官网上有提供哪些Tomcat版本
+# docker search tomcat NAME DESCRIPTION STARS OFFICIAL AUTOMATED tomcat Apache Tomcat is an open source implementati¡­ 2523 [OK] tomee Apache TomEE is an all-Apache Java EE certif¡­ 67 [OK] dordoka/tomcat Ubuntu 14.
+	</div>
+	<div class="list__footer clearfix">
+		<a class="list__footer-readmore btn" href="/posts/2019/2019-09-24-docker-tomcat/">Read more…</a>
+	</div>
+</article><article class="list__item post">
+	
+	<header class="list__header">
+		<h2 class="list__title post__title">
+			<a href="/posts/2019/2019-09-12-centos7-docker-setup/" rel="bookmark">
+			在 CentOS 7上安装 Docker及Docker的基本操作
+			</a>
+		</h2>
+		<div class="list__meta meta">
+<div class="meta__item-datetime meta__item">
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0a14 14 0 1 1 0 28 1 1 0 0 1 0-28m0 3a3 3 0 1 0 0 22 3 3 0 0 0 0-22m1 4h-2v8.4l6.8 4.4L22 18l-6-3.8z"/></svg><time class="meta__text" datetime="2019-09-12T17:10:15&#43;08:00">September 12, 2019</time></div></div>
+	</header>
+	<div class="content list__excerpt post__content clearfix">
+		前面有一篇讲了 在 CentOS 6上安装 docker-io/docker-engine
+CentOS6上虽然还可以安装Docker，但是不推荐在CentOS6上进行安装，CentOS6也没办法安装最新版本的docker-ce版本。 如果要学习和在生产中使用Docker，推荐在CentOS7上安装docker-ce版本。
+一、在CentOS7上安装docker-ce 在CentOS7上安装Docker还是比较简单的。
+CentOS本身就有提供一个docker版本可以安装，但版本较旧，不推荐使用。
+# yum list|grep docker docker.x86_64 1.13.1-102.git7f2769b.el7.centos 要想安装最新版的Docker版本，还是需要从Docker官网下载repo文件来进行安装。 把repo文件下载到/etc/yum.repos.d目录下。
+#cd /etc/yum.repos.d #wget https://download.
+	</div>
+	<div class="list__footer clearfix">
+		<a class="list__footer-readmore btn" href="/posts/2019/2019-09-12-centos7-docker-setup/">Read more…</a>
 	</div>
 </article>
 </main>
 
+<div class="pagination">
+	<span class="pagination__item pagination__item--current">1/3</span>
+	<a class="pagination__item pagination__item--next btn" href="/page/2/">»</a>
+</div>
 
 			</div>
 			<aside class="sidebar">
@@ -75,15 +469,72 @@ time.pool.aliyun.com cn.pool.ntp.org 2.cn.pool.ntp.org s1a.time.edu.cn s2c.time.
 	<h4 class="widget__title">Recent Posts</h4>
 	<div class="widget__content">
 		<ul class="widget__list">
-			<li class="widget__item"><a class="widget__link" href="/posts/2015/2015-10-30-ntp-server-conf/">生产上Ntp Server的研究与配置</a></li>
+			<li class="widget__item"><a class="widget__link" href="/posts/2022/2022-05-08-k8s-docker-remove/">kubernetes1.24版本开始不再直接支持Docker</a></li>
+			<li class="widget__item"><a class="widget__link" href="/posts/2022/2022-03-06-k8s-kubectl-auto/">让kubectl命令能自动补全</a></li>
+			<li class="widget__item"><a class="widget__link" href="/posts/2021/2021-12-01-k8s-minikube-k3s/">k8s环境的几个替代产品-可用于入门、测试和开发等环境</a></li>
+			<li class="widget__item"><a class="widget__link" href="/posts/2021/2021-11-16-k8s-coredns/">在Kubernetes中自定义域名解析</a></li>
+			<li class="widget__item"><a class="widget__link" href="/posts/2021/2021-11-15-k8s-record-rollout/">Kubernetes更新和回滚</a></li>
 		</ul>
 	</div>
 </div>
 <div class="widget-taglist widget">
 	<h4 class="widget__title">Tags</h4>
 	<div class="widget__content">
+		<a class="widget-taglist__link widget__link btn" href="/tags/ansible/" title="ansible">ansible</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/clamav/" title="clamav">clamav</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/coding/" title="coding">coding</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/dashboard/" title="dashboard">dashboard</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/do_ypcall/" title="do_ypcall">do_ypcall</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/docker/" title="Docker">Docker</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/expect/" title="expect">expect</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/fdisk/" title="fdisk">fdisk</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/go-module/" title="go module">go module</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/gopath/" title="GOPATH">GOPATH</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/goproxy/" title="GOPROXY">GOPROXY</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/goroot/" title="GOROOT">GOROOT</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/go%E8%AF%AD%E8%A8%80/" title="go语言">go语言</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/history/" title="history">history</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/influxdb/" title="InfluxDB">InfluxDB</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/ip%E9%99%90%E5%88%B6/" title="IP限制">IP限制</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/jenkins/" title="jenkins">jenkins</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/k3s/" title="k3s">k3s</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/k8s/" title="k8s">k8s</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/kubernetes/" title="Kubernetes">Kubernetes</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/kvm/" title="kvm">kvm</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/linux/" title="linux">linux</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/linux-site/" title="linux site">linux site</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/lsehll/" title="lsehll">lsehll</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/mkfifo/" title="mkfifo">mkfifo</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/mysql/" title="mysql">mysql</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/mysql%E9%94%99%E8%AF%AF/" title="MySQL错误">MySQL错误</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/ntp/" title="ntp">ntp</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/parted/" title="parted">parted</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/print/" title="Print">Print</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/puppet/" title="Puppet">Puppet</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/rancher/" title="rancher">rancher</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/saltstack/" title="SaltStack">SaltStack</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/script/" title="script">script</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/scriptreplay/" title="scriptreplay">scriptreplay</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/sendemail/" title="sendEmail">sendEmail</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/shell/" title="shell">shell</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/solaris/" title="solaris">solaris</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/sshpass/" title="sshpass">sshpass</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/suse/" title="suse">suse</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/tar%E5%A4%87%E4%BB%BD%E6%81%A2%E5%A4%8D/" title="tar备份恢复">tar备份恢复</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/tcp_wrappers/" title="tcp_wrappers">tcp_wrappers</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/telnet-server/" title="telnet server">telnet server</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/ypbind/" title="ypbind">ypbind</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/zfs/" title="zfs">zfs</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E4%B8%BB%E5%A4%87%E5%90%8C%E6%AD%A5/" title="主备同步">主备同步</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E5%83%B5%E5%B0%B8%E8%BF%9B%E7%A8%8B/" title="僵尸进程">僵尸进程</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E5%9F%BA%E6%9C%AC%E9%85%8D%E7%BD%AE%E6%93%8D%E4%BD%9C/" title="基本配置操作">基本配置操作</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E5%A0%A1%E5%9E%92%E6%9C%BA/" title="堡垒机">堡垒机</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E6%95%85%E9%9A%9C%E5%88%86%E6%9E%90/" title="故障分析">故障分析</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E6%9D%80%E6%AF%92%E8%BD%AF%E4%BB%B6/" title="杀毒软件">杀毒软件</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E8%87%AA%E5%8A%A8%E6%8C%82%E8%BD%BD/" title="自动挂载">自动挂载</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E8%BD%AF%E4%BB%B6%E5%AE%89%E8%A3%85/" title="软件安装">软件安装</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E8%BF%90%E7%BB%B4%E5%B7%A5%E7%A8%8B%E5%B8%88/" title="运维工程师">运维工程师</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E9%98%B2%E7%81%AB%E5%A2%99/" title="防火墙">防火墙</a>
 	</div>
 </div>
 </aside>

@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>多种方法实时记录历史命令 - IT兵的技术小站</title>
+	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
+	<meta name="description" content="">
+		<meta property="og:title" content="多种方法实时记录历史命令" />
+<meta property="og:description" content="环境：Redhat 6.4
+方法1： 实时记录历史命令到.bash_history
+[root@itbing~]#vim /etc/bashrc export HISTTIMEFORMAT=&#39;%F %T &#39; #让历史命令记录操作时间 export HISTSIZE=1000000 #设置保存历史命令条数 export HISTFILESIZE=1000000 #设置保存历史命令的文件大小 shopt -s histappend PROMPT_COMMAND=&#39;history -a&#39; #实时记录历史命令，防止丢失 优点：简单方便，易设置 缺点：安全性较差，多用户下，只能分别记录到各自的." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://itbing.cn/posts/2015/2015-10-31-history-command-record/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2015-10-31T11:14:25+08:00" />
+<meta property="article:modified_time" content="2015-10-31T11:14:25+08:00" />
+
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link rel="dns-prefetch" href="//fonts.googleapis.com">
+	<link rel="dns-prefetch" href="//fonts.gstatic.com">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700">
+
+	<link rel="stylesheet" href="/css/style.css">
+	
+
+	<link rel="shortcut icon" href="/favicon.ico">
+		
+		
+</head>
+<body class="body">
+	<div class="container container--outer">
+		<header class="header">
+	<div class="container header__container">
+		
+	<div class="logo">
+		<a class="logo__link" href="/" title="IT兵的技术小站" rel="home">
+			<div class="logo__item logo__text">
+					<div class="logo__title">IT兵的技术小站</div>
+					
+				</div>
+		</a>
+	</div>
+		<div class="divider"></div>
+	</div>
+</header>
+		<div class="wrapper flex">
+			<div class="primary">
+			
+<main class="main" role="main">
+	<article class="post">
+		<header class="post__header">
+			<h1 class="post__title">多种方法实时记录历史命令</h1>
+			<div class="post__meta meta">
+<div class="meta__item-datetime meta__item">
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0a14 14 0 1 1 0 28 1 1 0 0 1 0-28m0 3a3 3 0 1 0 0 22 3 3 0 0 0 0-22m1 4h-2v8.4l6.8 4.4L22 18l-6-3.8z"/></svg><time class="meta__text" datetime="2015-10-31T11:14:25&#43;08:00">October 31, 2015</time></div></div>
+		</header>
+		<div class="content post__content clearfix">
+			<blockquote>
+<blockquote>
+<p>环境：Redhat 6.4</p>
+</blockquote>
+</blockquote>
+<h2 id="方法1">方法1：</h2>
+<p>实时记录历史命令到.bash_history</p>
+<pre tabindex="0"><code>[root@itbing~]#vim /etc/bashrc
+export HISTTIMEFORMAT=&#39;%F %T  &#39;           #让历史命令记录操作时间
+export HISTSIZE=1000000                   #设置保存历史命令条数     
+export HISTFILESIZE=1000000               #设置保存历史命令的文件大小
+shopt -s histappend
+PROMPT_COMMAND=&#39;history -a&#39;       #实时记录历史命令，防止丢失 
+</code></pre><p>优点：简单方便，易设置
+缺点：安全性较差，多用户下，只能分别记录到各自的.bash_history中，没有统一管理</p>
+<h2 id="方法2">方法2：</h2>
+<p>实时记录历史命令到自定义文件中</p>
+<pre tabindex="0"><code>[root@itbing~]#vim /etc/bashrc
+export HISTORY_FILE=/var/.history/`date &#39;+%y-%m-%d&#39;`.log    #自定义历史命令保存文件
+export PROMPT_COMMAND=&#39; { date &amp;quot;+%Y-%m-%d %T - USER:$USER IP:$SSH_CLIENT PS:$SSH_TTY - $(history 1 | { read x cmd; echo &amp;quot;$cmd&amp;quot;; })&amp;quot;; } &amp;gt;&amp;gt; $HISTORY_FILE&#39;
+#把所有用户的登录时间、登录地址、操作记录统一记录到指定文件中
+</code></pre><p>优点：可随意更改存放地址，隐蔽性高，记录多用户操作
+缺点：安全性还是不高，非法用户还是可能找到并进行删除</p>
+<h2 id="方法3推荐">方法3:（推荐）</h2>
+<p>实时记录历史命令，并记录到日志文件中</p>
+<pre tabindex="0"><code>[root@itbing~]#vim /etc/bashrc
+export PROMPT_COMMAND=&#39;history -a { command=$(history 1 | { read x y;echo $y; } );logger -p local1.notice -t bash -i &amp;quot;user=$USER,ppid=$PPID,from=$SSH_CLIENT,pwd=$PWD,command:$command &amp;quot; }&#39;
+
+[root@itbing~]#vim /etc/syslog.conf
+local1.notice /var/log/cmd.log
+</code></pre><p>优点：记录到日志中，配合日志服务器，可把日志传送过去，安全性高</p>
+<h2 id="方法4这个方法我未实际操作过以下引用别人的实验">方法4：（这个方法我未实际操作过，以下引用别人的实验）</h2>
+<p>利用bash的新特性来记录历史命令，可记录到日志文件中
+使用bash4.1的新功能：历史命令保存到syslog！然后使用syslog-ng构建集中型日志服务器收集主机日志。
+1 下载bash：</p>
+<pre tabindex="0"><code>#wget http://ftp.gnu.org/gnu/bash/bash-4.1.tar.gz
+#tar zxvf bash-4.1.tar.gz –C /usr/local/bash-4.1
+#cd /usr/local/bash-4.1
+</code></pre><p>2 修改参数(根据个人需要，我只保留了pid，uid，sid等，参数请看目录下的shell.c中)：
+文件bashhist.c大约708行的位置开始，修改成以下一段：</p>
+<pre tabindex="0"><code>syslog (SYSLOG_FACILITY|SYSLOG_LEVEL,&amp;quot;HISTORY: PID=%d PPID=%d SID=%d User=%s CMD=%s&amp;quot;, getpid(),getppid(), getsid(getpid()), current_user.user_name, line);
+else
+{
+strncpy (trunc, line, SYSLOG_MAXLEN);
+trunc[SYSLOG_MAXLEN -1]=&#39;&amp;#92;&amp;#48;&#39;;
+syslog (SYSLOG_FACILITY|SYSLOG_LEVEL,&amp;quot;HISTORY (TRUNCATED): PID=%d PPID=%d SID=%d User=%s CMD=%s&amp;quot;, getpid(),getppid(), getsid(getpid()), current_user.user_name, trunc);
+}
+</code></pre><p>注：ppid：bash父进程号
+Sid： 跟踪 su 切换后的进程号
+第二段代表log长度超过600后使用的语句</p>
+<p>3 去掉config-top.h中define SYSLOG_HISTORY的注释。
+结果如下：</p>
+<p><code>#define SYSLOG_HISTORY</code></p>
+<p>4 编译安装</p>
+<p><code># ./configure &amp;amp; make &amp;amp;&amp;amp; make install</code></p>
+<p>5 修改用户配置：
+将用户的bash换成现在的bash4.1</p>
+<pre tabindex="0"><code> vi /etc/passwd
+dongwm:x:501:501::/home/dongwm:/usr/local/bash_4.1/bin/bash
+</code></pre><p>这样日志就会记在/var/log/messages</p>
+<p>结果类似这样：
+Dec 2317:40:28 server -bash: HISTORY: PID=4089 PPID=4088 SID=4089 User=dongwm CMD=exit
+&hellip;&hellip;
+在整个环境布置了记录功能，就能方便的查出来谁-在何时，用什么账号，做了什么操作&hellip;</p>
+<p>6 主机syslog配置（添加日志服务器的地址）</p>
+<pre tabindex="0"><code># vi /etc/syslog.conf
+在最后添加一列：
+*.* @server.dongwm.com（你的日志服务器的地址）
+</code></pre><h2 id="方法5">方法5：</h2>
+<p>使用script录屏功能</p>
+<pre tabindex="0"><code>[root@itbing~]#vim /etc/profile
+#录屏功能的命令都不能放在/etc/bashrc中，会产生很多进程,只能放在profile或者.bash_profile中
+/usr/bin/script -qfa /var/log/script.log
+#-q以静默状态启动
+#-f实时写入
+#-a追加文件记录，不覆盖
+[root@itbing~]#source /etc/profile      #使环境变量生效，最好还是重启一下
+</code></pre>
+		</div>
+		<footer class="post__footer">
+			
+<div class="post__tags tags clearfix">
+	<svg class="tags__badge icon icon-tag" width="16" height="16" viewBox="0 0 32 32"><path d="M4 0h8s2 0 4 2l15 15s2 2 0 4L21 31s-2 2-4 0L2 16s-2-2-2-4V3s0-3 4-3m3 10a3 3 0 0 0 0-6 3 3 0 0 0 0 6"/></svg>
+	<ul class="tags__list">
+		<li class="tags__item">
+			<a class="tags__link btn" href="/tags/linux/" rel="tag">linux</a>
+		</li>
+		<li class="tags__item">
+			<a class="tags__link btn" href="/tags/history/" rel="tag">history</a>
+		</li>
+	</ul>
+</div>
+		</footer>
+	</article>
+</main>
+
+<div class="authorbox clearfix">
+	<div class="authorbox__header">
+		<span class="authorbox__name">About itbing</span>
+	</div>
+	<div class="authorbox__description">
+		从事于Linux/Unix系统类运维工作
+	</div>
+</div>
+
+<nav class="pager flex">
+	<div class="pager__item pager__item--prev">
+		<a class="pager__link" href="/posts/2015/2015-10-30-ntp-server-conf/" rel="prev">
+			<span class="pager__subtitle">«&thinsp;Previous</span>
+			<p class="pager__title">生产上Ntp Server的研究与配置</p>
+		</a>
+	</div>
+	<div class="pager__item pager__item--next">
+		<a class="pager__link" href="/posts/2015/2015-10-31-history-script-scriptreplay-mkfifo/" rel="next">
+			<span class="pager__subtitle">Next&thinsp;»</span>
+			<p class="pager__title">文本模式下录制、回放和共享操作记录(script、scriptreplay、mkfifo)的妙用</p>
+		</a>
+	</div>
+</nav>
+
+
+			</div>
+			<aside class="sidebar">
+<div class="widget-recent widget">
+	<h4 class="widget__title">Recent Posts</h4>
+	<div class="widget__content">
+		<ul class="widget__list">
+			<li class="widget__item"><a class="widget__link" href="/posts/2022/2022-05-08-k8s-docker-remove/">kubernetes1.24版本开始不再直接支持Docker</a></li>
+			<li class="widget__item"><a class="widget__link" href="/posts/2022/2022-03-06-k8s-kubectl-auto/">让kubectl命令能自动补全</a></li>
+			<li class="widget__item"><a class="widget__link" href="/posts/2021/2021-12-01-k8s-minikube-k3s/">k8s环境的几个替代产品-可用于入门、测试和开发等环境</a></li>
+			<li class="widget__item"><a class="widget__link" href="/posts/2021/2021-11-16-k8s-coredns/">在Kubernetes中自定义域名解析</a></li>
+			<li class="widget__item"><a class="widget__link" href="/posts/2021/2021-11-15-k8s-record-rollout/">Kubernetes更新和回滚</a></li>
+		</ul>
+	</div>
+</div>
+<div class="widget-taglist widget">
+	<h4 class="widget__title">Tags</h4>
+	<div class="widget__content">
+		<a class="widget-taglist__link widget__link btn" href="/tags/ansible/" title="ansible">ansible</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/clamav/" title="clamav">clamav</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/coding/" title="coding">coding</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/dashboard/" title="dashboard">dashboard</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/do_ypcall/" title="do_ypcall">do_ypcall</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/docker/" title="Docker">Docker</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/expect/" title="expect">expect</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/fdisk/" title="fdisk">fdisk</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/go-module/" title="go module">go module</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/gopath/" title="GOPATH">GOPATH</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/goproxy/" title="GOPROXY">GOPROXY</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/goroot/" title="GOROOT">GOROOT</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/go%E8%AF%AD%E8%A8%80/" title="go语言">go语言</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/history/" title="history">history</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/influxdb/" title="InfluxDB">InfluxDB</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/ip%E9%99%90%E5%88%B6/" title="IP限制">IP限制</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/jenkins/" title="jenkins">jenkins</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/k3s/" title="k3s">k3s</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/k8s/" title="k8s">k8s</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/kubernetes/" title="Kubernetes">Kubernetes</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/kvm/" title="kvm">kvm</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/linux/" title="linux">linux</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/linux-site/" title="linux site">linux site</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/lsehll/" title="lsehll">lsehll</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/mkfifo/" title="mkfifo">mkfifo</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/mysql/" title="mysql">mysql</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/mysql%E9%94%99%E8%AF%AF/" title="MySQL错误">MySQL错误</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/ntp/" title="ntp">ntp</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/parted/" title="parted">parted</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/print/" title="Print">Print</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/puppet/" title="Puppet">Puppet</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/rancher/" title="rancher">rancher</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/saltstack/" title="SaltStack">SaltStack</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/script/" title="script">script</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/scriptreplay/" title="scriptreplay">scriptreplay</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/sendemail/" title="sendEmail">sendEmail</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/shell/" title="shell">shell</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/solaris/" title="solaris">solaris</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/sshpass/" title="sshpass">sshpass</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/suse/" title="suse">suse</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/tar%E5%A4%87%E4%BB%BD%E6%81%A2%E5%A4%8D/" title="tar备份恢复">tar备份恢复</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/tcp_wrappers/" title="tcp_wrappers">tcp_wrappers</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/telnet-server/" title="telnet server">telnet server</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/ypbind/" title="ypbind">ypbind</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/zfs/" title="zfs">zfs</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E4%B8%BB%E5%A4%87%E5%90%8C%E6%AD%A5/" title="主备同步">主备同步</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E5%83%B5%E5%B0%B8%E8%BF%9B%E7%A8%8B/" title="僵尸进程">僵尸进程</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E5%9F%BA%E6%9C%AC%E9%85%8D%E7%BD%AE%E6%93%8D%E4%BD%9C/" title="基本配置操作">基本配置操作</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E5%A0%A1%E5%9E%92%E6%9C%BA/" title="堡垒机">堡垒机</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E6%95%85%E9%9A%9C%E5%88%86%E6%9E%90/" title="故障分析">故障分析</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E6%9D%80%E6%AF%92%E8%BD%AF%E4%BB%B6/" title="杀毒软件">杀毒软件</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E8%87%AA%E5%8A%A8%E6%8C%82%E8%BD%BD/" title="自动挂载">自动挂载</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E8%BD%AF%E4%BB%B6%E5%AE%89%E8%A3%85/" title="软件安装">软件安装</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E8%BF%90%E7%BB%B4%E5%B7%A5%E7%A8%8B%E5%B8%88/" title="运维工程师">运维工程师</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E9%98%B2%E7%81%AB%E5%A2%99/" title="防火墙">防火墙</a>
+	</div>
+</div>
+</aside>
+		</div>
+		<footer class="footer">
+	<div class="container footer__container flex">
+		
+		<div class="footer__copyright">
+			&copy; 2024 IT兵的技术小站.
+			<span class="footer__copyright-credits">Generated with <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/Vimux/Mainroad/" rel="nofollow noopener" target="_blank">Mainroad</a> theme.</span>
+		</div>
+	</div>
+</footer>
+	</div>
+<script async defer src="/js/menu.js"></script>
+</body>
+</html>

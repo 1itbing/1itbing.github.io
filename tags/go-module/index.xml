@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>go module on IT兵的技术小站</title>
+    <link>http://itbing.cn/tags/go-module/</link>
+    <description>Recent content in go module on IT兵的技术小站</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Wed, 01 May 2019 19:12:13 +0800</lastBuildDate><atom:link href="http://itbing.cn/tags/go-module/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>go module</title>
+      <link>http://itbing.cn/posts/2019/2019-05-01-golang-gomodule/</link>
+      <pubDate>Wed, 01 May 2019 19:12:13 +0800</pubDate>
+      
+      <guid>http://itbing.cn/posts/2019/2019-05-01-golang-gomodule/</guid>
+      <description>go module是Go1.11版本之后官方推出的版本管理工具，并且从Go1.13版本开始，go module将是Go语言默认的依赖管理工具。
+go module有三个可选值：off、on、auto。 GO111MODULE=off 禁用模块支持，编译时会从GOPATH和vendor文件夹中查找包。 GO111MODULE=on 启用模块支持，编译时会忽略GOPATH和vendor文件夹，只根据 go.mod下载依赖。 GO111MODULE=auto，项目根目录有go.mod文件时，开启模块支持。 使用 go module 管理依赖后会在项目根目录下生成两个文件go.mod和go.sum。
+查看自己的环境中，GO111MODULE的值。
+# go env|grep GO111MODULE GO111MODULE=&amp;#34;&amp;#34; 从Go1.</description>
+    </item>
+    
+  </channel>
+</rss>

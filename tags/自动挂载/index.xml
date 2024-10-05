@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>自动挂载 on IT兵的技术小站</title>
+    <link>http://itbing.cn/tags/%E8%87%AA%E5%8A%A8%E6%8C%82%E8%BD%BD/</link>
+    <description>Recent content in 自动挂载 on IT兵的技术小站</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Thu, 11 Jun 2020 10:30:35 +0800</lastBuildDate><atom:link href="http://itbing.cn/tags/%E8%87%AA%E5%8A%A8%E6%8C%82%E8%BD%BD/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Linux上自动挂载磁盘的几种方法</title>
+      <link>http://itbing.cn/posts/2020/2020-06-11-linux-autofs/</link>
+      <pubDate>Thu, 11 Jun 2020 10:30:35 +0800</pubDate>
+      
+      <guid>http://itbing.cn/posts/2020/2020-06-11-linux-autofs/</guid>
+      <description>一、前言 我们添加磁盘后，一般都想让磁盘在重启系统后能自动挂载。 自动挂载的方法有好几种，可根据实际情况来使用，各有各的优势，也有一些需要注意的地方。
+二、写进fstab 把磁盘挂载信息写进fstab文件中，一般是最先想到的方法。 只要把正确的格式写入进/etc/fstab文件中，这个磁盘就会在开机时自动挂载。
+fstab文件中的格式： 磁盘路径 挂载的目录 磁盘格式 挂载的参数 是否允许备份 开机是否fsck检测磁盘
+一般我们最常用的配置类似这样： /dev/vg01/lv00 /mnt xfs defaults 0 0</description>
+    </item>
+    
+  </channel>
+</rss>

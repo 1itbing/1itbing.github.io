@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>主备同步 on IT兵的技术小站</title>
+    <link>http://itbing.cn/tags/%E4%B8%BB%E5%A4%87%E5%90%8C%E6%AD%A5/</link>
+    <description>Recent content in 主备同步 on IT兵的技术小站</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Thu, 31 May 2018 22:36:10 +0800</lastBuildDate><atom:link href="http://itbing.cn/tags/%E4%B8%BB%E5%A4%87%E5%90%8C%E6%AD%A5/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>一次MySQL主备同步出错恢复</title>
+      <link>http://itbing.cn/posts/2018/2018-05-31-mysql-sync-error/</link>
+      <pubDate>Thu, 31 May 2018 22:36:10 +0800</pubDate>
+      
+      <guid>http://itbing.cn/posts/2018/2018-05-31-mysql-sync-error/</guid>
+      <description>错误提示：
+Last_IO_Errno: 1236 Last_IO_Error: Got fatal error 1236 from master when reading data from binary log: &amp;#39;Client requested master to start replication from position &amp;gt; file size; the first event &amp;#39;mysql-bin.</description>
+    </item>
+    
+  </channel>
+</rss>

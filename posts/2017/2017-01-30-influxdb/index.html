@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>InfluxDB 1.2.0安装及新旧版本的注意事项 - IT兵的技术小站</title>
+	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
+	<meta name="description" content="">
+		<meta property="og:title" content="InfluxDB 1.2.0安装及新旧版本的注意事项" />
+<meta property="og:description" content="随着大数据的爆发，系统数量也是直线上升，监控系统，收集系统运行状态成了保障业务正常运行中的重要一个环节。
+针对这种产生频率快、带时间标签、测点多、信息量大的数据，时序数据库(Time Series Database,简称TSDB)应运而生。而其中InfluxDB是比较应用广泛的其中一个。
+InfluxDB是用Go语言写的，专为时间序列数据持久化所开发的，由于使用Go语言，所以各平台基本都支持。类似的时间序列数据库还有OpenTSDB，Prometheus等。
+InfluxDB的Cluster功能收费，单机功能免费使用。
+1、安装 可以直接rpm安装 到http://repos.influxdata.com下载相应的版本
+#wget https://repos.influxdata.com/rhel/6Server/x86_64/stable/influxdb-1.2.0.x86_64.rpm #rpm -ivh influxdb-1.2.0.x86_64.rpm 或者 添加yum 源安装
+#cat &amp;lt;&amp;lt; EOF | sudo tee /etc/yum." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://itbing.cn/posts/2017/2017-01-30-influxdb/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2017-01-30T16:35:33+08:00" />
+<meta property="article:modified_time" content="2017-01-30T16:35:33+08:00" />
+
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link rel="dns-prefetch" href="//fonts.googleapis.com">
+	<link rel="dns-prefetch" href="//fonts.gstatic.com">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700">
+
+	<link rel="stylesheet" href="/css/style.css">
+	
+
+	<link rel="shortcut icon" href="/favicon.ico">
+		
+		
+</head>
+<body class="body">
+	<div class="container container--outer">
+		<header class="header">
+	<div class="container header__container">
+		
+	<div class="logo">
+		<a class="logo__link" href="/" title="IT兵的技术小站" rel="home">
+			<div class="logo__item logo__text">
+					<div class="logo__title">IT兵的技术小站</div>
+					
+				</div>
+		</a>
+	</div>
+		<div class="divider"></div>
+	</div>
+</header>
+		<div class="wrapper flex">
+			<div class="primary">
+			
+<main class="main" role="main">
+	<article class="post">
+		<header class="post__header">
+			<h1 class="post__title">InfluxDB 1.2.0安装及新旧版本的注意事项</h1>
+			<div class="post__meta meta">
+<div class="meta__item-datetime meta__item">
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0a14 14 0 1 1 0 28 1 1 0 0 1 0-28m0 3a3 3 0 1 0 0 22 3 3 0 0 0 0-22m1 4h-2v8.4l6.8 4.4L22 18l-6-3.8z"/></svg><time class="meta__text" datetime="2017-01-30T16:35:33&#43;08:00">January 30, 2017</time></div></div>
+		</header>
+		<div class="content post__content clearfix">
+			<p>随着大数据的爆发，系统数量也是直线上升，监控系统，收集系统运行状态成了保障业务正常运行中的重要一个环节。</p>
+<p>针对这种产生频率快、带时间标签、测点多、信息量大的数据，时序数据库(Time Series Database,简称TSDB)应运而生。而其中InfluxDB是比较应用广泛的其中一个。</p>
+<p>InfluxDB是用Go语言写的，专为时间序列数据持久化所开发的，由于使用Go语言，所以各平台基本都支持。类似的时间序列数据库还有OpenTSDB，Prometheus等。</p>
+<p>InfluxDB的Cluster功能收费，单机功能免费使用。</p>
+<h3 id="1安装">1、安装</h3>
+<p>可以直接rpm安装
+到http://repos.influxdata.com下载相应的版本</p>
+<pre tabindex="0"><code>#wget https://repos.influxdata.com/rhel/6Server/x86_64/stable/influxdb-1.2.0.x86_64.rpm
+#rpm -ivh influxdb-1.2.0.x86_64.rpm
+</code></pre><p>或者
+添加yum 源安装</p>
+<pre tabindex="0"><code>#cat &amp;lt;&amp;lt; EOF | sudo tee /etc/yum.repos.d/influxdb.repo
+[influxdb]
+name = InfluxDB Repository - RHEL \$releasever
+baseurl = https://repos.influxdata.com/rhel/\$releasever/\$basearch/stable
+enabled = 1
+gpgcheck = 1
+gpgkey = https://repos.influxdata.com/influxdb.key
+EOF
+</code></pre><pre tabindex="0"><code># cat influxdb.repo
+[influxdb]
+name = InfluxDB Repository - RHEL $releasever
+baseurl = https://repos.influxdata.com/rhel/$releasever/$basearch/stable
+enabled = 1
+gpgcheck = 1
+gpgkey = https://repos.influxdata.com/influxdb.key
+#yum install influxdb -y
+</code></pre><h3 id="2配置">2、配置</h3>
+<p>InfluxDB 1.1开始WEB管理默认是禁用的，所以装完并没有启用8083端口了，需要到配置文件里启用。</p>
+<pre tabindex="0"><code>vim /etc/influxdb/influxdb.conf
+[admin]
+enabled = true 
+</code></pre><p>InfluxDB 1.3以及之后的版本已经取消在InfluxDB中启用web管理了，取而代之的是使用Chronograf。
+官方说明：</p>
+<pre tabindex="0"><code>In version 1.3, the web admin interface is no longer available in InfluxDB. The interface does not run on port 8083 and InfluxDB ignores the [admin] section in the configuration file if that section is present. Chronograf replaces the web admin interface with improved tooling for querying data, writing data, and database management. See Chronograf’s transition guide for more information.
+</code></pre><h3 id="3启动-influxdb">3、启动 InfluxDB</h3>
+<p><code># service influxdb start</code></p>
+<p>启动后打开 web 管理界面 http://本机IP:8083/</p>
+<p>InfluxDB 的 Web 管理界面端口是 8083，HTTP API 监听端口是 8086，如果需要更改这些默认设定，修改 InfluxDB 的配置文件 /etc/influxdb/influxdb.conf 后重启 InfluxDB 就可以了</p>
+<h3 id="4基本用法">4、基本用法</h3>
+<pre tabindex="0"><code>#influx
+&amp;gt;help    #查看基本用法
+&amp;gt;show databases
+name: databases
+name
+----
+_internal
+</code></pre><h3 id="新旧版本要注意的事项">新旧版本要注意的事项：</h3>
+<h4 id="1是否启用web管理">1、是否启用web管理</h4>
+<p>1.1版本开始是默认没有启用web管理的，所以新版装完之后，启动服务，8083端口是没有的。要么通过命令直接管理，要么通过API管理。
+不过还是可以手动开起来的。</p>
+<pre tabindex="0"><code>vim /etc/influxdb/influxdb.conf
+[admin]
+enabled = true
+</code></pre><p>官网说明</p>
+<pre tabindex="0"><code>The built-in web administration GUI is deprecated in InfluxDB 1.1 and is disabled by default. We recommend using the HTTP API or the Command Line Interface to interact with InfluxDB.
+</code></pre><p>InfluxDB 1.3以及之后的版本已经取消在InfluxDB中启用web管理了，取而代之的是使用Chronograf。</p>
+<h4 id="2默认管理账号">2、默认管理账号</h4>
+<p>0.8及以前版本安装完后，是有一个账号为root、密码为root的管理账号。可作为一个默认管理权限的账号。
+0.9版本及以后版本是没有默认账号的，都要自己创建。</p>
+<h4 id="3http-api接口的不同">3、HTTP API接口的不同</h4>
+<p>0.9开始跟以前的版本完全不一样，所以如果是从老版本升级到0.9或者更高版本，要注意了，接口文件要完全重新写过。
+0.8以前是类似这样的请求：
+http://localhost:8086/db/mydb/
+而新版的是这样的：
+http://localhost:8086/query?db=test&amp;pretty=true
+新版基本上都是用/query来执行，而旧版是没有的。
+网上很多都是旧版代码，如果用来查询新版的，是得不到数据的。</p>
+<p>这是官网的一段说明，说明0.8跟0.9版本的不同</p>
+<pre tabindex="0"><code>InfluxDB 0.8 has multiple endpoints for the API, often encoding concepts such as the database and shard space in the HTTP endpoint. InfluxDB 0.9 simplifies the common API interactions, using a common endpoint /query for all queries, and /write for all writes, regardless of database or retention policy. The database and retention policy are passed as query string parameters in InfluxDB 0.9. This makes the API easier to incorporate into libraries and other code, as it does not require any knowledge of the data structure to make valid calls to the API endpoints.
+</code></pre><p>还有其它很多不同的地方，慢慢更新吧</p>
+
+		</div>
+		<footer class="post__footer">
+			
+<div class="post__tags tags clearfix">
+	<svg class="tags__badge icon icon-tag" width="16" height="16" viewBox="0 0 32 32"><path d="M4 0h8s2 0 4 2l15 15s2 2 0 4L21 31s-2 2-4 0L2 16s-2-2-2-4V3s0-3 4-3m3 10a3 3 0 0 0 0-6 3 3 0 0 0 0 6"/></svg>
+	<ul class="tags__list">
+		<li class="tags__item">
+			<a class="tags__link btn" href="/tags/linux/" rel="tag">linux</a>
+		</li>
+		<li class="tags__item">
+			<a class="tags__link btn" href="/tags/influxdb/" rel="tag">InfluxDB</a>
+		</li>
+	</ul>
+</div>
+		</footer>
+	</article>
+</main>
+
+<div class="authorbox clearfix">
+	<div class="authorbox__header">
+		<span class="authorbox__name">About itbing</span>
+	</div>
+	<div class="authorbox__description">
+		从事于Linux/Unix系统类运维工作
+	</div>
+</div>
+
+<nav class="pager flex">
+	<div class="pager__item pager__item--prev">
+		<a class="pager__link" href="/posts/2016/2016-06-13-linux-ntp-attack/" rel="prev">
+			<span class="pager__subtitle">«&thinsp;Previous</span>
+			<p class="pager__title">NTP服务被利用做流量攻击以及检测预防手段</p>
+		</a>
+	</div>
+	<div class="pager__item pager__item--next">
+		<a class="pager__link" href="/posts/2017/2017-05-31-ypbind-do_ypcall/" rel="next">
+			<span class="pager__subtitle">Next&thinsp;»</span>
+			<p class="pager__title">do_ypcall: clnt_call: RPC: Unable to send; errno = Operation not permitted</p>
+		</a>
+	</div>
+</nav>
+
+
+			</div>
+			<aside class="sidebar">
+<div class="widget-recent widget">
+	<h4 class="widget__title">Recent Posts</h4>
+	<div class="widget__content">
+		<ul class="widget__list">
+			<li class="widget__item"><a class="widget__link" href="/posts/2022/2022-05-08-k8s-docker-remove/">kubernetes1.24版本开始不再直接支持Docker</a></li>
+			<li class="widget__item"><a class="widget__link" href="/posts/2022/2022-03-06-k8s-kubectl-auto/">让kubectl命令能自动补全</a></li>
+			<li class="widget__item"><a class="widget__link" href="/posts/2021/2021-12-01-k8s-minikube-k3s/">k8s环境的几个替代产品-可用于入门、测试和开发等环境</a></li>
+			<li class="widget__item"><a class="widget__link" href="/posts/2021/2021-11-16-k8s-coredns/">在Kubernetes中自定义域名解析</a></li>
+			<li class="widget__item"><a class="widget__link" href="/posts/2021/2021-11-15-k8s-record-rollout/">Kubernetes更新和回滚</a></li>
+		</ul>
+	</div>
+</div>
+<div class="widget-taglist widget">
+	<h4 class="widget__title">Tags</h4>
+	<div class="widget__content">
+		<a class="widget-taglist__link widget__link btn" href="/tags/ansible/" title="ansible">ansible</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/clamav/" title="clamav">clamav</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/coding/" title="coding">coding</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/dashboard/" title="dashboard">dashboard</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/do_ypcall/" title="do_ypcall">do_ypcall</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/docker/" title="Docker">Docker</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/expect/" title="expect">expect</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/fdisk/" title="fdisk">fdisk</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/go-module/" title="go module">go module</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/gopath/" title="GOPATH">GOPATH</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/goproxy/" title="GOPROXY">GOPROXY</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/goroot/" title="GOROOT">GOROOT</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/go%E8%AF%AD%E8%A8%80/" title="go语言">go语言</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/history/" title="history">history</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/influxdb/" title="InfluxDB">InfluxDB</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/ip%E9%99%90%E5%88%B6/" title="IP限制">IP限制</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/jenkins/" title="jenkins">jenkins</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/k3s/" title="k3s">k3s</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/k8s/" title="k8s">k8s</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/kubernetes/" title="Kubernetes">Kubernetes</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/kvm/" title="kvm">kvm</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/linux/" title="linux">linux</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/linux-site/" title="linux site">linux site</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/lsehll/" title="lsehll">lsehll</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/mkfifo/" title="mkfifo">mkfifo</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/mysql/" title="mysql">mysql</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/mysql%E9%94%99%E8%AF%AF/" title="MySQL错误">MySQL错误</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/ntp/" title="ntp">ntp</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/parted/" title="parted">parted</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/print/" title="Print">Print</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/puppet/" title="Puppet">Puppet</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/rancher/" title="rancher">rancher</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/saltstack/" title="SaltStack">SaltStack</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/script/" title="script">script</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/scriptreplay/" title="scriptreplay">scriptreplay</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/sendemail/" title="sendEmail">sendEmail</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/shell/" title="shell">shell</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/solaris/" title="solaris">solaris</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/sshpass/" title="sshpass">sshpass</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/suse/" title="suse">suse</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/tar%E5%A4%87%E4%BB%BD%E6%81%A2%E5%A4%8D/" title="tar备份恢复">tar备份恢复</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/tcp_wrappers/" title="tcp_wrappers">tcp_wrappers</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/telnet-server/" title="telnet server">telnet server</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/ypbind/" title="ypbind">ypbind</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/zfs/" title="zfs">zfs</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E4%B8%BB%E5%A4%87%E5%90%8C%E6%AD%A5/" title="主备同步">主备同步</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E5%83%B5%E5%B0%B8%E8%BF%9B%E7%A8%8B/" title="僵尸进程">僵尸进程</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E5%9F%BA%E6%9C%AC%E9%85%8D%E7%BD%AE%E6%93%8D%E4%BD%9C/" title="基本配置操作">基本配置操作</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E5%A0%A1%E5%9E%92%E6%9C%BA/" title="堡垒机">堡垒机</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E6%95%85%E9%9A%9C%E5%88%86%E6%9E%90/" title="故障分析">故障分析</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E6%9D%80%E6%AF%92%E8%BD%AF%E4%BB%B6/" title="杀毒软件">杀毒软件</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E8%87%AA%E5%8A%A8%E6%8C%82%E8%BD%BD/" title="自动挂载">自动挂载</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E8%BD%AF%E4%BB%B6%E5%AE%89%E8%A3%85/" title="软件安装">软件安装</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E8%BF%90%E7%BB%B4%E5%B7%A5%E7%A8%8B%E5%B8%88/" title="运维工程师">运维工程师</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E9%98%B2%E7%81%AB%E5%A2%99/" title="防火墙">防火墙</a>
+	</div>
+</div>
+</aside>
+		</div>
+		<footer class="footer">
+	<div class="container footer__container flex">
+		
+		<div class="footer__copyright">
+			&copy; 2024 IT兵的技术小站.
+			<span class="footer__copyright-credits">Generated with <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/Vimux/Mainroad/" rel="nofollow noopener" target="_blank">Mainroad</a> theme.</span>
+		</div>
+	</div>
+</footer>
+	</div>
+<script async defer src="/js/menu.js"></script>
+</body>
+</html>

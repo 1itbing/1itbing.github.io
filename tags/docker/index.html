@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Docker - IT兵的技术小站</title>
+	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
+	<meta name="description" content="">
+		<meta property="og:title" content="Docker" />
+<meta property="og:description" content="itbign&#39;s site" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="http://itbing.cn/tags/docker/" />
+
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link rel="dns-prefetch" href="//fonts.googleapis.com">
+	<link rel="dns-prefetch" href="//fonts.gstatic.com">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700">
+
+	<link rel="stylesheet" href="/css/style.css">
+	
+	<link rel="alternate" type="application/rss+xml" href="/tags/docker/index.xml" title="IT兵的技术小站">
+
+	<link rel="shortcut icon" href="/favicon.ico">
+		
+		
+</head>
+<body class="body">
+	<div class="container container--outer">
+		<header class="header">
+	<div class="container header__container">
+		
+	<div class="logo">
+		<a class="logo__link" href="/" title="IT兵的技术小站" rel="home">
+			<div class="logo__item logo__text">
+					<div class="logo__title">IT兵的技术小站</div>
+					
+				</div>
+		</a>
+	</div>
+		<div class="divider"></div>
+	</div>
+</header>
+		<div class="wrapper flex">
+			<div class="primary">
+			
+<main class="main list" role="main">
+	<header class="main__header">
+		<h1 class="main__title">Docker</h1>
+	</header><article class="list__item post">
+	
+	<header class="list__header">
+		<h2 class="list__title post__title">
+			<a href="/posts/2019/2019-09-24-docker-images-upload/" rel="bookmark">
+			Docker上传镜像保存
+			</a>
+		</h2>
+		<div class="list__meta meta">
+<div class="meta__item-datetime meta__item">
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0a14 14 0 1 1 0 28 1 1 0 0 1 0-28m0 3a3 3 0 1 0 0 22 3 3 0 0 0 0-22m1 4h-2v8.4l6.8 4.4L22 18l-6-3.8z"/></svg><time class="meta__text" datetime="2019-09-24T20:58:46&#43;08:00">September 24, 2019</time></div></div>
+	</header>
+	<div class="content list__excerpt post__content clearfix">
+		当我们制作好了一个满意的镜像后，想保存下来以后随时随地使用，就需要有一个库来保存。
+保存库主要有三种方式： 1、直接把制作好的镜像上传到Docker hub官方 2、上传到国内一些有提供私有库保存的网站，如阿里云 3、自己创建一个私有库来保存
+如果是公司用，还是自己创建私有库来保存。 如果是个人，镜像不多，可以上传到Docker国内一些网站上保存。
+	</div>
+</article><article class="list__item post">
+	
+	<header class="list__header">
+		<h2 class="list__title post__title">
+			<a href="/posts/2019/2019-09-24-dockerfile-nginx/" rel="bookmark">
+			通过实例讲解Docker：Dockerfile构建镜像创建Nginx服务
+			</a>
+		</h2>
+		<div class="list__meta meta">
+<div class="meta__item-datetime meta__item">
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0a14 14 0 1 1 0 28 1 1 0 0 1 0-28m0 3a3 3 0 1 0 0 22 3 3 0 0 0 0-22m1 4h-2v8.4l6.8 4.4L22 18l-6-3.8z"/></svg><time class="meta__text" datetime="2019-09-24T20:49:30&#43;08:00">September 24, 2019</time></div></div>
+	</header>
+	<div class="content list__excerpt post__content clearfix">
+		前一篇文章讲了用Docker普通方法创建Tomcat服务，大家对Docker容器已经有了一定的认识。 Docker更好的地方是可以完全定制化自己的镜像和容器。
+我们可以通过创建Dockerfile文件定制化自己的镜像。 Dockerfile文件支持的指令大概有十三个： FROM MAINTAINER RUN CMD EXPOSE ENV ADD COPY ENTRYPOINT VOLUME USER WORKDIR
+通过这十三个命令，我们就可以构建我们自己的镜像了。
+首先，创建一个目录，用于存放Dockerfile文件和制作镜像需要的一些文件。 # mkdir nginx # cd nginx # vim Dockerfile FROM centos:7 MAINTAINER itbing xxxxx@qq.
+	</div>
+	<div class="list__footer clearfix">
+		<a class="list__footer-readmore btn" href="/posts/2019/2019-09-24-dockerfile-nginx/">Read more…</a>
+	</div>
+</article><article class="list__item post">
+	
+	<header class="list__header">
+		<h2 class="list__title post__title">
+			<a href="/posts/2019/2019-09-24-docker-tomcat/" rel="bookmark">
+			通过实例讲解Docker：在Docker中搭建Tomcat应用
+			</a>
+		</h2>
+		<div class="list__meta meta">
+<div class="meta__item-datetime meta__item">
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0a14 14 0 1 1 0 28 1 1 0 0 1 0-28m0 3a3 3 0 1 0 0 22 3 3 0 0 0 0-22m1 4h-2v8.4l6.8 4.4L22 18l-6-3.8z"/></svg><time class="meta__text" datetime="2019-09-24T20:48:49&#43;08:00">September 24, 2019</time></div></div>
+	</header>
+	<div class="content list__excerpt post__content clearfix">
+		概述 在CentOS7上安装好Docker,只是一个开始，后面的路还很长。
+安装完就要开始用起来，现在我们就通过几个实例来简单讲一下Docker的应用，让大家有个直观的认识。 要在容器中运行程序或应用，有两种方法： 一种是直接使用别人制作好的镜像，直接下载过来使用就可以； 一种是使用Dockerfile文件自己制作镜像。（但也是在一个基础镜像上制作）
+一、在容器中运行Tomcat 先查询Docker官网上有提供哪些Tomcat版本
+# docker search tomcat NAME DESCRIPTION STARS OFFICIAL AUTOMATED tomcat Apache Tomcat is an open source implementati¡­ 2523 [OK] tomee Apache TomEE is an all-Apache Java EE certif¡­ 67 [OK] dordoka/tomcat Ubuntu 14.
+	</div>
+	<div class="list__footer clearfix">
+		<a class="list__footer-readmore btn" href="/posts/2019/2019-09-24-docker-tomcat/">Read more…</a>
+	</div>
+</article><article class="list__item post">
+	
+	<header class="list__header">
+		<h2 class="list__title post__title">
+			<a href="/posts/2019/2019-09-12-centos7-docker-setup/" rel="bookmark">
+			在 CentOS 7上安装 Docker及Docker的基本操作
+			</a>
+		</h2>
+		<div class="list__meta meta">
+<div class="meta__item-datetime meta__item">
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0a14 14 0 1 1 0 28 1 1 0 0 1 0-28m0 3a3 3 0 1 0 0 22 3 3 0 0 0 0-22m1 4h-2v8.4l6.8 4.4L22 18l-6-3.8z"/></svg><time class="meta__text" datetime="2019-09-12T17:10:15&#43;08:00">September 12, 2019</time></div></div>
+	</header>
+	<div class="content list__excerpt post__content clearfix">
+		前面有一篇讲了 在 CentOS 6上安装 docker-io/docker-engine
+CentOS6上虽然还可以安装Docker，但是不推荐在CentOS6上进行安装，CentOS6也没办法安装最新版本的docker-ce版本。 如果要学习和在生产中使用Docker，推荐在CentOS7上安装docker-ce版本。
+一、在CentOS7上安装docker-ce 在CentOS7上安装Docker还是比较简单的。
+CentOS本身就有提供一个docker版本可以安装，但版本较旧，不推荐使用。
+# yum list|grep docker docker.x86_64 1.13.1-102.git7f2769b.el7.centos 要想安装最新版的Docker版本，还是需要从Docker官网下载repo文件来进行安装。 把repo文件下载到/etc/yum.repos.d目录下。
+#cd /etc/yum.repos.d #wget https://download.
+	</div>
+	<div class="list__footer clearfix">
+		<a class="list__footer-readmore btn" href="/posts/2019/2019-09-12-centos7-docker-setup/">Read more…</a>
+	</div>
+</article><article class="list__item post">
+	
+	<header class="list__header">
+		<h2 class="list__title post__title">
+			<a href="/posts/2019/2019-09-11-centos6-docker-io-docker-engine/" rel="bookmark">
+			在 centos6上安装docker io/docker-engine
+			</a>
+		</h2>
+		<div class="list__meta meta">
+<div class="meta__item-datetime meta__item">
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0a14 14 0 1 1 0 28 1 1 0 0 1 0-28m0 3a3 3 0 1 0 0 22 3 3 0 0 0 0-22m1 4h-2v8.4l6.8 4.4L22 18l-6-3.8z"/></svg><time class="meta__text" datetime="2019-09-11T14:35:49&#43;08:00">September 11, 2019</time></div></div>
+	</header>
+	<div class="content list__excerpt post__content clearfix">
+		一、说明 先说一下，现在要安装Docker的话，一定要在CentOS7上安装Docker-ce。docker-io是比较老的版本，很多功能是没有的。 CentOS6默认也只支持到Docker1.7（但其实CentOS6是可以支持到Docker1.9的）,后面的版本都需要安装在CentOS7上。 CentOS6也不能安装Docker0.7以下的版本了，比如Docker0.5/0.6,基本上是没办法使用的。因为最早Docker是在Ubuntu上的。
+CentOS6安装Docker必须要升级内核到3.10及以上内核版本才行，内核还必须开启aufs模块。
+我这里也就是单纯做个研究，就讲一下怎么在CentOS6上升级内核，然后再安装Docker1.7,再升级到1.9。
+二、操作系统环境 # cat /etc/issue CentOS release 6.5 (Final) # uname -r 2.6.32-431.el6.x86_64 三、基础环境的准备 1、安装开发平台工具 #yum groupinstall &quot;Development tools&quot;
+	</div>
+	<div class="list__footer clearfix">
+		<a class="list__footer-readmore btn" href="/posts/2019/2019-09-11-centos6-docker-io-docker-engine/">Read more…</a>
+	</div>
+</article><article class="list__item post">
+	
+	<header class="list__header">
+		<h2 class="list__title post__title">
+			<a href="/posts/2019/2019-09-11-docker-history/" rel="bookmark">
+			Docker版本的发展历史
+			</a>
+		</h2>
+		<div class="list__meta meta">
+<div class="meta__item-datetime meta__item">
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0a14 14 0 1 1 0 28 1 1 0 0 1 0-28m0 3a3 3 0 1 0 0 22 3 3 0 0 0 0-22m1 4h-2v8.4l6.8 4.4L22 18l-6-3.8z"/></svg><time class="meta__text" datetime="2019-09-11T14:33:12&#43;08:00">September 11, 2019</time></div></div>
+	</header>
+	<div class="content list__excerpt post__content clearfix">
+		开始学习Docker的时候，被它的版本搞的有点晕，然后就去研究了一下，查阅了大量的资料，终于搞清楚了这些版本的关系。
+Docker 最初是由dotCloud公司创始人Solomon Hykes发起的一个公司内部项目。
+在2013年底，由于Docker的火爆，dotCloud公司改名为Docker。
+Docker最早是在Ubuntu 12.04上开发实现的； Red Hat则从 RHEL6.5 开始对Docker进行支持。
+多种docker版本的混乱情况 先讲一讲为什么会有docker.io,docker-io这种的命名方式。 在Docker技术出现之前，Linux是已经有一个docker的工具的，但此docker非彼Docker。
+这个docker是一个窗口停靠栏程序，就像苹果的Mac系统中的dock那个程序一样的一个工具。 这是它的官网http://icculus.org/openbox/2/docker/， 里面有介绍。
+为了区分开来，我们以Docker和docker来区分。
+Docker：指容器技术。 docker：指窗口停靠栏程序。
+	</div>
+	<div class="list__footer clearfix">
+		<a class="list__footer-readmore btn" href="/posts/2019/2019-09-11-docker-history/">Read more…</a>
+	</div>
+</article>
+</main>
+
+
+			</div>
+			
+<aside class="sidebar">
+<div class="widget-recent widget">
+	<h4 class="widget__title">Recent Posts</h4>
+	<div class="widget__content">
+		<ul class="widget__list">
+			<li class="widget__item"><a class="widget__link" href="/posts/2022/2022-05-08-k8s-docker-remove/">kubernetes1.24版本开始不再直接支持Docker</a></li>
+			<li class="widget__item"><a class="widget__link" href="/posts/2022/2022-03-06-k8s-kubectl-auto/">让kubectl命令能自动补全</a></li>
+			<li class="widget__item"><a class="widget__link" href="/posts/2021/2021-12-01-k8s-minikube-k3s/">k8s环境的几个替代产品-可用于入门、测试和开发等环境</a></li>
+			<li class="widget__item"><a class="widget__link" href="/posts/2021/2021-11-16-k8s-coredns/">在Kubernetes中自定义域名解析</a></li>
+			<li class="widget__item"><a class="widget__link" href="/posts/2021/2021-11-15-k8s-record-rollout/">Kubernetes更新和回滚</a></li>
+		</ul>
+	</div>
+</div>
+<div class="widget-taglist widget">
+	<h4 class="widget__title">Tags</h4>
+	<div class="widget__content">
+		<a class="widget-taglist__link widget__link btn" href="/tags/ansible/" title="ansible">ansible</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/clamav/" title="clamav">clamav</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/coding/" title="coding">coding</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/dashboard/" title="dashboard">dashboard</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/do_ypcall/" title="do_ypcall">do_ypcall</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/docker/" title="Docker">Docker</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/expect/" title="expect">expect</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/fdisk/" title="fdisk">fdisk</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/go-module/" title="go module">go module</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/gopath/" title="GOPATH">GOPATH</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/goproxy/" title="GOPROXY">GOPROXY</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/goroot/" title="GOROOT">GOROOT</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/go%E8%AF%AD%E8%A8%80/" title="go语言">go语言</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/history/" title="history">history</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/influxdb/" title="InfluxDB">InfluxDB</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/ip%E9%99%90%E5%88%B6/" title="IP限制">IP限制</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/jenkins/" title="jenkins">jenkins</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/k3s/" title="k3s">k3s</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/k8s/" title="k8s">k8s</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/kubernetes/" title="Kubernetes">Kubernetes</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/kvm/" title="kvm">kvm</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/linux/" title="linux">linux</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/linux-site/" title="linux site">linux site</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/lsehll/" title="lsehll">lsehll</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/mkfifo/" title="mkfifo">mkfifo</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/mysql/" title="mysql">mysql</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/mysql%E9%94%99%E8%AF%AF/" title="MySQL错误">MySQL错误</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/ntp/" title="ntp">ntp</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/parted/" title="parted">parted</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/print/" title="Print">Print</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/puppet/" title="Puppet">Puppet</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/rancher/" title="rancher">rancher</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/saltstack/" title="SaltStack">SaltStack</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/script/" title="script">script</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/scriptreplay/" title="scriptreplay">scriptreplay</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/sendemail/" title="sendEmail">sendEmail</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/shell/" title="shell">shell</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/solaris/" title="solaris">solaris</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/sshpass/" title="sshpass">sshpass</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/suse/" title="suse">suse</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/tar%E5%A4%87%E4%BB%BD%E6%81%A2%E5%A4%8D/" title="tar备份恢复">tar备份恢复</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/tcp_wrappers/" title="tcp_wrappers">tcp_wrappers</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/telnet-server/" title="telnet server">telnet server</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/ypbind/" title="ypbind">ypbind</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/zfs/" title="zfs">zfs</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E4%B8%BB%E5%A4%87%E5%90%8C%E6%AD%A5/" title="主备同步">主备同步</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E5%83%B5%E5%B0%B8%E8%BF%9B%E7%A8%8B/" title="僵尸进程">僵尸进程</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E5%9F%BA%E6%9C%AC%E9%85%8D%E7%BD%AE%E6%93%8D%E4%BD%9C/" title="基本配置操作">基本配置操作</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E5%A0%A1%E5%9E%92%E6%9C%BA/" title="堡垒机">堡垒机</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E6%95%85%E9%9A%9C%E5%88%86%E6%9E%90/" title="故障分析">故障分析</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E6%9D%80%E6%AF%92%E8%BD%AF%E4%BB%B6/" title="杀毒软件">杀毒软件</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E8%87%AA%E5%8A%A8%E6%8C%82%E8%BD%BD/" title="自动挂载">自动挂载</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E8%BD%AF%E4%BB%B6%E5%AE%89%E8%A3%85/" title="软件安装">软件安装</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E8%BF%90%E7%BB%B4%E5%B7%A5%E7%A8%8B%E5%B8%88/" title="运维工程师">运维工程师</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E9%98%B2%E7%81%AB%E5%A2%99/" title="防火墙">防火墙</a>
+	</div>
+</div>
+</aside>
+		</div>
+		<footer class="footer">
+	<div class="container footer__container flex">
+		
+		<div class="footer__copyright">
+			&copy; 2024 IT兵的技术小站.
+			<span class="footer__copyright-credits">Generated with <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/Vimux/Mainroad/" rel="nofollow noopener" target="_blank">Mainroad</a> theme.</span>
+		</div>
+	</div>
+</footer>
+	</div>
+<script async defer src="/js/menu.js"></script>
+</body>
+</html>

@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>go语言 on IT兵的技术小站</title>
+    <link>http://itbing.cn/tags/go%E8%AF%AD%E8%A8%80/</link>
+    <description>Recent content in go语言 on IT兵的技术小站</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Tue, 14 May 2019 14:11:13 +0800</lastBuildDate><atom:link href="http://itbing.cn/tags/go%E8%AF%AD%E8%A8%80/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>go语言的fmt一些打印输出函数之间的区别：Print、Println、Printf、Sprint、Fprint</title>
+      <link>http://itbing.cn/posts/2019/2019-05-14-golang-print/</link>
+      <pubDate>Tue, 14 May 2019 14:11:13 +0800</pubDate>
+      
+      <guid>http://itbing.cn/posts/2019/2019-05-14-golang-print/</guid>
+      <description>Print：不带格式的最基础的输出函数 a := &amp;#34;a&amp;#34; b := &amp;#34;b&amp;#34; fmt.Print(a) fmt.Print(b) 输出：ab
+Println：带一个换行效果的输出函数 a := &amp;#34;a&amp;#34; b := &amp;#34;b&amp;#34; fmt.Println(a) fmt.Println(b) 输出： a\r\nb\r\n</description>
+    </item>
+    
+    <item>
+      <title>go module</title>
+      <link>http://itbing.cn/posts/2019/2019-05-01-golang-gomodule/</link>
+      <pubDate>Wed, 01 May 2019 19:12:13 +0800</pubDate>
+      
+      <guid>http://itbing.cn/posts/2019/2019-05-01-golang-gomodule/</guid>
+      <description>go module是Go1.11版本之后官方推出的版本管理工具，并且从Go1.13版本开始，go module将是Go语言默认的依赖管理工具。
+go module有三个可选值：off、on、auto。 GO111MODULE=off 禁用模块支持，编译时会从GOPATH和vendor文件夹中查找包。 GO111MODULE=on 启用模块支持，编译时会忽略GOPATH和vendor文件夹，只根据 go.mod下载依赖。 GO111MODULE=auto，项目根目录有go.mod文件时，开启模块支持。 使用 go module 管理依赖后会在项目根目录下生成两个文件go.mod和go.sum。
+查看自己的环境中，GO111MODULE的值。
+# go env|grep GO111MODULE GO111MODULE=&amp;#34;&amp;#34; 从Go1.</description>
+    </item>
+    
+    <item>
+      <title>Go中引号的不同作用：单引号、双引号、反引号</title>
+      <link>http://itbing.cn/posts/2019/2019-04-07-golang-quote/</link>
+      <pubDate>Sun, 07 Apr 2019 20:02:42 +0800</pubDate>
+      
+      <guid>http://itbing.cn/posts/2019/2019-04-07-golang-quote/</guid>
+      <description>1、双引号“ ” 最常用的符号，常用来定义字符串。 双引号中定义的字符串支持转义字符，比如\n将输出换行。
+package main import ( &amp;#34;fmt&amp;#34; ) func main() { a := &amp;#34;i&amp;#34; b := &amp;#34;在\\n&amp;#34; c := &amp;#34;这里&amp;#34; fmt.</description>
+    </item>
+    
+    <item>
+      <title>GO语言的GOROOT和GOPATH</title>
+      <link>http://itbing.cn/posts/2019/2019-03-27-golang-goroot-gopath/</link>
+      <pubDate>Wed, 27 Mar 2019 19:42:24 +0800</pubDate>
+      
+      <guid>http://itbing.cn/posts/2019/2019-03-27-golang-goroot-gopath/</guid>
+      <description>GOROOT #Golang安装目录
+GOPATH #Golang项目目录
+GOPATH： src #存放源码，开发项目存放在这个目录下 bin #编译后生成的可执行文件存放目录 pkg #第三方包目录
+Go1.11版本之后官方推出go module版本管理工具，并且从Go1.13版本开始，go module将是Go语言默认的依赖管理工具。 所以后面开发项目文件就可以不用在GOPATH中的src中了。</description>
+    </item>
+    
+    <item>
+      <title>Go的程序：运行和编译</title>
+      <link>http://itbing.cn/posts/2019/2019-03-18-golang-build/</link>
+      <pubDate>Mon, 18 Mar 2019 20:41:13 +0800</pubDate>
+      
+      <guid>http://itbing.cn/posts/2019/2019-03-18-golang-build/</guid>
+      <description>package main import ( &amp;#34;fmt&amp;#34; ) func main() { fmt.Println(&amp;#34;&amp;#34;Hello,world!) } package 包名:必须项。 如果是要编译执行的程序，那么一定要有一个main包和main函数。
+import 库名：可选项。导入多个项包库就用（）包起来。
+func main()：主函数。 如果是要编译执行的程序，那么一定要有一个main函数。 fmt.Println(&amp;ldquo;Hello,world!&amp;quot;)：主程序内容，输出打印“Hello,world!”。</description>
+    </item>
+    
+    <item>
+      <title>Go设置代理，加速库的下载</title>
+      <link>http://itbing.cn/posts/2019/2019-03-18-golang-goproxymd/</link>
+      <pubDate>Mon, 18 Mar 2019 19:40:53 +0800</pubDate>
+      
+      <guid>http://itbing.cn/posts/2019/2019-03-18-golang-goproxymd/</guid>
+      <description>由于很多go库很多是国外网站，所以要么下载库会很慢，或者干脆访问不了。 Golang V1.13之后支持通过设置变量GOPROXY来修改代理地址，默认的代理服务器可以改成国内地址https://goproxy.cn
+go env -w GOPROXY=&amp;ldquo;https://goproxy.cn,direct&amp;rdquo;
+阿里云 https://mirrors.aliyun.com/goproxy/
+nexus社区提供的 https://gonexus.dev ngoproxy.io https://goproxy.io\
+基于athens的公共服务 https://athens.azurefd.net\</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>运维工程师 on IT兵的技术小站</title>
+    <link>http://itbing.cn/tags/%E8%BF%90%E7%BB%B4%E5%B7%A5%E7%A8%8B%E5%B8%88/</link>
+    <description>Recent content in 运维工程师 on IT兵的技术小站</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Mon, 02 Nov 2015 15:10:27 +0800</lastBuildDate><atom:link href="http://itbing.cn/tags/%E8%BF%90%E7%BB%B4%E5%B7%A5%E7%A8%8B%E5%B8%88/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>经验之谈：Linux运维工程师所需技能</title>
+      <link>http://itbing.cn/posts/2015/2015-11-02-linux-devops-skill/</link>
+      <pubDate>Mon, 02 Nov 2015 15:10:27 +0800</pubDate>
+      
+      <guid>http://itbing.cn/posts/2015/2015-11-02-linux-devops-skill/</guid>
+      <description>以自己有限的经验说说作为一名合格的Linux运维工程师需要掌握的东西：
+1、选择版本 现在发行版本已经让人有点眼花缭乱了。但是架构和底层的东西都是一样的，只是各自会有一些自己特有的工具。 LINUX:CentOS、Red Hat、Oracle Linux、Debian、Ubuntu、SUSE 只要玩转精通一类，基本上就可以了。有空再去玩玩其它的发行版本。Unix版本也要学学。 UNIX:Oracle Solaris、IBM AIX、HP-UX、FreeBSD 在熟悉之前可以多安装系统，了解系统安装的每个步骤，自定义选择组件安装。
+注：Unix系统现在慢慢被淘汰掉了，比如Solaris就不再更新了。(2023.2.8更新） 由于CentOS8开始更新规则变化，很多人开始不用CentOS了，所以Debian现在最好也要掌握
+2、系统基础 要去了解和理解跟WIN不一样的思想，彻底改变固定的思维，如 开源的思想和本质 一切皆文件 根目录结构 根目录下每个文件存放什么文件 挂载分区 安装软件 源码编译安装软件 系统上各种服务的功能</description>
+    </item>
+    
+  </channel>
+</rss>

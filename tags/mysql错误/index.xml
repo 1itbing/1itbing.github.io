@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>MySQL错误 on IT兵的技术小站</title>
+    <link>http://itbing.cn/tags/mysql%E9%94%99%E8%AF%AF/</link>
+    <description>Recent content in MySQL错误 on IT兵的技术小站</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Thu, 31 May 2018 22:36:10 +0800</lastBuildDate><atom:link href="http://itbing.cn/tags/mysql%E9%94%99%E8%AF%AF/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>一次MySQL主备同步出错恢复</title>
+      <link>http://itbing.cn/posts/2018/2018-05-31-mysql-sync-error/</link>
+      <pubDate>Thu, 31 May 2018 22:36:10 +0800</pubDate>
+      
+      <guid>http://itbing.cn/posts/2018/2018-05-31-mysql-sync-error/</guid>
+      <description>错误提示：
+Last_IO_Errno: 1236 Last_IO_Error: Got fatal error 1236 from master when reading data from binary log: &amp;#39;Client requested master to start replication from position &amp;gt; file size; the first event &amp;#39;mysql-bin.</description>
+    </item>
+    
+    <item>
+      <title>[MySQL错误]Can&#39;t find file: ./mysql/plugin.frm</title>
+      <link>http://itbing.cn/posts/2018/2018-05-31-mysql-cant-find-file/</link>
+      <pubDate>Thu, 31 May 2018 00:17:33 +0800</pubDate>
+      
+      <guid>http://itbing.cn/posts/2018/2018-05-31-mysql-cant-find-file/</guid>
+      <description>错误提示：
+/usr/libexec/mysqld: Can&amp;#39;t find file: &amp;#39;./mysql/plugin.frm&amp;#39; (errno: 13) 180530 15:19:43 [ERROR] Can&amp;#39;t open the mysql.plugin table. Please run mysql_upgrade to create it.</description>
+    </item>
+    
+  </channel>
+</rss>

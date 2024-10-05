@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>fdisk、parted无损调整普通分区大小 - IT兵的技术小站</title>
+	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
+	<meta name="description" content="">
+		<meta property="og:title" content="fdisk、parted无损调整普通分区大小" />
+<meta property="og:description" content="环境：oracle linux 6.4
+#fdisk -v fdisk (util-linux-ng 2.17.2) #parted -v parted (GNU parted) 2.1 我们讲的调整分区大小，都是要保证不损坏分区中数据为前提。 这里我们讲一下用fdisk、parted调整普通分区的方法。 LVM卷组的就不讲了，这个一般比较简单。
+切记：一般都只用于扩容分区，如果要缩减分区，特别是根目录，可能会出问题 而扩容分区时，要保证跟扩容分区相邻的分区是未分配的（或者可以先暂时删除的）" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://itbing.cn/posts/2015/2015-12-11-linux-fdisk-parted/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2015-12-11T15:52:50+08:00" />
+<meta property="article:modified_time" content="2015-12-11T15:52:50+08:00" />
+
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link rel="dns-prefetch" href="//fonts.googleapis.com">
+	<link rel="dns-prefetch" href="//fonts.gstatic.com">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700">
+
+	<link rel="stylesheet" href="/css/style.css">
+	
+
+	<link rel="shortcut icon" href="/favicon.ico">
+		
+		
+</head>
+<body class="body">
+	<div class="container container--outer">
+		<header class="header">
+	<div class="container header__container">
+		
+	<div class="logo">
+		<a class="logo__link" href="/" title="IT兵的技术小站" rel="home">
+			<div class="logo__item logo__text">
+					<div class="logo__title">IT兵的技术小站</div>
+					
+				</div>
+		</a>
+	</div>
+		<div class="divider"></div>
+	</div>
+</header>
+		<div class="wrapper flex">
+			<div class="primary">
+			
+<main class="main" role="main">
+	<article class="post">
+		<header class="post__header">
+			<h1 class="post__title">fdisk、parted无损调整普通分区大小</h1>
+			<div class="post__meta meta">
+<div class="meta__item-datetime meta__item">
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0a14 14 0 1 1 0 28 1 1 0 0 1 0-28m0 3a3 3 0 1 0 0 22 3 3 0 0 0 0-22m1 4h-2v8.4l6.8 4.4L22 18l-6-3.8z"/></svg><time class="meta__text" datetime="2015-12-11T15:52:50&#43;08:00">December 11, 2015</time></div></div>
+		</header>
+		<div class="content post__content clearfix">
+			<blockquote>
+<p>环境：oracle linux 6.4</p>
+</blockquote>
+<pre tabindex="0"><code>#fdisk -v
+fdisk (util-linux-ng 2.17.2)
+#parted -v
+parted (GNU parted) 2.1
+</code></pre><p>我们讲的调整分区大小，都是要保证不损坏分区中数据为前提。
+这里我们讲一下用fdisk、parted调整普通分区的方法。
+LVM卷组的就不讲了，这个一般比较简单。</p>
+<blockquote>
+<p>切记：一般都只用于扩容分区，如果要缩减分区，特别是根目录，可能会出问题
+而扩容分区时，要保证跟扩容分区相邻的分区是未分配的（或者可以先暂时删除的）</p>
+</blockquote>
+<p>操作有风险，重要数据还是要备份保存一下。</p>
+<h2 id="一fdisk普通分区调整">一、fdisk普通分区调整：</h2>
+<p>大概步骤：
+先执行fdisk查看原分区的cylinder起始值，一定要记住。
+再umount分区，进fdisk删除原有分区， 再重建原有分区，再分区的时候，cylinder起始值一定要跟原来的是一样的，要不然就会破坏原分区的数据，只要调整cylinder结束值大小即可扩容分区。</p>
+<p>分区建好后， 用e2fsck先检查一下分区， 再用resize2fs扩大就可以了。</p>
+<h4 id="实例演示">实例演示：</h4>
+<p>我要把swap分区删掉，把原先swap中的一部分空间增加到根目录/中来（/dev/sda2），剩下的空间再创建新的比原来小的swap。
+（增加点实验难度）</p>
+<p>硬盘分区情况：</p>
+<pre tabindex="0"><code>#df -h
+Filesystem Size Used Avail Use% Mounted on
+/dev/sda2 9.7G 3.7G 5.5G 41% /
+tmpfs 875M 0 875M 0% /dev/shm
+/dev/sda1 194M 50M 135M 27% /boot
+
+#fdisk -l /dev/sda
+Disk /dev/sda: 12.9 GB, 12884901888 bytes
+255 heads, 63 sectors/track, 1566 cylinders
+Units = cylinders of 16065 * 512 = 8225280 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
+Disk identifier: 0x0007c9df
+
+Device Boot Start End Blocks Id System
+#记下自己的磁盘分区的cylinder起始值
+/dev/sda1 * 1 26 204800 83 Linux
+/dev/sda2 26 1301 10240000 83 Linux
+/dev/sda3 1301 1556 2048000 82 Linux swap / Solaris
+</code></pre><p>这里要记下自己磁盘分区的cylinder起始值，后面扩容分区时需要：
+/dev/sda1 * 1 26 204800 83 Linux   #/dev/sda1起始值为1，结束为26
+/dev/sda2 26 1301 10240000 83 Linux  #/dev/sda2起始值为26，结束为1301
+/dev/sda3 1301 1556 2048000 82 Linux swap / Solaris   #/dev/sda3起始值为1301，结束为1556</p>
+<h4 id="具体步骤">具体步骤：</h4>
+<h5 id="1删除swap分区">1、删除swap分区</h5>
+<p>先查看一下swap分区有没有在使用:</p>
+<pre tabindex="0"><code>#free
+total used free shared buffers cached
+Mem: 1790856 154188 1636668 0 15472 58480
+-/+ buffers/cache: 80236 1710620
+Swap: 2047996 0 2047996
+</code></pre><p>可以看出swap使用为0，是未使用状态，放心删除</p>
+<pre tabindex="0"><code>#swapoff /dev/sda3
+#fdisk /dev/sda
+Command (m for help): d
+Partition number (1-4): 3
+
+Command (m for help): p
+
+Device Boot Start End Blocks Id System
+/dev/sda1 * 1 26 204800 83 Linux
+/dev/sda2 26 1301 10240000 83 Linux
+
+Command (m for help): w
+</code></pre><h5 id="2进入急救rescue模式">2、进入急救rescue模式</h5>
+<p>如果是其它的普通分区，不影响系统正常运行的，能umount的，就不用进急救模式就可以操作了,我这里实验主要是增加一点难度</p>
+<pre tabindex="0"><code>#fdisk /dev/sda
+Command (m for help): d 先删除要扩展的分区，这里是根目录/分区
+Partition number (1-4):2
+
+Command (m for help): p
+
+Device Boot Start End Blocks Id System
+/dev/sda1 * 1 26 204800 83 Linux
+
+Command (m for help): n 再把删除的分区重新添加
+Command action
+e extended
+P primary partition (1-4)
+P
+Partition number (1-4):2
+First cylinder (26-1566,default 26):26 这里一定要跟原先的对应
+Last cylinder ,+cylinders or +size{K,M,G} (26-1566,default 1566):1433
+原先是到1301，在原先的基础上加一部分，留点给swap
+Command (m for help): w
+#reboot
+</code></pre><h5 id="3resize2fs">3、resize2fs</h5>
+<p>（如果是根目录扩容，直接重启，不用执行下面的命令。如果是其它普通分区，不用重启，执行下面的命令让分区生效）
+使用partprobe同步内存中分区信息
+#partprobe
+使用e2fsck强制检查分区
+#e2fsck -f /dev/sda2</p>
+<p>使用resize2fs重新定义文件系统大小（这步一定要做，要不然容量不会有变化）</p>
+<pre tabindex="0"><code># resize2fs /dev/sda2
+#df -h
+Filesystem Size Used Avail Use% Mounted on
+/dev/sda2 11G 3.7G 6.4G 37% /
+tmpfs 875M 0 875M 0% /dev/shm
+/dev/sda1 194M 50M 135M 27% /boot
+
+#fdisk -l /dev/sda
+/dev/sda1 * 1 26 204800 83 Linux
+/dev/sda2 26 1433 11304748+ 83 Linux
+</code></pre><p>对比发现，根目录空间已经扩大了。</p>
+<p>恢复swap空间</p>
+<pre tabindex="0"><code>#fdisk /dev/sda
+Command (m for help): n
+Command action
+e extended
+p primary partition (1-4)
+p
+Partition number (1-4): 3
+First cylinder (1434-1566, default 1434):
+Using default value 1434
+Last cylinder, +cylinders or +size{K,M,G} (1434-1566, default 1566):
+Using default value 1566
+
+Command (m for help): p
+
+Device Boot Start End Blocks Id System
+/dev/sda1 * 1 26 204800 83 Linux
+/dev/sda2 26 1433 11304748+ 83 Linux
+/dev/sda3 1434 1566 1068322+ 83 Linux
+
+Command (m for help): t
+Partition number (1-4): 3
+Hex code (type L to list codes): 82
+Changed system type of partition 3 to 82 (Linux swap / Solaris)
+
+Command (m for help): p
+
+Device Boot Start End Blocks Id System
+/dev/sda1 * 1 26 204800 83 Linux
+/dev/sda2 26 1433 11304748+ 83 Linux
+/dev/sda3 1434 1566 1068322+ 82 Linux swap / Solaris
+
+#mkswap /dev/sda3
+#swapon /dev/sda3
+#free
+total used free shared buffers cached
+Mem: 1790856 145724 1645132 0 13020 57600
+-/+ buffers/cache: 75104 1715752
+Swap: 1068316 0 1068316
+</code></pre><p>swap分区回来了,只是比原先要小了</p>
+<h3 id="总结">总结：</h3>
+<p>通过这个也可以引申出来分区的合理性。
+比如可以把第一个分区给/boot 第二个分区给根目录/，第三个分区给swap,最后要保留一点空间不要分配备用
+这样万一根目录/空间不够，可以先把swap删除，把根目录/扩容，然后再挂上swap分区（扩容根目录要进急救rescue模式）
+swap分区自己扩容也很方便。
+可以根据情况灵活分配
+比如专门放数据的、或者放日志的分区，随时都在变大，也可以单独出来，放在分区的后面，这样以后扩容也方便。</p>
+<h2 id="二parted分区调整">二、parted分区调整</h2>
+<p>parted可以对自己格式化的分区进行调整分区。</p>
+<blockquote>
+<p>这里要注意：一定要是parted中的命令mkfs格式化的分区,用系统自带的mkfs.ext3之类的命令格式化的分区是没办法再用parted命令调整大小的。
+parted还不支持格式化ext3分区</p>
+</blockquote>
+<h4 id="实例演示-1">实例演示：</h4>
+<pre tabindex="0"><code>#parted /dev/sdb
+GNU Parted 2.1
+Using /dev/sdb
+Welcome to GNU Parted! Type &#39;help&#39; to view a list of commands.
+(parted) p
+Model: ATA VBOX HARDDISK (scsi)
+Disk /dev/sdb: 12.9GB
+Sector size (logical/physical): 512B/512B
+Partition Table: gpt
+
+Number Start End Size File system Name Flags
+1 17.4kB 300MB 300MB ext2 db1
+2 300MB 500MB 200MB ext2 db2
+</code></pre><p>对于它自己格式的分区，我们可以随意调整大小</p>
+<pre tabindex="0"><code>(parted) resize
+Partition number? 2
+Start? [300MB]?
+End? [500MB]? 600
+OK/Cancel? o
+(parted) p
+Model: ATA VBOX HARDDISK (scsi)
+Disk /dev/sdb: 12.9GB
+Sector size (logical/physical): 512B/512B
+Partition Table: gpt
+
+Number Start End Size File system Name Flags
+1 17.4kB 300MB 300MB ext2 db1
+2 300MB 600MB 300MB ext2 db2
+
+(parted) resize
+Partition number? 2
+Start? [300MB]?
+End? [600MB]? 400
+OK/Cancel? o
+(parted) p
+Model: ATA VBOX HARDDISK (scsi)
+Disk /dev/sdb: 12.9GB
+Sector size (logical/physical): 512B/512B
+Partition Table: gpt
+
+Number Start End Size File system Name Flags
+1 17.4kB 300MB 300MB ext2 db1
+2 300MB 400MB 100MB ext2 db2
+</code></pre><p>如果是系统用自带的mkfs.ext3之类的命令格式化的分区，用parted调整分区会报错：
+先格式化一下，再回到parted去调整大小</p>
+<pre tabindex="0"><code>#mkfs.ext2 /dev/sdb2
+#parted /dev/sdb
+Number Start End Size File system Name Flags
+1 17.4kB 300MB 300MB ext2 db1
+2 300MB 400MB 100MB ext2 db2
+
+(parted) resize
+Partition number? 2
+Start? [300MB]?
+End? [400MB]? 500
+Error: File system has an incompatible feature enabled. Compatible features are has_journal,
+dir_index, filetype, sparse_super and large_file. Use tune2fs or debugfs to remove features.
+</code></pre><p>上面的例子都是ext2格式的，现在基本上这种格式都不再使用了。
+但parted还不支持格式化ext3格式，必须要用系统自带的mkfs.ext3命令去格式化，但格式化后就不能再用parted调整分区大小了。
+这是挺纠结的。</p>
+<p>but</p>
+<p>还是有解决办法的
+就是先用parted格式化成ext2格式，再用tune2fs命令转换成ext3格式的，这样一操作就还能用parted调整这个分区大小</p>
+<pre tabindex="0"><code>Number Start End Size File system Name Flags
+1 17.4kB 300MB 300MB ext2 db1
+2 300MB 400MB 100MB ext2 db2
+3 400MB 600MB 200MB ext2 db3
+</code></pre><p>把/dev/sdb3转化成ext3格式</p>
+<pre tabindex="0"><code>#tune2fs -j /dev/sdb3
+tune2fs 1.41.12 (17-May-2010)
+Creating journal inode: done
+This filesystem will be automatically checked every 30 mounts or
+180 days, whichever comes first. Use tune2fs -c or -i to override.
+</code></pre><p>再回到parted中</p>
+<pre tabindex="0"><code>#parted /dev/sdb
+GNU Parted 2.1
+Using /dev/sdb
+Welcome to GNU Parted! Type &#39;help&#39; to view a list of commands.
+(parted) p
+Model: ATA VBOX HARDDISK (scsi)
+Disk /dev/sdb: 12.9GB
+Sector size (logical/physical): 512B/512B
+Partition Table: gpt
+
+Number Start End Size File system Name Flags
+1 17.4kB 300MB 300MB ext2 db1
+2 300MB 400MB 100MB ext2 db2
+3 400MB 600MB 200MB ext3 db3
+</code></pre><p>再调整/dev/sdb3的大小</p>
+<pre tabindex="0"><code>(parted) resize
+Partition number? 3
+Start? [400MB]?
+End? [600MB]? 700
+error: block relocator should have relocated 8706
+这里有个错误，提示块必须要移动8706
+可以调整一下要扩大的大小
+
+(parted) resize
+Partition number? 3
+Start? [400MB]?
+End? [600MB]? 900
+Warning: A resize operation on this file system will use EXPERIMENTAL code
+that MAY CORRUPT it (although no one has reported any such damage yet).
+You should at least backup your data first, and run &#39;e2fsck -f&#39; afterwards.
+OK/Cancel? o
+(parted) p
+Model: ATA VBOX HARDDISK (scsi)
+Disk /dev/sdb: 12.9GB
+Sector size (logical/physical): 512B/512B
+Partition Table: gpt
+
+Number Start End Size File system Name Flags
+1 17.4kB 300MB 300MB ext2 db1
+2 300MB 400MB 100MB ext2 db2
+3 400MB 900MB 500MB ext3 db3
+</code></pre><p>成功扩容</p>
+<p>所以，如果想用parted调整分区大小的功能，分区的时候可以使用parted，也可以使用fdisk，但是格式化分区的时候，只能使用parted自己的mkfs</p>
+
+		</div>
+		<footer class="post__footer">
+			
+<div class="post__tags tags clearfix">
+	<svg class="tags__badge icon icon-tag" width="16" height="16" viewBox="0 0 32 32"><path d="M4 0h8s2 0 4 2l15 15s2 2 0 4L21 31s-2 2-4 0L2 16s-2-2-2-4V3s0-3 4-3m3 10a3 3 0 0 0 0-6 3 3 0 0 0 0 6"/></svg>
+	<ul class="tags__list">
+		<li class="tags__item">
+			<a class="tags__link btn" href="/tags/linux/" rel="tag">linux</a>
+		</li>
+		<li class="tags__item">
+			<a class="tags__link btn" href="/tags/fdisk/" rel="tag">fdisk</a>
+		</li>
+		<li class="tags__item">
+			<a class="tags__link btn" href="/tags/parted/" rel="tag">parted</a>
+		</li>
+	</ul>
+</div>
+		</footer>
+	</article>
+</main>
+
+<div class="authorbox clearfix">
+	<div class="authorbox__header">
+		<span class="authorbox__name">About itbing</span>
+	</div>
+	<div class="authorbox__description">
+		从事于Linux/Unix系统类运维工作
+	</div>
+</div>
+
+<nav class="pager flex">
+	<div class="pager__item pager__item--prev">
+		<a class="pager__link" href="/posts/2015/2015-11-02-linux-devops-skill/" rel="prev">
+			<span class="pager__subtitle">«&thinsp;Previous</span>
+			<p class="pager__title">经验之谈：Linux运维工程师所需技能</p>
+		</a>
+	</div>
+	<div class="pager__item pager__item--next">
+		<a class="pager__link" href="/posts/2015/2015-12-20-linux-expect-sshpass/" rel="next">
+			<span class="pager__subtitle">Next&thinsp;»</span>
+			<p class="pager__title">批量管理服务器的几种方法</p>
+		</a>
+	</div>
+</nav>
+
+
+			</div>
+			<aside class="sidebar">
+<div class="widget-recent widget">
+	<h4 class="widget__title">Recent Posts</h4>
+	<div class="widget__content">
+		<ul class="widget__list">
+			<li class="widget__item"><a class="widget__link" href="/posts/2022/2022-05-08-k8s-docker-remove/">kubernetes1.24版本开始不再直接支持Docker</a></li>
+			<li class="widget__item"><a class="widget__link" href="/posts/2022/2022-03-06-k8s-kubectl-auto/">让kubectl命令能自动补全</a></li>
+			<li class="widget__item"><a class="widget__link" href="/posts/2021/2021-12-01-k8s-minikube-k3s/">k8s环境的几个替代产品-可用于入门、测试和开发等环境</a></li>
+			<li class="widget__item"><a class="widget__link" href="/posts/2021/2021-11-16-k8s-coredns/">在Kubernetes中自定义域名解析</a></li>
+			<li class="widget__item"><a class="widget__link" href="/posts/2021/2021-11-15-k8s-record-rollout/">Kubernetes更新和回滚</a></li>
+		</ul>
+	</div>
+</div>
+<div class="widget-taglist widget">
+	<h4 class="widget__title">Tags</h4>
+	<div class="widget__content">
+		<a class="widget-taglist__link widget__link btn" href="/tags/ansible/" title="ansible">ansible</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/clamav/" title="clamav">clamav</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/coding/" title="coding">coding</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/dashboard/" title="dashboard">dashboard</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/do_ypcall/" title="do_ypcall">do_ypcall</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/docker/" title="Docker">Docker</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/expect/" title="expect">expect</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/fdisk/" title="fdisk">fdisk</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/go-module/" title="go module">go module</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/gopath/" title="GOPATH">GOPATH</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/goproxy/" title="GOPROXY">GOPROXY</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/goroot/" title="GOROOT">GOROOT</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/go%E8%AF%AD%E8%A8%80/" title="go语言">go语言</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/history/" title="history">history</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/influxdb/" title="InfluxDB">InfluxDB</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/ip%E9%99%90%E5%88%B6/" title="IP限制">IP限制</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/jenkins/" title="jenkins">jenkins</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/k3s/" title="k3s">k3s</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/k8s/" title="k8s">k8s</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/kubernetes/" title="Kubernetes">Kubernetes</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/kvm/" title="kvm">kvm</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/linux/" title="linux">linux</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/linux-site/" title="linux site">linux site</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/lsehll/" title="lsehll">lsehll</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/mkfifo/" title="mkfifo">mkfifo</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/mysql/" title="mysql">mysql</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/mysql%E9%94%99%E8%AF%AF/" title="MySQL错误">MySQL错误</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/ntp/" title="ntp">ntp</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/parted/" title="parted">parted</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/print/" title="Print">Print</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/puppet/" title="Puppet">Puppet</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/rancher/" title="rancher">rancher</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/saltstack/" title="SaltStack">SaltStack</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/script/" title="script">script</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/scriptreplay/" title="scriptreplay">scriptreplay</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/sendemail/" title="sendEmail">sendEmail</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/shell/" title="shell">shell</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/solaris/" title="solaris">solaris</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/sshpass/" title="sshpass">sshpass</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/suse/" title="suse">suse</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/tar%E5%A4%87%E4%BB%BD%E6%81%A2%E5%A4%8D/" title="tar备份恢复">tar备份恢复</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/tcp_wrappers/" title="tcp_wrappers">tcp_wrappers</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/telnet-server/" title="telnet server">telnet server</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/ypbind/" title="ypbind">ypbind</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/zfs/" title="zfs">zfs</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E4%B8%BB%E5%A4%87%E5%90%8C%E6%AD%A5/" title="主备同步">主备同步</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E5%83%B5%E5%B0%B8%E8%BF%9B%E7%A8%8B/" title="僵尸进程">僵尸进程</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E5%9F%BA%E6%9C%AC%E9%85%8D%E7%BD%AE%E6%93%8D%E4%BD%9C/" title="基本配置操作">基本配置操作</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E5%A0%A1%E5%9E%92%E6%9C%BA/" title="堡垒机">堡垒机</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E6%95%85%E9%9A%9C%E5%88%86%E6%9E%90/" title="故障分析">故障分析</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E6%9D%80%E6%AF%92%E8%BD%AF%E4%BB%B6/" title="杀毒软件">杀毒软件</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E8%87%AA%E5%8A%A8%E6%8C%82%E8%BD%BD/" title="自动挂载">自动挂载</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E8%BD%AF%E4%BB%B6%E5%AE%89%E8%A3%85/" title="软件安装">软件安装</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E8%BF%90%E7%BB%B4%E5%B7%A5%E7%A8%8B%E5%B8%88/" title="运维工程师">运维工程师</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E9%98%B2%E7%81%AB%E5%A2%99/" title="防火墙">防火墙</a>
+	</div>
+</div>
+</aside>
+		</div>
+		<footer class="footer">
+	<div class="container footer__container flex">
+		
+		<div class="footer__copyright">
+			&copy; 2024 IT兵的技术小站.
+			<span class="footer__copyright-credits">Generated with <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/Vimux/Mainroad/" rel="nofollow noopener" target="_blank">Mainroad</a> theme.</span>
+		</div>
+	</div>
+</footer>
+	</div>
+<script async defer src="/js/menu.js"></script>
+</body>
+</html>

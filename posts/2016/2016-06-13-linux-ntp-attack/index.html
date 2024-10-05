@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>NTP服务被利用做流量攻击以及检测预防手段 - IT兵的技术小站</title>
+	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
+	<meta name="description" content="">
+		<meta property="og:title" content="NTP服务被利用做流量攻击以及检测预防手段" />
+<meta property="og:description" content="被攻击服务器相关配置： ip: eth0: 172.28.9.2 eth1: 192.168.0.2 eth3: 外网IP
+某一天发现这台WEB服务器流量一直很高。 开始一直以为是WEB服务的流量很高，根本没往NTP服务那方面想。 因为我设置NTP服务的时候就有考虑到安全问题。
+检测过程： #dstat -N eth3
+可以发现发送流量非常大。
+后面还用了nethogs和iptraf两个流量分析软件进行了分析。
+nethogs 是检测进程的流量，但是检测不到UDP的流量，所以一开始也没想到是ntp的引起的。因为ntp用的是123的UDP端口。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://itbing.cn/posts/2016/2016-06-13-linux-ntp-attack/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2016-06-13T14:18:24+08:00" />
+<meta property="article:modified_time" content="2016-06-13T14:18:24+08:00" />
+
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link rel="dns-prefetch" href="//fonts.googleapis.com">
+	<link rel="dns-prefetch" href="//fonts.gstatic.com">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700">
+
+	<link rel="stylesheet" href="/css/style.css">
+	
+
+	<link rel="shortcut icon" href="/favicon.ico">
+		
+		
+</head>
+<body class="body">
+	<div class="container container--outer">
+		<header class="header">
+	<div class="container header__container">
+		
+	<div class="logo">
+		<a class="logo__link" href="/" title="IT兵的技术小站" rel="home">
+			<div class="logo__item logo__text">
+					<div class="logo__title">IT兵的技术小站</div>
+					
+				</div>
+		</a>
+	</div>
+		<div class="divider"></div>
+	</div>
+</header>
+		<div class="wrapper flex">
+			<div class="primary">
+			
+<main class="main" role="main">
+	<article class="post">
+		<header class="post__header">
+			<h1 class="post__title">NTP服务被利用做流量攻击以及检测预防手段</h1>
+			<div class="post__meta meta">
+<div class="meta__item-datetime meta__item">
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0a14 14 0 1 1 0 28 1 1 0 0 1 0-28m0 3a3 3 0 1 0 0 22 3 3 0 0 0 0-22m1 4h-2v8.4l6.8 4.4L22 18l-6-3.8z"/></svg><time class="meta__text" datetime="2016-06-13T14:18:24&#43;08:00">June 13, 2016</time></div></div>
+		</header>
+		<div class="content post__content clearfix">
+			<blockquote>
+<p>被攻击服务器相关配置：
+ip:
+eth0: 172.28.9.2
+eth1: 192.168.0.2
+eth3: 外网IP</p>
+</blockquote>
+<p>某一天发现这台WEB服务器流量一直很高。
+开始一直以为是WEB服务的流量很高，根本没往NTP服务那方面想。
+因为我设置NTP服务的时候就有考虑到安全问题。</p>
+<h3 id="检测过程">检测过程：</h3>
+<p>#dstat -N eth3</p>
+<p>可以发现发送流量非常大。</p>
+<p>后面还用了nethogs和iptraf两个流量分析软件进行了分析。</p>
+<p>nethogs 是检测进程的流量，但是检测不到UDP的流量，所以一开始也没想到是ntp的引起的。因为ntp用的是123的UDP端口。</p>
+<p>iptraf是检测连接到服务器某个端口的流量
+这里需要注意了：默认执行iptraf在上面窗口中只会显示TCP流量，而不会显示UDP流量，UDP流量会在下面快速闪现。所以一开始也没注意到是ntp引起的，因为UDP流量没排在上面。后面会讲怎么查看UDP流量。</p>
+<p>可以先设置一下iptraf，开启按服务名显示，而不是显示端口号，比较直观。</p>
+<pre tabindex="0"><code>#iptraf
+configure
+</code></pre><p><code>#iptraf -s eth3</code>
+这里一定要加上-s，才能显示UDP流量</p>
+<p>这样就会看到ntp的流量非常高，从而可以判断是ntp服务而引起的。</p>
+<p>再用#ntpdc -n -c monlist 外网IP
+能查看到一堆IP同步过我的ntp服务。</p>
+<p>查了一下ntp.conf，发现并没有什么不合理的地方。
+ntp.conf</p>
+<pre tabindex="0"><code>restrict default ignore
+restrict 127.0.0.1
+restrict -6 ::1
+restrict 192.168.0.154
+restrict 192.168.0.155
+
+server 192.168.0.154
+server 192.168.0.155
+
+server 127.127.1.0
+fudge 127.127.1.0 stratum 10
+
+driftfile /var/lib/ntp/drift
+broadcastdelay 0.008
+authenticate no
+keys /etc/ntp/keys
+</code></pre><p>只开放了上一级提供NTP服务的IP地址。
+后来回忆了一下，以前的配置文件没有这么严谨，所以当时我对这个配置文件做了修改了。但是当时为了不影响业务，并没有立即重启服务。</p>
+<p>所以这次我立即重启ntp服务后，流量就恢复了正常。</p>
+<blockquote>
+<p>注意：
+如果有外网IP的服务器，有开ntp服务，restrict开放只能开放内网IP。</p>
+</blockquote>
+<p>或者用iptables防火墙来做限制，比如拒绝从eth3外网访问ntp服务。</p>
+<p>配置完ntp后，可以执行</p>
+<p><code>#ntpdc -n -c monlist 外网IP</code></p>
+<p>来检测，如果说超时，得不到数据，说明没问题。</p>
+<blockquote>
+<p>知识点：</p>
+</blockquote>
+<p>什么是NTP服务放大攻击？</p>
+<p>标准NTP 服务提供了一个 monlist查询功能，也被称为MON_GETLIST，该功能主要用于监控 NTP 服务器的服务状况，当用户端向NTP服务提交monlist查询时，NTP 服务器会向查询端返回与NTP 服务器进行过时间同步的最后 600 个客户端的 IP，响应包按照每 6 个 IP 进行分割，最多有 100 个响应包。由于NTP服务使用UDP协议，攻击者可以伪造源发地址向NTP服务进行monlist查询，这将导致NTP服务器向被伪造的目标发送大量的UDP数据包，理论上这种恶意导向的攻击流量可以放大到伪造查询流量的100倍。</p>
+<p>如何查看是否遭受NTP放大攻击？</p>
+<p>如果网络上检测到大流量的UDP 123端口的数据，就可以确认正在遭受此类攻击。</p>
+<p>如何防范NTP放大攻击？</p>
+<p>1、linux系统升级办法：</p>
+<p>升级服务程序版本</p>
+<p>将系统中的NTP服务升级到 ntpd 4.2.7p26 或之后的版本，因为 ntpd 4.2.7p26 版本后，服务默认是关闭monlist查询功能的。</p>
+<p>关闭服务的monlist查询功能：</p>
+<p>首先查询问题主机的REQ_MON_GETLIST和REQ_MON_GETLIST_1请求是否可用。具体操作方法：</p>
+<p>ntpq -c rv&lt;localhost/remotehost&gt;</p>
+<p>ntpdc -c sysinfo&lt;localhost/remotehost&gt;</p>
+<p>ntpdc -n -c monlist&lt;localhost/remotehost&gt;
+能查询出同步过时间的主机</p>
+<p>如果上述功能可用，可尝试通过修改ntp.conf文件解决问题，具体操作建议是在上述配置文件中增加下面的配置：</p>
+<p>IPV4: restrict default ignore</p>
+<p>IPv6: restrict -6 default ignore</p>
+<p>/<em>允许发起时间同步的IP，与本服务器进行时间同步，但是不允许修改ntp服务信息，也不允许查询服务器的状态信息（如monlist）</em>/</p>
+<p>另外，还可以配置限制访问命令，如：</p>
+<p>restrict default noquery /<em>允许普通的请求者进行时间同步，但是不允许查询ntp服务信息</em>/</p>
+<p>修改并保存配置文件之后，请重启ntpd服务。</p>
+<p>2、windows系统的解决办法：</p>
+<p>在ntp.conf配置文件中增加（或修改）“disable monitor”选项，可以关闭现有NTP服务的monlist功能。修改并保存配置文件之后，请重启ntpd服务。</p>
+<p>3、网络防范：</p>
+<p>在攻击发生时，通过网络设备的ACL丢弃UDP 123端口的数据包。</p>
+<p>放大反射 Dos 攻击由 CVE-2013-5211 所致。且这漏洞是与 molist 功能有关。ntpd 4.2.7p26 之前的版本都会去响应 NTP 中的 mode7 monlist 请求。ntpd-4.2.7p26 版本后， monlist 特性已经被禁止，取而代之的是 mrulist 特性，使用 mode6 控制报文，并且实现了握手过程来阻止对第三方主机的放大攻击。</p>
+<p>因为 Ubuntu 14.04 默认的 ntpd 版本是 4.2.6p5 ，所以我们可以用禁止 monitor 的方法，直接修改 /etc/ntp.conf 即可</p>
+<p>echo &ldquo;disable monitor&rdquo; &gt;&gt; /etc/ntp.conf</p>
+
+		</div>
+		<footer class="post__footer">
+			
+<div class="post__tags tags clearfix">
+	<svg class="tags__badge icon icon-tag" width="16" height="16" viewBox="0 0 32 32"><path d="M4 0h8s2 0 4 2l15 15s2 2 0 4L21 31s-2 2-4 0L2 16s-2-2-2-4V3s0-3 4-3m3 10a3 3 0 0 0 0-6 3 3 0 0 0 0 6"/></svg>
+	<ul class="tags__list">
+		<li class="tags__item">
+			<a class="tags__link btn" href="/tags/linux/" rel="tag">linux</a>
+		</li>
+		<li class="tags__item">
+			<a class="tags__link btn" href="/tags/ntp/" rel="tag">ntp</a>
+		</li>
+	</ul>
+</div>
+		</footer>
+	</article>
+</main>
+
+<div class="authorbox clearfix">
+	<div class="authorbox__header">
+		<span class="authorbox__name">About itbing</span>
+	</div>
+	<div class="authorbox__description">
+		从事于Linux/Unix系统类运维工作
+	</div>
+</div>
+
+<nav class="pager flex">
+	<div class="pager__item pager__item--prev">
+		<a class="pager__link" href="/posts/2016/2016-04-14-linux-tar-backup/" rel="prev">
+			<span class="pager__subtitle">«&thinsp;Previous</span>
+			<p class="pager__title">用tar备份和恢复Linux操作系统</p>
+		</a>
+	</div>
+	<div class="pager__item pager__item--next">
+		<a class="pager__link" href="/posts/2017/2017-01-30-influxdb/" rel="next">
+			<span class="pager__subtitle">Next&thinsp;»</span>
+			<p class="pager__title">InfluxDB 1.2.0安装及新旧版本的注意事项</p>
+		</a>
+	</div>
+</nav>
+
+
+			</div>
+			<aside class="sidebar">
+<div class="widget-recent widget">
+	<h4 class="widget__title">Recent Posts</h4>
+	<div class="widget__content">
+		<ul class="widget__list">
+			<li class="widget__item"><a class="widget__link" href="/posts/2022/2022-05-08-k8s-docker-remove/">kubernetes1.24版本开始不再直接支持Docker</a></li>
+			<li class="widget__item"><a class="widget__link" href="/posts/2022/2022-03-06-k8s-kubectl-auto/">让kubectl命令能自动补全</a></li>
+			<li class="widget__item"><a class="widget__link" href="/posts/2021/2021-12-01-k8s-minikube-k3s/">k8s环境的几个替代产品-可用于入门、测试和开发等环境</a></li>
+			<li class="widget__item"><a class="widget__link" href="/posts/2021/2021-11-16-k8s-coredns/">在Kubernetes中自定义域名解析</a></li>
+			<li class="widget__item"><a class="widget__link" href="/posts/2021/2021-11-15-k8s-record-rollout/">Kubernetes更新和回滚</a></li>
+		</ul>
+	</div>
+</div>
+<div class="widget-taglist widget">
+	<h4 class="widget__title">Tags</h4>
+	<div class="widget__content">
+		<a class="widget-taglist__link widget__link btn" href="/tags/ansible/" title="ansible">ansible</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/clamav/" title="clamav">clamav</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/coding/" title="coding">coding</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/dashboard/" title="dashboard">dashboard</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/do_ypcall/" title="do_ypcall">do_ypcall</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/docker/" title="Docker">Docker</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/expect/" title="expect">expect</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/fdisk/" title="fdisk">fdisk</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/go-module/" title="go module">go module</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/gopath/" title="GOPATH">GOPATH</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/goproxy/" title="GOPROXY">GOPROXY</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/goroot/" title="GOROOT">GOROOT</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/go%E8%AF%AD%E8%A8%80/" title="go语言">go语言</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/history/" title="history">history</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/influxdb/" title="InfluxDB">InfluxDB</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/ip%E9%99%90%E5%88%B6/" title="IP限制">IP限制</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/jenkins/" title="jenkins">jenkins</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/k3s/" title="k3s">k3s</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/k8s/" title="k8s">k8s</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/kubernetes/" title="Kubernetes">Kubernetes</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/kvm/" title="kvm">kvm</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/linux/" title="linux">linux</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/linux-site/" title="linux site">linux site</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/lsehll/" title="lsehll">lsehll</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/mkfifo/" title="mkfifo">mkfifo</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/mysql/" title="mysql">mysql</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/mysql%E9%94%99%E8%AF%AF/" title="MySQL错误">MySQL错误</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/ntp/" title="ntp">ntp</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/parted/" title="parted">parted</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/print/" title="Print">Print</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/puppet/" title="Puppet">Puppet</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/rancher/" title="rancher">rancher</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/saltstack/" title="SaltStack">SaltStack</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/script/" title="script">script</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/scriptreplay/" title="scriptreplay">scriptreplay</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/sendemail/" title="sendEmail">sendEmail</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/shell/" title="shell">shell</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/solaris/" title="solaris">solaris</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/sshpass/" title="sshpass">sshpass</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/suse/" title="suse">suse</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/tar%E5%A4%87%E4%BB%BD%E6%81%A2%E5%A4%8D/" title="tar备份恢复">tar备份恢复</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/tcp_wrappers/" title="tcp_wrappers">tcp_wrappers</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/telnet-server/" title="telnet server">telnet server</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/ypbind/" title="ypbind">ypbind</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/zfs/" title="zfs">zfs</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E4%B8%BB%E5%A4%87%E5%90%8C%E6%AD%A5/" title="主备同步">主备同步</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E5%83%B5%E5%B0%B8%E8%BF%9B%E7%A8%8B/" title="僵尸进程">僵尸进程</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E5%9F%BA%E6%9C%AC%E9%85%8D%E7%BD%AE%E6%93%8D%E4%BD%9C/" title="基本配置操作">基本配置操作</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E5%A0%A1%E5%9E%92%E6%9C%BA/" title="堡垒机">堡垒机</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E6%95%85%E9%9A%9C%E5%88%86%E6%9E%90/" title="故障分析">故障分析</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E6%9D%80%E6%AF%92%E8%BD%AF%E4%BB%B6/" title="杀毒软件">杀毒软件</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E8%87%AA%E5%8A%A8%E6%8C%82%E8%BD%BD/" title="自动挂载">自动挂载</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E8%BD%AF%E4%BB%B6%E5%AE%89%E8%A3%85/" title="软件安装">软件安装</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E8%BF%90%E7%BB%B4%E5%B7%A5%E7%A8%8B%E5%B8%88/" title="运维工程师">运维工程师</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E9%98%B2%E7%81%AB%E5%A2%99/" title="防火墙">防火墙</a>
+	</div>
+</div>
+</aside>
+		</div>
+		<footer class="footer">
+	<div class="container footer__container flex">
+		
+		<div class="footer__copyright">
+			&copy; 2024 IT兵的技术小站.
+			<span class="footer__copyright-credits">Generated with <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/Vimux/Mainroad/" rel="nofollow noopener" target="_blank">Mainroad</a> theme.</span>
+		</div>
+	</div>
+</footer>
+	</div>
+<script async defer src="/js/menu.js"></script>
+</body>
+</html>

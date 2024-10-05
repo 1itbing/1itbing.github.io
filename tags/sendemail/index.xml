@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>sendEmail on IT兵的技术小站</title>
+    <link>http://itbing.cn/tags/sendemail/</link>
+    <description>Recent content in sendEmail on IT兵的技术小站</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Thu, 18 Oct 2018 21:12:46 +0800</lastBuildDate><atom:link href="http://itbing.cn/tags/sendemail/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>sendEmail的安装</title>
+      <link>http://itbing.cn/posts/2018/2018-10-18-linux-sendemail/</link>
+      <pubDate>Thu, 18 Oct 2018 21:12:46 +0800</pubDate>
+      
+      <guid>http://itbing.cn/posts/2018/2018-10-18-linux-sendemail/</guid>
+      <description>注意，这款软件不是sendmail，而是另外一个简单的命令行的邮件发送工具，生产上常用它来发送告警邮件。 这款软件的安装方式就是Linux下最简单的一种软件安装方法：直接下载赋权即可使用。
+下载： 打开网站http://caspian.dotconf.net/menu/Software/SendEmail/
+可以右键，复制链接地址，使用wget下载 #wget http://caspian.dotconf.net/menu/Software/SendEmail/sendEmail-v1.56.tar.gz
+解压：
+#tar -zxvf sendEmail-v1.56.tar.gz #cd sendEmail-v1.56 把里面的主要程序复制到环境变量目录下，即可使用 #cp sendEmail /usr/bin/
+这个工具都不需要赋权，因为本身已经设置好了执行权限。 然后就可以执行此命令了。 # sendEmail -help</description>
+    </item>
+    
+  </channel>
+</rss>

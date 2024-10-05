@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>在 CentOS 7上安装 Docker及Docker的基本操作 - IT兵的技术小站</title>
+	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
+	<meta name="description" content="">
+		<meta property="og:title" content="在 CentOS 7上安装 Docker及Docker的基本操作" />
+<meta property="og:description" content="前面有一篇讲了 在 CentOS 6上安装 docker-io/docker-engine
+CentOS6上虽然还可以安装Docker，但是不推荐在CentOS6上进行安装，CentOS6也没办法安装最新版本的docker-ce版本。 如果要学习和在生产中使用Docker，推荐在CentOS7上安装docker-ce版本。
+一、在CentOS7上安装docker-ce 在CentOS7上安装Docker还是比较简单的。
+CentOS本身就有提供一个docker版本可以安装，但版本较旧，不推荐使用。
+# yum list|grep docker docker.x86_64 1.13.1-102.git7f2769b.el7.centos 要想安装最新版的Docker版本，还是需要从Docker官网下载repo文件来进行安装。 把repo文件下载到/etc/yum.repos.d目录下。
+#cd /etc/yum.repos.d #wget https://download." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://itbing.cn/posts/2019/2019-09-12-centos7-docker-setup/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2019-09-12T17:10:15+08:00" />
+<meta property="article:modified_time" content="2019-09-12T17:10:15+08:00" />
+
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link rel="dns-prefetch" href="//fonts.googleapis.com">
+	<link rel="dns-prefetch" href="//fonts.gstatic.com">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700">
+
+	<link rel="stylesheet" href="/css/style.css">
+	
+
+	<link rel="shortcut icon" href="/favicon.ico">
+		
+		
+</head>
+<body class="body">
+	<div class="container container--outer">
+		<header class="header">
+	<div class="container header__container">
+		
+	<div class="logo">
+		<a class="logo__link" href="/" title="IT兵的技术小站" rel="home">
+			<div class="logo__item logo__text">
+					<div class="logo__title">IT兵的技术小站</div>
+					
+				</div>
+		</a>
+	</div>
+		<div class="divider"></div>
+	</div>
+</header>
+		<div class="wrapper flex">
+			<div class="primary">
+			
+<main class="main" role="main">
+	<article class="post">
+		<header class="post__header">
+			<h1 class="post__title">在 CentOS 7上安装 Docker及Docker的基本操作</h1>
+			<div class="post__meta meta">
+<div class="meta__item-datetime meta__item">
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0a14 14 0 1 1 0 28 1 1 0 0 1 0-28m0 3a3 3 0 1 0 0 22 3 3 0 0 0 0-22m1 4h-2v8.4l6.8 4.4L22 18l-6-3.8z"/></svg><time class="meta__text" datetime="2019-09-12T17:10:15&#43;08:00">September 12, 2019</time></div></div>
+		</header>
+		<div class="content post__content clearfix">
+			<p>前面有一篇讲了 在 CentOS 6上安装 docker-io/docker-engine</p>
+<p>CentOS6上虽然还可以安装Docker，但是不推荐在CentOS6上进行安装，CentOS6也没办法安装最新版本的docker-ce版本。
+如果要学习和在生产中使用Docker，推荐在CentOS7上安装docker-ce版本。</p>
+<h2 id="一在centos7上安装docker-ce">一、在CentOS7上安装docker-ce</h2>
+<p>在CentOS7上安装Docker还是比较简单的。</p>
+<p>CentOS本身就有提供一个docker版本可以安装，但版本较旧，不推荐使用。</p>
+<pre tabindex="0"><code># yum list|grep docker
+docker.x86_64                  1.13.1-102.git7f2769b.el7.centos
+</code></pre><p>要想安装最新版的Docker版本，还是需要从Docker官网下载repo文件来进行安装。
+把repo文件下载到/etc/yum.repos.d目录下。</p>
+<pre tabindex="0"><code>#cd /etc/yum.repos.d
+#wget https://download.docker.com/linux/centos/docker-ce.repo
+</code></pre><p>开始安装：</p>
+<pre tabindex="0"><code># yum install docker-ce
+Loaded plugins: fastestmirror
+Loading mirror speeds from cached hostfile
+ * base: mirrors.aliyun.com
+ * epel: hkg.mirror.rackspace.com
+ * extras: mirrors.aliyun.com
+ * updates: mirrors.aliyun.com
+Resolving Dependencies
+--&gt; Running transaction check
+---&gt; Package docker-ce.x86_64 3:19.03.2-3.el7 will be installed
+--&gt; Processing Dependency: containerd.io &gt;= 1.2.2-3 for package: 3:docker-ce-19.03.2-3.el7.x86_64
+--&gt; Processing Dependency: docker-ce-cli for package: 3:docker-ce-19.03.2-3.el7.x86_64
+--&gt; Running transaction check
+---&gt; Package containerd.io.x86_64 0:1.2.6-3.3.el7 will be installed
+---&gt; Package docker-ce-cli.x86_64 1:19.03.2-3.el7 will be installed
+--&gt; Finished Dependency Resolution
+
+Dependencies Resolved
+
+=================================================================================================================
+ Package                    Arch                Version                      Repository                     Size
+=================================================================================================================
+Installing:
+ docker-ce                  x86_64              3:19.03.2-3.el7              docker-ce-stable               24 M
+Installing for dependencies:
+ containerd.io              x86_64              1.2.6-3.3.el7                docker-ce-stable               26 M
+ docker-ce-cli              x86_64              1:19.03.2-3.el7              docker-ce-stable               39 M
+
+Transaction Summary
+=================================================================================================================
+Install  1 Package (+2 Dependent packages)
+
+Total download size: 90 M
+Installed size: 368 M
+Is this ok [y/d/N]: y
+Downloading packages:
+warning: /var/cache/yum/x86_64/7/docker-ce-stable/packages/docker-ce-19.03.2-3.el7.x86_64.rpm: Header V4 RSA/SHA512 Signature, key ID 621e9f35: NOKEY
+Public key for docker-ce-19.03.2-3.el7.x86_64.rpm is not installed
+(1/3): docker-ce-19.03.2-3.el7.x86_64.rpm                                                 |  24 MB  00:00:04     
+(2/3): containerd.io-1.2.6-3.3.el7.x86_64.rpm                                             |  26 MB  00:00:04     
+(3/3): docker-ce-cli-19.03.2-3.el7.x86_64.rpm                                             |  39 MB  00:00:04     
+-----------------------------------------------------------------------------------------------------------------
+Total                                                                             11 MB/s |  90 MB  00:00:08     
+Warning: RPMDB altered outside of yum.
+  Installing : 1:docker-ce-cli-19.03.2-3.el7.x86_64                                                          1/3 
+  Installing : containerd.io-1.2.6-3.3.el7.x86_64                                                            2/3 
+  Installing : 3:docker-ce-19.03.2-3.el7.x86_64                                                              3/3 
+  Verifying  : 3:docker-ce-19.03.2-3.el7.x86_64                                                              1/3 
+  Verifying  : containerd.io-1.2.6-3.3.el7.x86_64                                                            2/3 
+  Verifying  : 1:docker-ce-cli-19.03.2-3.el7.x86_64                                                          3/3 
+
+Installed:
+  docker-ce.x86_64 3:19.03.2-3.el7                                                                               
+
+Dependency Installed:
+  containerd.io.x86_64 0:1.2.6-3.3.el7                    docker-ce-cli.x86_64 1:19.03.2-3.el7                   
+
+Complete!
+</code></pre><p>从上面可以看出，安装了三个软件docker-ce、containerd.io和docker-ce-cli。</p>
+<p>注意：安装完后最好把docker默认的保存地址/var/lib/docker单独存在一个分区，并且这个分区格式化时，要带上参数ftype=1。
+<code># mkfs -t xfs -n ftype=1 /dev/sdx</code></p>
+<p>或者修改默认配置，指向其它已经使用ftype=1格式过的分区。</p>
+<p>启动Docker服务</p>
+<pre tabindex="0"><code># systemctl restart docker
+
+# systemctl status docker
+¡ñ docker.service - Docker Application Container Engine
+   Loaded: loaded (/usr/lib/systemd/system/docker.service; disabled; vendor preset: disabled)
+   Active: active (running) since Fri 2019-09-20 22:52:08 CST; 5s ago
+     Docs: https://docs.docker.com
+ Main PID: 7222 (dockerd)
+   Memory: 46.2M
+   CGroup: /system.slice/docker.service
+           ©¸©¤7222 /usr/bin/dockerd -H fd:// --containerd=/run/containerd/containerd.sock
+Sep 20 22:52:08 logserver dockerd[7222]: time=&amp;quot;2019-09-20T22:52:08.124251525+08:00&amp;quot; level=info msg=&amp;quot;[grap...lay2&amp;quot;
+Sep 20 22:52:08 logserver dockerd[7222]: time=&amp;quot;2019-09-20T22:52:08.133805844+08:00&amp;quot; level=warning msg=&amp;quot;mo...ound&amp;quot;
+Sep 20 22:52:08 logserver dockerd[7222]: time=&amp;quot;2019-09-20T22:52:08.134250040+08:00&amp;quot; level=info msg=&amp;quot;Loadi...art.&amp;quot;
+Sep 20 22:52:08 logserver dockerd[7222]: time=&amp;quot;2019-09-20T22:52:08.376128471+08:00&amp;quot; level=info msg=&amp;quot;Defau...ress&amp;quot;
+Sep 20 22:52:08 logserver dockerd[7222]: time=&amp;quot;2019-09-20T22:52:08.465507266+08:00&amp;quot; level=info msg=&amp;quot;Loadi...one.&amp;quot;
+Sep 20 22:52:08 logserver dockerd[7222]: time=&amp;quot;2019-09-20T22:52:08.525920859+08:00&amp;quot; level=warning msg=&amp;quot;No...rlay2
+Sep 20 22:52:08 logserver dockerd[7222]: time=&amp;quot;2019-09-20T22:52:08.526507025+08:00&amp;quot; level=info msg=&amp;quot;Docke....03.2
+Sep 20 22:52:08 logserver dockerd[7222]: time=&amp;quot;2019-09-20T22:52:08.526657094+08:00&amp;quot; level=info msg=&amp;quot;Daemo...tion&amp;quot;
+Sep 20 22:52:08 logserver systemd[1]: Started Docker Application Container Engine.
+Sep 20 22:52:08 logserver dockerd[7222]: time=&amp;quot;2019-09-20T22:52:08.580220493+08:00&amp;quot; level=info msg=&amp;quot;API l...sock&amp;quot;
+Hint: Some lines were ellipsized, use -l to show in full.
+</code></pre><h2 id="二docker的基本操作">二、Docker的基本操作</h2>
+<h4 id="1查看当前docker的版本信息">1、查看当前Docker的版本信息</h4>
+<pre tabindex="0"><code># docker version
+Client: Docker Engine - Community
+ Version:           19.03.2
+ API version:       1.40
+ Go version:        go1.12.8
+ Git commit:        6a30dfc
+ Built:             Thu Aug 29 05:28:55 2019
+ OS/Arch:           linux/amd64
+ Experimental:      false
+
+Server: Docker Engine - Community
+ Engine:
+  Version:          19.03.2
+  API version:      1.40 (minimum version 1.12)
+  Go version:       go1.12.8
+  Git commit:       6a30dfc
+  Built:            Thu Aug 29 05:27:34 2019
+  OS/Arch:          linux/amd64
+  Experimental:     false
+</code></pre><p>可以看出，Docker客户端和服务端的版本都是19.03.2，API版本是1.40，go语言版本是1.12.8。</p>
+<h4 id="2搜索可用的镜像">2、搜索可用的镜像</h4>
+<p>使用docker search搜索查寻某个镜像</p>
+<pre tabindex="0"><code># docker search hello-world
+[php]
+NAME                                       DESCRIPTION                                     STARS               OFFICIAL            AUTOMATED
+hello-world                                Hello World! (an example of minimal Dockeriz…   1033                [OK]                
+kitematic/hello-world-nginx                A light-weight nginx container that demonstr…   132                                     
+tutum/hello-world                          Image to test docker deployments. Has Apache…   63                                      [OK]
+dockercloud/hello-world                    Hello World!                                    15                                      [OK]
+crccheck/hello-world                       Hello World web server in under 2.5 MB          10                                      [OK]
+ppc64le/hello-world                        Hello World! (an example of minimal Dockeriz…   2                                       
+vad1mo/hello-world-rest                    A simple REST Service that echoes back all t…   2                                       [OK]
+souravpatnaik/hello-world-go               hello-world in Golang                           1                                       
+carinamarina/hello-world-app               This is a sample Python web application, run…   1                                       [OK]
+markmnei/hello-world-java-docker           Hello-World-Java-docker                         1                                       [OK]
+kevindockercompany/hello-world                                                             0                                       
+burdz/hello-world-k8s                      To provide a simple webserver that can have …   0                                       [OK]
+koudaiii/hello-world                                                                       0                                       
+freddiedevops/hello-world-spring-boot                                                      0                                       
+datawire/hello-world                       Hello World! Simple Hello World implementati…   0                                       [OK]
+infrastructureascode/hello-world           A tiny &amp;quot;Hello World&amp;quot; web server with a healt…   0                                       [OK]
+</code></pre><p>第一列：镜像的名称
+第二列：镜像的描述
+第三列：STARS数(相当于点赞数，收藏数），数值越高，这个镜像越好
+第四列：是否是官方的</p>
+<p>可以看出第一个stars数最多的是hello-world镜像是官方的。</p>
+<h4 id="3下载一个镜像到本地">3、下载一个镜像到本地</h4>
+<p>把hello-world这个镜像下载到本地</p>
+<pre tabindex="0"><code># docker pull hello-world
+Using default tag: latest
+latest: Pulling from library/hello-world
+Digest: sha256:b8ba256769a0ac28dd126d584e0a2011cd2877f3f76e093a7ae560f2a5301c00
+Status: Downloaded newer image for hello-world:latest
+docker.io/library/hello-world:latest
+</code></pre><h4 id="4查看当前本地上的镜像">4、查看当前本地上的镜像</h4>
+<pre tabindex="0"><code># docker images
+REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
+hello-world         latest              fce289e99eb9        8 months ago        1.84kB
+</code></pre><h4 id="5运行一个镜像">5、运行一个镜像</h4>
+<pre tabindex="0"><code># docker run hello-world
+[php]
+Hello from Docker!
+This message shows that your installation appears to be working correctly.
+To generate this message, Docker took the following steps:
+ 1. The Docker client contacted the Docker daemon.
+ 2. The Docker daemon pulled the &amp;quot;hello-world&amp;quot; image from the Docker Hub.
+    (amd64)
+ 3. The Docker daemon created a new container from that image which runs the
+    executable that produces the output you are currently reading.
+ 4. The Docker daemon streamed that output to the Docker client, which sent it
+    to your terminal.
+
+To try something more ambitious, you can run an Ubuntu container with:
+ $ docker run -it ubuntu bash
+
+Share images, automate workflows, and more with a free Docker ID:
+ https://hub.docker.com/
+
+For more examples and ideas, visit:
+ https://docs.docker.com/get-started/
+</code></pre><p>平时对镜像进行操作时，最好使用“名称：tag”或者直接使用镜像ID来操作，因为如果有多个同名镜像的话，只带名称可能会识别不到。
+如docker run hello-world:latest
+或者
+docker run fce289e99eb9'</p>
+
+		</div>
+		<footer class="post__footer">
+			
+<div class="post__tags tags clearfix">
+	<svg class="tags__badge icon icon-tag" width="16" height="16" viewBox="0 0 32 32"><path d="M4 0h8s2 0 4 2l15 15s2 2 0 4L21 31s-2 2-4 0L2 16s-2-2-2-4V3s0-3 4-3m3 10a3 3 0 0 0 0-6 3 3 0 0 0 0 6"/></svg>
+	<ul class="tags__list">
+		<li class="tags__item">
+			<a class="tags__link btn" href="/tags/docker/" rel="tag">Docker</a>
+		</li>
+	</ul>
+</div>
+		</footer>
+	</article>
+</main>
+
+<div class="authorbox clearfix">
+	<div class="authorbox__header">
+		<span class="authorbox__name">About itbing</span>
+	</div>
+	<div class="authorbox__description">
+		从事于Linux/Unix系统类运维工作
+	</div>
+</div>
+
+<nav class="pager flex">
+	<div class="pager__item pager__item--prev">
+		<a class="pager__link" href="/posts/2019/2019-09-11-centos6-docker-io-docker-engine/" rel="prev">
+			<span class="pager__subtitle">«&thinsp;Previous</span>
+			<p class="pager__title">在 centos6上安装docker io/docker-engine</p>
+		</a>
+	</div>
+	<div class="pager__item pager__item--next">
+		<a class="pager__link" href="/posts/2019/2019-09-24-docker-tomcat/" rel="next">
+			<span class="pager__subtitle">Next&thinsp;»</span>
+			<p class="pager__title">通过实例讲解Docker：在Docker中搭建Tomcat应用</p>
+		</a>
+	</div>
+</nav>
+
+
+			</div>
+			<aside class="sidebar">
+<div class="widget-recent widget">
+	<h4 class="widget__title">Recent Posts</h4>
+	<div class="widget__content">
+		<ul class="widget__list">
+			<li class="widget__item"><a class="widget__link" href="/posts/2022/2022-05-08-k8s-docker-remove/">kubernetes1.24版本开始不再直接支持Docker</a></li>
+			<li class="widget__item"><a class="widget__link" href="/posts/2022/2022-03-06-k8s-kubectl-auto/">让kubectl命令能自动补全</a></li>
+			<li class="widget__item"><a class="widget__link" href="/posts/2021/2021-12-01-k8s-minikube-k3s/">k8s环境的几个替代产品-可用于入门、测试和开发等环境</a></li>
+			<li class="widget__item"><a class="widget__link" href="/posts/2021/2021-11-16-k8s-coredns/">在Kubernetes中自定义域名解析</a></li>
+			<li class="widget__item"><a class="widget__link" href="/posts/2021/2021-11-15-k8s-record-rollout/">Kubernetes更新和回滚</a></li>
+		</ul>
+	</div>
+</div>
+<div class="widget-taglist widget">
+	<h4 class="widget__title">Tags</h4>
+	<div class="widget__content">
+		<a class="widget-taglist__link widget__link btn" href="/tags/ansible/" title="ansible">ansible</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/clamav/" title="clamav">clamav</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/coding/" title="coding">coding</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/dashboard/" title="dashboard">dashboard</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/do_ypcall/" title="do_ypcall">do_ypcall</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/docker/" title="Docker">Docker</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/expect/" title="expect">expect</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/fdisk/" title="fdisk">fdisk</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/go-module/" title="go module">go module</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/gopath/" title="GOPATH">GOPATH</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/goproxy/" title="GOPROXY">GOPROXY</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/goroot/" title="GOROOT">GOROOT</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/go%E8%AF%AD%E8%A8%80/" title="go语言">go语言</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/history/" title="history">history</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/influxdb/" title="InfluxDB">InfluxDB</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/ip%E9%99%90%E5%88%B6/" title="IP限制">IP限制</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/jenkins/" title="jenkins">jenkins</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/k3s/" title="k3s">k3s</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/k8s/" title="k8s">k8s</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/kubernetes/" title="Kubernetes">Kubernetes</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/kvm/" title="kvm">kvm</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/linux/" title="linux">linux</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/linux-site/" title="linux site">linux site</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/lsehll/" title="lsehll">lsehll</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/mkfifo/" title="mkfifo">mkfifo</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/mysql/" title="mysql">mysql</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/mysql%E9%94%99%E8%AF%AF/" title="MySQL错误">MySQL错误</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/ntp/" title="ntp">ntp</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/parted/" title="parted">parted</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/print/" title="Print">Print</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/puppet/" title="Puppet">Puppet</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/rancher/" title="rancher">rancher</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/saltstack/" title="SaltStack">SaltStack</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/script/" title="script">script</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/scriptreplay/" title="scriptreplay">scriptreplay</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/sendemail/" title="sendEmail">sendEmail</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/shell/" title="shell">shell</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/solaris/" title="solaris">solaris</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/sshpass/" title="sshpass">sshpass</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/suse/" title="suse">suse</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/tar%E5%A4%87%E4%BB%BD%E6%81%A2%E5%A4%8D/" title="tar备份恢复">tar备份恢复</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/tcp_wrappers/" title="tcp_wrappers">tcp_wrappers</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/telnet-server/" title="telnet server">telnet server</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/ypbind/" title="ypbind">ypbind</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/zfs/" title="zfs">zfs</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E4%B8%BB%E5%A4%87%E5%90%8C%E6%AD%A5/" title="主备同步">主备同步</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E5%83%B5%E5%B0%B8%E8%BF%9B%E7%A8%8B/" title="僵尸进程">僵尸进程</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E5%9F%BA%E6%9C%AC%E9%85%8D%E7%BD%AE%E6%93%8D%E4%BD%9C/" title="基本配置操作">基本配置操作</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E5%A0%A1%E5%9E%92%E6%9C%BA/" title="堡垒机">堡垒机</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E6%95%85%E9%9A%9C%E5%88%86%E6%9E%90/" title="故障分析">故障分析</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E6%9D%80%E6%AF%92%E8%BD%AF%E4%BB%B6/" title="杀毒软件">杀毒软件</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E8%87%AA%E5%8A%A8%E6%8C%82%E8%BD%BD/" title="自动挂载">自动挂载</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E8%BD%AF%E4%BB%B6%E5%AE%89%E8%A3%85/" title="软件安装">软件安装</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E8%BF%90%E7%BB%B4%E5%B7%A5%E7%A8%8B%E5%B8%88/" title="运维工程师">运维工程师</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E9%98%B2%E7%81%AB%E5%A2%99/" title="防火墙">防火墙</a>
+	</div>
+</div>
+</aside>
+		</div>
+		<footer class="footer">
+	<div class="container footer__container flex">
+		
+		<div class="footer__copyright">
+			&copy; 2024 IT兵的技术小站.
+			<span class="footer__copyright-credits">Generated with <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/Vimux/Mainroad/" rel="nofollow noopener" target="_blank">Mainroad</a> theme.</span>
+		</div>
+	</div>
+</footer>
+	</div>
+<script async defer src="/js/menu.js"></script>
+</body>
+</html>

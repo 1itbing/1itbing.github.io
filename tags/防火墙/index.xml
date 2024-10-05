@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>防火墙 on IT兵的技术小站</title>
+    <link>http://itbing.cn/tags/%E9%98%B2%E7%81%AB%E5%A2%99/</link>
+    <description>Recent content in 防火墙 on IT兵的技术小站</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Thu, 31 Dec 2015 15:41:26 +0800</lastBuildDate><atom:link href="http://itbing.cn/tags/%E9%98%B2%E7%81%AB%E5%A2%99/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>在Linux下限制远程用户登陆的来源IP</title>
+      <link>http://itbing.cn/posts/2015/2015-12-31-ip-limit/</link>
+      <pubDate>Thu, 31 Dec 2015 15:41:26 +0800</pubDate>
+      
+      <guid>http://itbing.cn/posts/2015/2015-12-31-ip-limit/</guid>
+      <description>一、前言 二、通过tcp_wrappers限制 三、通过防火墙限制 四、通过ssh配置限制 五、通过pam机制限制
+一、前言 为了系统安全，我们经常对Linux服务器做设置，限制远程登录的来源IP，只允许我们信任的IP进行访问。 今天要讲的几种限制IP的方法，其中“通过tcp_wrappers限制”和“通过防火墙限制”只能通过IP进行限制，就是所有用户都得遵循这个限制。而“通过ssh配置限制”和“通过pam机制限制”可以根据用户名分别来进行IP的限制。
+二、通过tcp_wrappers限制 这种方法有比较大的局限性，只能针对一些针对tcp_wrappers的服务进行限制。而SSH登录服务是刚好支持的。 这种方法就是配置文件/etc/hosts.deny和/etc/hosts.allow。
+先编辑/etc/hosts.allow，先把允许要登录的IP或者IP段添加进去。
+sshd: 192.168.0.2 172.31.1.* 192.168.10.*
+再编辑/etc/hosts.deny,拒绝所有的登录。
+sshd: ALL</description>
+    </item>
+    
+  </channel>
+</rss>

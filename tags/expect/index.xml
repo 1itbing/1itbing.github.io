@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>expect on IT兵的技术小站</title>
+    <link>http://itbing.cn/tags/expect/</link>
+    <description>Recent content in expect on IT兵的技术小站</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Sun, 20 Dec 2015 23:05:17 +0800</lastBuildDate><atom:link href="http://itbing.cn/tags/expect/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>批量管理服务器的几种方法</title>
+      <link>http://itbing.cn/posts/2015/2015-12-20-linux-expect-sshpass/</link>
+      <pubDate>Sun, 20 Dec 2015 23:05:17 +0800</pubDate>
+      
+      <guid>http://itbing.cn/posts/2015/2015-12-20-linux-expect-sshpass/</guid>
+      <description>一、shell+expect 二、shell+sshpass 三、ansible、Puppet、SaltStack&amp;hellip; 四、堡垒机系统 五、一些运维系统 </description>
+    </item>
+    
+  </channel>
+</rss>

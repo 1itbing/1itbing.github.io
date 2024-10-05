@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Posts - IT兵的技术小站</title>
+	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
+	<meta name="description" content="">
+		<meta property="og:title" content="Posts" />
+<meta property="og:description" content="itbign&#39;s site" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="http://itbing.cn/posts/" />
+
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link rel="dns-prefetch" href="//fonts.googleapis.com">
+	<link rel="dns-prefetch" href="//fonts.gstatic.com">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700">
+
+	<link rel="stylesheet" href="/css/style.css">
+	
+	<link rel="alternate" type="application/rss+xml" href="/posts/index.xml" title="IT兵的技术小站">
+
+	<link rel="shortcut icon" href="/favicon.ico">
+		
+		
+</head>
+<body class="body">
+	<div class="container container--outer">
+		<header class="header">
+	<div class="container header__container">
+		
+	<div class="logo">
+		<a class="logo__link" href="/" title="IT兵的技术小站" rel="home">
+			<div class="logo__item logo__text">
+					<div class="logo__title">IT兵的技术小站</div>
+					
+				</div>
+		</a>
+	</div>
+		<div class="divider"></div>
+	</div>
+</header>
+		<div class="wrapper flex">
+			<div class="primary">
+			
+<main class="main list" role="main">
+	<header class="main__header">
+		<h1 class="main__title">Posts</h1>
+	</header><article class="list__item post">
+	
+	<header class="list__header">
+		<h2 class="list__title post__title">
+			<a href="/posts/2019/2019-09-11-centos6-docker-io-docker-engine/" rel="bookmark">
+			在 centos6上安装docker io/docker-engine
+			</a>
+		</h2>
+		<div class="list__meta meta">
+<div class="meta__item-datetime meta__item">
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0a14 14 0 1 1 0 28 1 1 0 0 1 0-28m0 3a3 3 0 1 0 0 22 3 3 0 0 0 0-22m1 4h-2v8.4l6.8 4.4L22 18l-6-3.8z"/></svg><time class="meta__text" datetime="2019-09-11T14:35:49&#43;08:00">September 11, 2019</time></div></div>
+	</header>
+	<div class="content list__excerpt post__content clearfix">
+		一、说明 先说一下，现在要安装Docker的话，一定要在CentOS7上安装Docker-ce。docker-io是比较老的版本，很多功能是没有的。 CentOS6默认也只支持到Docker1.7（但其实CentOS6是可以支持到Docker1.9的）,后面的版本都需要安装在CentOS7上。 CentOS6也不能安装Docker0.7以下的版本了，比如Docker0.5/0.6,基本上是没办法使用的。因为最早Docker是在Ubuntu上的。
+CentOS6安装Docker必须要升级内核到3.10及以上内核版本才行，内核还必须开启aufs模块。
+我这里也就是单纯做个研究，就讲一下怎么在CentOS6上升级内核，然后再安装Docker1.7,再升级到1.9。
+二、操作系统环境 # cat /etc/issue CentOS release 6.5 (Final) # uname -r 2.6.32-431.el6.x86_64 三、基础环境的准备 1、安装开发平台工具 #yum groupinstall &quot;Development tools&quot;
+	</div>
+	<div class="list__footer clearfix">
+		<a class="list__footer-readmore btn" href="/posts/2019/2019-09-11-centos6-docker-io-docker-engine/">Read more…</a>
+	</div>
+</article><article class="list__item post">
+	
+	<header class="list__header">
+		<h2 class="list__title post__title">
+			<a href="/posts/2019/2019-09-11-docker-history/" rel="bookmark">
+			Docker版本的发展历史
+			</a>
+		</h2>
+		<div class="list__meta meta">
+<div class="meta__item-datetime meta__item">
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0a14 14 0 1 1 0 28 1 1 0 0 1 0-28m0 3a3 3 0 1 0 0 22 3 3 0 0 0 0-22m1 4h-2v8.4l6.8 4.4L22 18l-6-3.8z"/></svg><time class="meta__text" datetime="2019-09-11T14:33:12&#43;08:00">September 11, 2019</time></div></div>
+	</header>
+	<div class="content list__excerpt post__content clearfix">
+		开始学习Docker的时候，被它的版本搞的有点晕，然后就去研究了一下，查阅了大量的资料，终于搞清楚了这些版本的关系。
+Docker 最初是由dotCloud公司创始人Solomon Hykes发起的一个公司内部项目。
+在2013年底，由于Docker的火爆，dotCloud公司改名为Docker。
+Docker最早是在Ubuntu 12.04上开发实现的； Red Hat则从 RHEL6.5 开始对Docker进行支持。
+多种docker版本的混乱情况 先讲一讲为什么会有docker.io,docker-io这种的命名方式。 在Docker技术出现之前，Linux是已经有一个docker的工具的，但此docker非彼Docker。
+这个docker是一个窗口停靠栏程序，就像苹果的Mac系统中的dock那个程序一样的一个工具。 这是它的官网http://icculus.org/openbox/2/docker/， 里面有介绍。
+为了区分开来，我们以Docker和docker来区分。
+Docker：指容器技术。 docker：指窗口停靠栏程序。
+	</div>
+	<div class="list__footer clearfix">
+		<a class="list__footer-readmore btn" href="/posts/2019/2019-09-11-docker-history/">Read more…</a>
+	</div>
+</article><article class="list__item post">
+	
+	<header class="list__header">
+		<h2 class="list__title post__title">
+			<a href="/posts/2019/2019-09-07-jenkins-plugins/" rel="bookmark">
+			Jenkins常用插件
+			</a>
+		</h2>
+		<div class="list__meta meta">
+<div class="meta__item-datetime meta__item">
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0a14 14 0 1 1 0 28 1 1 0 0 1 0-28m0 3a3 3 0 1 0 0 22 3 3 0 0 0 0-22m1 4h-2v8.4l6.8 4.4L22 18l-6-3.8z"/></svg><time class="meta__text" datetime="2019-09-07T21:01:42&#43;08:00">September 07, 2019</time></div></div>
+	</header>
+	<div class="content list__excerpt post__content clearfix">
+		Pipeline Pipeline Maven Integration pipeline中使用withMaven语法必须安装的插件
+Credentials Binding 凭据插件
+HTTP Request Plugin 代替curl，curl也可以调用凭据的
+Image Tag Parameter 通过harbor获取镜像列表作为参数
+simple theme jenkins的皮肤风格插件，可以美化jenkins页面
+timestamps 时间插件，可以让日志显示时间
+	</div>
+	<div class="list__footer clearfix">
+		<a class="list__footer-readmore btn" href="/posts/2019/2019-09-07-jenkins-plugins/">Read more…</a>
+	</div>
+</article><article class="list__item post">
+	
+	<header class="list__header">
+		<h2 class="list__title post__title">
+			<a href="/posts/2019/2019-06-19-ansible-28/" rel="bookmark">
+			ansible升级到2.8之后的问题
+			</a>
+		</h2>
+		<div class="list__meta meta">
+<div class="meta__item-datetime meta__item">
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0a14 14 0 1 1 0 28 1 1 0 0 1 0-28m0 3a3 3 0 1 0 0 22 3 3 0 0 0 0-22m1 4h-2v8.4l6.8 4.4L22 18l-6-3.8z"/></svg><time class="meta__text" datetime="2019-06-19T23:49:24&#43;08:00">June 19, 2019</time></div></div>
+	</header>
+	<div class="content list__excerpt post__content clearfix">
+		以前一直使用ansible1.9的版本，最近升级到2.8版本了，发现有挺多问题的。
+1、没有了-S -R参数 以前要使用su切换的话，使用-S -R就可以切换 #ansible test -S -R root -m shell -a 'ls'
+升级到2.8之后，可以使用如下命令： 一是指定用户 #ansible test &ndash;become-user=root -m shell -a &rsquo;ls'\
+	</div>
+	<div class="list__footer clearfix">
+		<a class="list__footer-readmore btn" href="/posts/2019/2019-06-19-ansible-28/">Read more…</a>
+	</div>
+</article><article class="list__item post">
+	
+	<header class="list__header">
+		<h2 class="list__title post__title">
+			<a href="/posts/2019/2019-06-01-coding-too-many-if/" rel="bookmark">
+			代码重构优化-不要用过多的if嵌套
+			</a>
+		</h2>
+		<div class="list__meta meta">
+<div class="meta__item-datetime meta__item">
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0a14 14 0 1 1 0 28 1 1 0 0 1 0-28m0 3a3 3 0 1 0 0 22 3 3 0 0 0 0-22m1 4h-2v8.4l6.8 4.4L22 18l-6-3.8z"/></svg><time class="meta__text" datetime="2019-06-01T10:41:24&#43;08:00">June 01, 2019</time></div></div>
+	</header>
+	<div class="content list__excerpt post__content clearfix">
+		不要用过多的if嵌套
+重构前：
+def project_version(request,group_name,branch_name,project_name): if branch_name and group_name and project_name: project_name_with_namespace = &#39;%s/%s&#39; %(group_name,project_name) project = gl.projects.get(project_name_with_namespace) if project: branches = [] branch = project.
+	</div>
+	<div class="list__footer clearfix">
+		<a class="list__footer-readmore btn" href="/posts/2019/2019-06-01-coding-too-many-if/">Read more…</a>
+	</div>
+</article><article class="list__item post">
+	
+	<header class="list__header">
+		<h2 class="list__title post__title">
+			<a href="/posts/2019/2019-05-14-golang-print/" rel="bookmark">
+			go语言的fmt一些打印输出函数之间的区别：Print、Println、Printf、Sprint、Fprint
+			</a>
+		</h2>
+		<div class="list__meta meta">
+<div class="meta__item-datetime meta__item">
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0a14 14 0 1 1 0 28 1 1 0 0 1 0-28m0 3a3 3 0 1 0 0 22 3 3 0 0 0 0-22m1 4h-2v8.4l6.8 4.4L22 18l-6-3.8z"/></svg><time class="meta__text" datetime="2019-05-14T14:11:13&#43;08:00">May 14, 2019</time></div></div>
+	</header>
+	<div class="content list__excerpt post__content clearfix">
+		Print：不带格式的最基础的输出函数 a := &#34;a&#34; b := &#34;b&#34; fmt.Print(a) fmt.Print(b) 输出：ab
+Println：带一个换行效果的输出函数 a := &#34;a&#34; b := &#34;b&#34; fmt.Println(a) fmt.Println(b) 输出： a\r\nb\r\n
+	</div>
+	<div class="list__footer clearfix">
+		<a class="list__footer-readmore btn" href="/posts/2019/2019-05-14-golang-print/">Read more…</a>
+	</div>
+</article><article class="list__item post">
+	
+	<header class="list__header">
+		<h2 class="list__title post__title">
+			<a href="/posts/2019/2019-05-01-golang-gomodule/" rel="bookmark">
+			go module
+			</a>
+		</h2>
+		<div class="list__meta meta">
+<div class="meta__item-datetime meta__item">
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0a14 14 0 1 1 0 28 1 1 0 0 1 0-28m0 3a3 3 0 1 0 0 22 3 3 0 0 0 0-22m1 4h-2v8.4l6.8 4.4L22 18l-6-3.8z"/></svg><time class="meta__text" datetime="2019-05-01T19:12:13&#43;08:00">May 01, 2019</time></div></div>
+	</header>
+	<div class="content list__excerpt post__content clearfix">
+		go module是Go1.11版本之后官方推出的版本管理工具，并且从Go1.13版本开始，go module将是Go语言默认的依赖管理工具。
+go module有三个可选值：off、on、auto。 GO111MODULE=off 禁用模块支持，编译时会从GOPATH和vendor文件夹中查找包。 GO111MODULE=on 启用模块支持，编译时会忽略GOPATH和vendor文件夹，只根据 go.mod下载依赖。 GO111MODULE=auto，项目根目录有go.mod文件时，开启模块支持。 使用 go module 管理依赖后会在项目根目录下生成两个文件go.mod和go.sum。
+查看自己的环境中，GO111MODULE的值。
+# go env|grep GO111MODULE GO111MODULE=&#34;&#34; 从Go1.
+	</div>
+	<div class="list__footer clearfix">
+		<a class="list__footer-readmore btn" href="/posts/2019/2019-05-01-golang-gomodule/">Read more…</a>
+	</div>
+</article><article class="list__item post">
+	
+	<header class="list__header">
+		<h2 class="list__title post__title">
+			<a href="/posts/2019/2019-04-07-golang-quote/" rel="bookmark">
+			Go中引号的不同作用：单引号、双引号、反引号
+			</a>
+		</h2>
+		<div class="list__meta meta">
+<div class="meta__item-datetime meta__item">
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0a14 14 0 1 1 0 28 1 1 0 0 1 0-28m0 3a3 3 0 1 0 0 22 3 3 0 0 0 0-22m1 4h-2v8.4l6.8 4.4L22 18l-6-3.8z"/></svg><time class="meta__text" datetime="2019-04-07T20:02:42&#43;08:00">April 07, 2019</time></div></div>
+	</header>
+	<div class="content list__excerpt post__content clearfix">
+		1、双引号“ ” 最常用的符号，常用来定义字符串。 双引号中定义的字符串支持转义字符，比如\n将输出换行。
+package main import ( &#34;fmt&#34; ) func main() { a := &#34;i&#34; b := &#34;在\\n&#34; c := &#34;这里&#34; fmt.
+	</div>
+	<div class="list__footer clearfix">
+		<a class="list__footer-readmore btn" href="/posts/2019/2019-04-07-golang-quote/">Read more…</a>
+	</div>
+</article><article class="list__item post">
+	
+	<header class="list__header">
+		<h2 class="list__title post__title">
+			<a href="/posts/2019/2019-03-27-golang-goroot-gopath/" rel="bookmark">
+			GO语言的GOROOT和GOPATH
+			</a>
+		</h2>
+		<div class="list__meta meta">
+<div class="meta__item-datetime meta__item">
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0a14 14 0 1 1 0 28 1 1 0 0 1 0-28m0 3a3 3 0 1 0 0 22 3 3 0 0 0 0-22m1 4h-2v8.4l6.8 4.4L22 18l-6-3.8z"/></svg><time class="meta__text" datetime="2019-03-27T19:42:24&#43;08:00">March 27, 2019</time></div></div>
+	</header>
+	<div class="content list__excerpt post__content clearfix">
+		GOROOT #Golang安装目录
+GOPATH #Golang项目目录
+GOPATH： src #存放源码，开发项目存放在这个目录下 bin #编译后生成的可执行文件存放目录 pkg #第三方包目录
+Go1.11版本之后官方推出go module版本管理工具，并且从Go1.13版本开始，go module将是Go语言默认的依赖管理工具。 所以后面开发项目文件就可以不用在GOPATH中的src中了。
+	</div>
+</article><article class="list__item post">
+	
+	<header class="list__header">
+		<h2 class="list__title post__title">
+			<a href="/posts/2019/2019-03-18-golang-build/" rel="bookmark">
+			Go的程序：运行和编译
+			</a>
+		</h2>
+		<div class="list__meta meta">
+<div class="meta__item-datetime meta__item">
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0a14 14 0 1 1 0 28 1 1 0 0 1 0-28m0 3a3 3 0 1 0 0 22 3 3 0 0 0 0-22m1 4h-2v8.4l6.8 4.4L22 18l-6-3.8z"/></svg><time class="meta__text" datetime="2019-03-18T20:41:13&#43;08:00">March 18, 2019</time></div></div>
+	</header>
+	<div class="content list__excerpt post__content clearfix">
+		package main import ( &#34;fmt&#34; ) func main() { fmt.Println(&#34;&#34;Hello,world!) } package 包名:必须项。 如果是要编译执行的程序，那么一定要有一个main包和main函数。
+import 库名：可选项。导入多个项包库就用（）包起来。
+func main()：主函数。 如果是要编译执行的程序，那么一定要有一个main函数。 fmt.Println(&ldquo;Hello,world!&quot;)：主程序内容，输出打印“Hello,world!”。
+	</div>
+	<div class="list__footer clearfix">
+		<a class="list__footer-readmore btn" href="/posts/2019/2019-03-18-golang-build/">Read more…</a>
+	</div>
+</article><article class="list__item post">
+	
+	<header class="list__header">
+		<h2 class="list__title post__title">
+			<a href="/posts/2019/2019-03-18-golang-goproxymd/" rel="bookmark">
+			Go设置代理，加速库的下载
+			</a>
+		</h2>
+		<div class="list__meta meta">
+<div class="meta__item-datetime meta__item">
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0a14 14 0 1 1 0 28 1 1 0 0 1 0-28m0 3a3 3 0 1 0 0 22 3 3 0 0 0 0-22m1 4h-2v8.4l6.8 4.4L22 18l-6-3.8z"/></svg><time class="meta__text" datetime="2019-03-18T19:40:53&#43;08:00">March 18, 2019</time></div></div>
+	</header>
+	<div class="content list__excerpt post__content clearfix">
+		由于很多go库很多是国外网站，所以要么下载库会很慢，或者干脆访问不了。 Golang V1.13之后支持通过设置变量GOPROXY来修改代理地址，默认的代理服务器可以改成国内地址https://goproxy.cn
+go env -w GOPROXY=&ldquo;https://goproxy.cn,direct&rdquo;
+阿里云 https://mirrors.aliyun.com/goproxy/
+nexus社区提供的 https://gonexus.dev ngoproxy.io https://goproxy.io\
+基于athens的公共服务 https://athens.azurefd.net\
+	</div>
+</article><article class="list__item post">
+	
+	<header class="list__header">
+		<h2 class="list__title post__title">
+			<a href="/posts/2018/2018-10-18-linux-sendemail/" rel="bookmark">
+			sendEmail的安装
+			</a>
+		</h2>
+		<div class="list__meta meta">
+<div class="meta__item-datetime meta__item">
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0a14 14 0 1 1 0 28 1 1 0 0 1 0-28m0 3a3 3 0 1 0 0 22 3 3 0 0 0 0-22m1 4h-2v8.4l6.8 4.4L22 18l-6-3.8z"/></svg><time class="meta__text" datetime="2018-10-18T21:12:46&#43;08:00">October 18, 2018</time></div></div>
+	</header>
+	<div class="content list__excerpt post__content clearfix">
+		注意，这款软件不是sendmail，而是另外一个简单的命令行的邮件发送工具，生产上常用它来发送告警邮件。 这款软件的安装方式就是Linux下最简单的一种软件安装方法：直接下载赋权即可使用。
+下载： 打开网站http://caspian.dotconf.net/menu/Software/SendEmail/
+可以右键，复制链接地址，使用wget下载 #wget http://caspian.dotconf.net/menu/Software/SendEmail/sendEmail-v1.56.tar.gz
+解压：
+#tar -zxvf sendEmail-v1.56.tar.gz #cd sendEmail-v1.56 把里面的主要程序复制到环境变量目录下，即可使用 #cp sendEmail /usr/bin/
+这个工具都不需要赋权，因为本身已经设置好了执行权限。 然后就可以执行此命令了。 # sendEmail -help
+	</div>
+	<div class="list__footer clearfix">
+		<a class="list__footer-readmore btn" href="/posts/2018/2018-10-18-linux-sendemail/">Read more…</a>
+	</div>
+</article><article class="list__item post">
+	
+	<header class="list__header">
+		<h2 class="list__title post__title">
+			<a href="/posts/2018/2018-08-12-linux-site/" rel="bookmark">
+			Linux运维常用的一些网站
+			</a>
+		</h2>
+		<div class="list__meta meta">
+<div class="meta__item-datetime meta__item">
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0a14 14 0 1 1 0 28 1 1 0 0 1 0-28m0 3a3 3 0 1 0 0 22 3 3 0 0 0 0-22m1 4h-2v8.4l6.8 4.4L22 18l-6-3.8z"/></svg><time class="meta__text" datetime="2018-08-12T15:59:08&#43;08:00">August 12, 2018</time></div></div>
+	</header>
+	<div class="content list__excerpt post__content clearfix">
+		一、技术问答网站 https://stackoverflow.com https://www.linuxquestions.org
+二、软件下载站： 2.1 Linux软件包下载 http://pkgs.org 各种开源的Linux(CentOS/Debian/Ubuntu)系统软件基本都有下载
+2.2 rpm包软件的下载站 http://rpmfind.net/ http://rpm.pbone.net
+2.3 主要是SUSE下的软件 https://software.opensuse.org/package/dstat 注意下拉查看显示其它版本
+2.4 托管站，有各种开源软件 http://sourceforge.net https://github.com
+	</div>
+	<div class="list__footer clearfix">
+		<a class="list__footer-readmore btn" href="/posts/2018/2018-08-12-linux-site/">Read more…</a>
+	</div>
+</article><article class="list__item post">
+	
+	<header class="list__header">
+		<h2 class="list__title post__title">
+			<a href="/posts/2018/2018-07-13-linux-base-set/" rel="bookmark">
+			生产上Linux系统投入使用前需要做的基本配置
+			</a>
+		</h2>
+		<div class="list__meta meta">
+<div class="meta__item-datetime meta__item">
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0a14 14 0 1 1 0 28 1 1 0 0 1 0-28m0 3a3 3 0 1 0 0 22 3 3 0 0 0 0-22m1 4h-2v8.4l6.8 4.4L22 18l-6-3.8z"/></svg><time class="meta__text" datetime="2018-07-13T17:07:51&#43;08:00">July 13, 2018</time></div></div>
+	</header>
+	<div class="content list__excerpt post__content clearfix">
+		平时在管理系统时，总有一些不人性化的地方，也有很多不方便管理的地方，我们可以通过修改一些系统配置来使我们管理系统更方便。
+一、系统优化 1.1 命令实时记录 编辑/etc/bashrc，添加以下两句：
+shopt -s histappend PROMPT_COMMAND=&#39;history -a&#39; 1.2 给历史命令加上执行时间 编辑/etc/profile文件，加入如下一行： export HISTTIMEFORMAT='%F %T '
+1.3 超时退出 编辑/etc/profile文件，加入如下一行： export TMOUT=3600
+	</div>
+	<div class="list__footer clearfix">
+		<a class="list__footer-readmore btn" href="/posts/2018/2018-07-13-linux-base-set/">Read more…</a>
+	</div>
+</article><article class="list__item post">
+	
+	<header class="list__header">
+		<h2 class="list__title post__title">
+			<a href="/posts/2018/2018-07-01-linux-base-operate/" rel="bookmark">
+			Linux运维生产上必须要掌握的一些配置操作
+			</a>
+		</h2>
+		<div class="list__meta meta">
+<div class="meta__item-datetime meta__item">
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0a14 14 0 1 1 0 28 1 1 0 0 1 0-28m0 3a3 3 0 1 0 0 22 3 3 0 0 0 0-22m1 4h-2v8.4l6.8 4.4L22 18l-6-3.8z"/></svg><time class="meta__text" datetime="2018-07-01T23:14:58&#43;08:00">July 01, 2018</time></div></div>
+	</header>
+	<div class="content list__excerpt post__content clearfix">
+		一、必须要熟练掌握的操作 1.1 忘记root密码（进入单用户模式） 1.2 进急救模式 1.3 配置IP地址 1.4 配置主机名 1.5 扫描磁盘、磁盘分区、挂载分区 1.6 LVM卷组管理 1.7 分区的扩展和收缩 1.8 VNC设置 1.9 定时设置
+二、详细配置步骤 2.
+	</div>
+	<div class="list__footer clearfix">
+		<a class="list__footer-readmore btn" href="/posts/2018/2018-07-01-linux-base-operate/">Read more…</a>
+	</div>
+</article><article class="list__item post">
+	
+	<header class="list__header">
+		<h2 class="list__title post__title">
+			<a href="/posts/2018/2018-07-01-linux-softtool-setup/" rel="bookmark">
+			Linux系统上软件的安装
+			</a>
+		</h2>
+		<div class="list__meta meta">
+<div class="meta__item-datetime meta__item">
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0a14 14 0 1 1 0 28 1 1 0 0 1 0-28m0 3a3 3 0 1 0 0 22 3 3 0 0 0 0-22m1 4h-2v8.4l6.8 4.4L22 18l-6-3.8z"/></svg><time class="meta__text" datetime="2018-07-01T22:25:54&#43;08:00">July 01, 2018</time></div></div>
+	</header>
+	<div class="content list__excerpt post__content clearfix">
+		Linux的软件安装，一般都需要借助于命令或者需要提前设置好库环境才行，没有Windows安装软件那么方便快捷，这也是Linux在桌面领域一直输于Windows的一个原因之一。
+一、Linux软件发布形式 Linux软件主要有三种发布形式：
+1.1 源码发布 直接源码压缩打包方式，后缀一般为tar.gz,tar.bz2,zip这类文件，这种源码包Linux/Unix各大平台都能支持安装。
+1.2 发行版本自定义打包方式 发行版本自己定义的软件打包方式，如RedHat的RPM包，debian的deb包。
+1.3 编译好的软件 厂商自己编译打包好的软件，直接赋予执行权限就可以执行的软件包。
+二、Linux软件安装方式 根据软件发布方式的不同，安装方法也不同，主要有四种方法：
+2.1 源码编译安装 源码方式的软件包安装，需要gcc工具支持，Linux/Unix等系统平台都支持安装，但需要耗费比较长的时间进行编译。 源码安装一般都是四步： 2.1.1 解压压缩包 tar -zxvf *.
+	</div>
+	<div class="list__footer clearfix">
+		<a class="list__footer-readmore btn" href="/posts/2018/2018-07-01-linux-softtool-setup/">Read more…</a>
+	</div>
+</article><article class="list__item post">
+	
+	<header class="list__header">
+		<h2 class="list__title post__title">
+			<a href="/posts/2018/2018-05-31-mysql-sync-error/" rel="bookmark">
+			一次MySQL主备同步出错恢复
+			</a>
+		</h2>
+		<div class="list__meta meta">
+<div class="meta__item-datetime meta__item">
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0a14 14 0 1 1 0 28 1 1 0 0 1 0-28m0 3a3 3 0 1 0 0 22 3 3 0 0 0 0-22m1 4h-2v8.4l6.8 4.4L22 18l-6-3.8z"/></svg><time class="meta__text" datetime="2018-05-31T22:36:10&#43;08:00">May 31, 2018</time></div></div>
+	</header>
+	<div class="content list__excerpt post__content clearfix">
+		错误提示：
+Last_IO_Errno: 1236 Last_IO_Error: Got fatal error 1236 from master when reading data from binary log: &#39;Client requested master to start replication from position &gt; file size; the first event &#39;mysql-bin.
+	</div>
+	<div class="list__footer clearfix">
+		<a class="list__footer-readmore btn" href="/posts/2018/2018-05-31-mysql-sync-error/">Read more…</a>
+	</div>
+</article><article class="list__item post">
+	
+	<header class="list__header">
+		<h2 class="list__title post__title">
+			<a href="/posts/2018/2018-05-31-mysql-cant-find-file/" rel="bookmark">
+			[MySQL错误]Can&#39;t find file: ./mysql/plugin.frm
+			</a>
+		</h2>
+		<div class="list__meta meta">
+<div class="meta__item-datetime meta__item">
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0a14 14 0 1 1 0 28 1 1 0 0 1 0-28m0 3a3 3 0 1 0 0 22 3 3 0 0 0 0-22m1 4h-2v8.4l6.8 4.4L22 18l-6-3.8z"/></svg><time class="meta__text" datetime="2018-05-31T00:17:33&#43;08:00">May 31, 2018</time></div></div>
+	</header>
+	<div class="content list__excerpt post__content clearfix">
+		错误提示：
+/usr/libexec/mysqld: Can&#39;t find file: &#39;./mysql/plugin.frm&#39; (errno: 13) 180530 15:19:43 [ERROR] Can&#39;t open the mysql.plugin table. Please run mysql_upgrade to create it.
+	</div>
+	<div class="list__footer clearfix">
+		<a class="list__footer-readmore btn" href="/posts/2018/2018-05-31-mysql-cant-find-file/">Read more…</a>
+	</div>
+</article><article class="list__item post">
+	
+	<header class="list__header">
+		<h2 class="list__title post__title">
+			<a href="/posts/2017/2017-08-30-solaris-zfs/" rel="bookmark">
+			恢复已销毁的 ZFS 存储池
+			</a>
+		</h2>
+		<div class="list__meta meta">
+<div class="meta__item-datetime meta__item">
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0a14 14 0 1 1 0 28 1 1 0 0 1 0-28m0 3a3 3 0 1 0 0 22 3 3 0 0 0 0-22m1 4h-2v8.4l6.8 4.4L22 18l-6-3.8z"/></svg><time class="meta__text" datetime="2017-08-30T20:58:45&#43;08:00">August 30, 2017</time></div></div>
+	</header>
+	<div class="content list__excerpt post__content clearfix">
+		同事发个消息给我，说大事不好了，他用zpool destroy命令把盘销毁了，但是现在突然发现里面还有东西，又想恢复。
+我说别慌，冷静，我有一招，马上能恢复。
+祭出神命令
+#zpool import -D 可以查看哪些盘被销毁了，盘的状态怎么样，能不能恢复 pool: backup id: 5154272182900538157 state: ONLINE (DESTROYED) action: The pool can be imported using its name or numeric identifier.
+	</div>
+	<div class="list__footer clearfix">
+		<a class="list__footer-readmore btn" href="/posts/2017/2017-08-30-solaris-zfs/">Read more…</a>
+	</div>
+</article><article class="list__item post">
+	
+	<header class="list__header">
+		<h2 class="list__title post__title">
+			<a href="/posts/2017/2015-06-31-clamav/" rel="bookmark">
+			Linux下杀毒软件clamav的安装和使用
+			</a>
+		</h2>
+		<div class="list__meta meta">
+<div class="meta__item-datetime meta__item">
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0a14 14 0 1 1 0 28 1 1 0 0 1 0-28m0 3a3 3 0 1 0 0 22 3 3 0 0 0 0-22m1 4h-2v8.4l6.8 4.4L22 18l-6-3.8z"/></svg><time class="meta__text" datetime="2017-06-30T17:07:19&#43;08:00">June 30, 2017</time></div></div>
+	</header>
+	<div class="content list__excerpt post__content clearfix">
+		最近发现有台服务器中毒了，手动去查杀总是会有遗漏，最后安装了Linux下的杀毒软件clamav，使用起来还是不错的。
+环境： Linux 6.8
+版本： clamav-0.99.2.tar.gz
+依赖关系： yum install pcre* zlib zlib-devel libssl-devel libssl openssl version 0.9.8 or higher
+一.安装clamav 有两种方法安装：
+	</div>
+	<div class="list__footer clearfix">
+		<a class="list__footer-readmore btn" href="/posts/2017/2015-06-31-clamav/">Read more…</a>
+	</div>
+</article>
+</main>
+
+<div class="pagination">
+	<a class="pagination__item pagination__item--prev btn" href="/posts/">«</a>
+	<span class="pagination__item pagination__item--current">2/3</span>
+	<a class="pagination__item pagination__item--next btn" href="/posts/page/3/">»</a>
+</div>
+
+			</div>
+			
+<aside class="sidebar">
+<div class="widget-recent widget">
+	<h4 class="widget__title">Recent Posts</h4>
+	<div class="widget__content">
+		<ul class="widget__list">
+			<li class="widget__item"><a class="widget__link" href="/posts/2022/2022-05-08-k8s-docker-remove/">kubernetes1.24版本开始不再直接支持Docker</a></li>
+			<li class="widget__item"><a class="widget__link" href="/posts/2022/2022-03-06-k8s-kubectl-auto/">让kubectl命令能自动补全</a></li>
+			<li class="widget__item"><a class="widget__link" href="/posts/2021/2021-12-01-k8s-minikube-k3s/">k8s环境的几个替代产品-可用于入门、测试和开发等环境</a></li>
+			<li class="widget__item"><a class="widget__link" href="/posts/2021/2021-11-16-k8s-coredns/">在Kubernetes中自定义域名解析</a></li>
+			<li class="widget__item"><a class="widget__link" href="/posts/2021/2021-11-15-k8s-record-rollout/">Kubernetes更新和回滚</a></li>
+		</ul>
+	</div>
+</div>
+<div class="widget-taglist widget">
+	<h4 class="widget__title">Tags</h4>
+	<div class="widget__content">
+		<a class="widget-taglist__link widget__link btn" href="/tags/ansible/" title="ansible">ansible</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/clamav/" title="clamav">clamav</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/coding/" title="coding">coding</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/dashboard/" title="dashboard">dashboard</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/do_ypcall/" title="do_ypcall">do_ypcall</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/docker/" title="Docker">Docker</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/expect/" title="expect">expect</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/fdisk/" title="fdisk">fdisk</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/go-module/" title="go module">go module</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/gopath/" title="GOPATH">GOPATH</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/goproxy/" title="GOPROXY">GOPROXY</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/goroot/" title="GOROOT">GOROOT</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/go%E8%AF%AD%E8%A8%80/" title="go语言">go语言</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/history/" title="history">history</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/influxdb/" title="InfluxDB">InfluxDB</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/ip%E9%99%90%E5%88%B6/" title="IP限制">IP限制</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/jenkins/" title="jenkins">jenkins</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/k3s/" title="k3s">k3s</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/k8s/" title="k8s">k8s</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/kubernetes/" title="Kubernetes">Kubernetes</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/kvm/" title="kvm">kvm</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/linux/" title="linux">linux</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/linux-site/" title="linux site">linux site</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/lsehll/" title="lsehll">lsehll</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/mkfifo/" title="mkfifo">mkfifo</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/mysql/" title="mysql">mysql</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/mysql%E9%94%99%E8%AF%AF/" title="MySQL错误">MySQL错误</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/ntp/" title="ntp">ntp</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/parted/" title="parted">parted</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/print/" title="Print">Print</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/puppet/" title="Puppet">Puppet</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/rancher/" title="rancher">rancher</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/saltstack/" title="SaltStack">SaltStack</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/script/" title="script">script</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/scriptreplay/" title="scriptreplay">scriptreplay</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/sendemail/" title="sendEmail">sendEmail</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/shell/" title="shell">shell</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/solaris/" title="solaris">solaris</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/sshpass/" title="sshpass">sshpass</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/suse/" title="suse">suse</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/tar%E5%A4%87%E4%BB%BD%E6%81%A2%E5%A4%8D/" title="tar备份恢复">tar备份恢复</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/tcp_wrappers/" title="tcp_wrappers">tcp_wrappers</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/telnet-server/" title="telnet server">telnet server</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/ypbind/" title="ypbind">ypbind</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/zfs/" title="zfs">zfs</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E4%B8%BB%E5%A4%87%E5%90%8C%E6%AD%A5/" title="主备同步">主备同步</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E5%83%B5%E5%B0%B8%E8%BF%9B%E7%A8%8B/" title="僵尸进程">僵尸进程</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E5%9F%BA%E6%9C%AC%E9%85%8D%E7%BD%AE%E6%93%8D%E4%BD%9C/" title="基本配置操作">基本配置操作</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E5%A0%A1%E5%9E%92%E6%9C%BA/" title="堡垒机">堡垒机</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E6%95%85%E9%9A%9C%E5%88%86%E6%9E%90/" title="故障分析">故障分析</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E6%9D%80%E6%AF%92%E8%BD%AF%E4%BB%B6/" title="杀毒软件">杀毒软件</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E8%87%AA%E5%8A%A8%E6%8C%82%E8%BD%BD/" title="自动挂载">自动挂载</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E8%BD%AF%E4%BB%B6%E5%AE%89%E8%A3%85/" title="软件安装">软件安装</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E8%BF%90%E7%BB%B4%E5%B7%A5%E7%A8%8B%E5%B8%88/" title="运维工程师">运维工程师</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E9%98%B2%E7%81%AB%E5%A2%99/" title="防火墙">防火墙</a>
+	</div>
+</div>
+</aside>
+		</div>
+		<footer class="footer">
+	<div class="container footer__container flex">
+		
+		<div class="footer__copyright">
+			&copy; 2024 IT兵的技术小站.
+			<span class="footer__copyright-credits">Generated with <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/Vimux/Mainroad/" rel="nofollow noopener" target="_blank">Mainroad</a> theme.</span>
+		</div>
+	</div>
+</footer>
+	</div>
+<script async defer src="/js/menu.js"></script>
+</body>
+</html>

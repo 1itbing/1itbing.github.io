@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>软件安装 on IT兵的技术小站</title>
+    <link>http://itbing.cn/tags/%E8%BD%AF%E4%BB%B6%E5%AE%89%E8%A3%85/</link>
+    <description>Recent content in 软件安装 on IT兵的技术小站</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Sun, 01 Jul 2018 22:25:54 +0800</lastBuildDate><atom:link href="http://itbing.cn/tags/%E8%BD%AF%E4%BB%B6%E5%AE%89%E8%A3%85/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Linux系统上软件的安装</title>
+      <link>http://itbing.cn/posts/2018/2018-07-01-linux-softtool-setup/</link>
+      <pubDate>Sun, 01 Jul 2018 22:25:54 +0800</pubDate>
+      
+      <guid>http://itbing.cn/posts/2018/2018-07-01-linux-softtool-setup/</guid>
+      <description>Linux的软件安装，一般都需要借助于命令或者需要提前设置好库环境才行，没有Windows安装软件那么方便快捷，这也是Linux在桌面领域一直输于Windows的一个原因之一。
+一、Linux软件发布形式 Linux软件主要有三种发布形式：
+1.1 源码发布 直接源码压缩打包方式，后缀一般为tar.gz,tar.bz2,zip这类文件，这种源码包Linux/Unix各大平台都能支持安装。
+1.2 发行版本自定义打包方式 发行版本自己定义的软件打包方式，如RedHat的RPM包，debian的deb包。
+1.3 编译好的软件 厂商自己编译打包好的软件，直接赋予执行权限就可以执行的软件包。
+二、Linux软件安装方式 根据软件发布方式的不同，安装方法也不同，主要有四种方法：
+2.1 源码编译安装 源码方式的软件包安装，需要gcc工具支持，Linux/Unix等系统平台都支持安装，但需要耗费比较长的时间进行编译。 源码安装一般都是四步： 2.1.1 解压压缩包 tar -zxvf *.</description>
+    </item>
+    
+  </channel>
+</rss>

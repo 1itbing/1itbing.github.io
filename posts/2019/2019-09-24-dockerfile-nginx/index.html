@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>通过实例讲解Docker：Dockerfile构建镜像创建Nginx服务 - IT兵的技术小站</title>
+	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
+	<meta name="description" content="">
+		<meta property="og:title" content="通过实例讲解Docker：Dockerfile构建镜像创建Nginx服务" />
+<meta property="og:description" content="前一篇文章讲了用Docker普通方法创建Tomcat服务，大家对Docker容器已经有了一定的认识。 Docker更好的地方是可以完全定制化自己的镜像和容器。
+我们可以通过创建Dockerfile文件定制化自己的镜像。 Dockerfile文件支持的指令大概有十三个： FROM MAINTAINER RUN CMD EXPOSE ENV ADD COPY ENTRYPOINT VOLUME USER WORKDIR
+通过这十三个命令，我们就可以构建我们自己的镜像了。
+首先，创建一个目录，用于存放Dockerfile文件和制作镜像需要的一些文件。 # mkdir nginx # cd nginx # vim Dockerfile FROM centos:7 MAINTAINER itbing xxxxx@qq." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://itbing.cn/posts/2019/2019-09-24-dockerfile-nginx/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2019-09-24T20:49:30+08:00" />
+<meta property="article:modified_time" content="2019-09-24T20:49:30+08:00" />
+
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link rel="dns-prefetch" href="//fonts.googleapis.com">
+	<link rel="dns-prefetch" href="//fonts.gstatic.com">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700">
+
+	<link rel="stylesheet" href="/css/style.css">
+	
+
+	<link rel="shortcut icon" href="/favicon.ico">
+		
+		
+</head>
+<body class="body">
+	<div class="container container--outer">
+		<header class="header">
+	<div class="container header__container">
+		
+	<div class="logo">
+		<a class="logo__link" href="/" title="IT兵的技术小站" rel="home">
+			<div class="logo__item logo__text">
+					<div class="logo__title">IT兵的技术小站</div>
+					
+				</div>
+		</a>
+	</div>
+		<div class="divider"></div>
+	</div>
+</header>
+		<div class="wrapper flex">
+			<div class="primary">
+			
+<main class="main" role="main">
+	<article class="post">
+		<header class="post__header">
+			<h1 class="post__title">通过实例讲解Docker：Dockerfile构建镜像创建Nginx服务</h1>
+			<div class="post__meta meta">
+<div class="meta__item-datetime meta__item">
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0a14 14 0 1 1 0 28 1 1 0 0 1 0-28m0 3a3 3 0 1 0 0 22 3 3 0 0 0 0-22m1 4h-2v8.4l6.8 4.4L22 18l-6-3.8z"/></svg><time class="meta__text" datetime="2019-09-24T20:49:30&#43;08:00">September 24, 2019</time></div></div>
+		</header>
+		<div class="content post__content clearfix">
+			<p>前一篇文章讲了用Docker普通方法创建Tomcat服务，大家对Docker容器已经有了一定的认识。
+Docker更好的地方是可以完全定制化自己的镜像和容器。</p>
+<p>我们可以通过创建Dockerfile文件定制化自己的镜像。
+Dockerfile文件支持的指令大概有十三个：
+FROM
+MAINTAINER
+RUN
+CMD
+EXPOSE
+ENV
+ADD
+COPY
+ENTRYPOINT
+VOLUME
+USER
+WORKDIR</p>
+<p>通过这十三个命令，我们就可以构建我们自己的镜像了。</p>
+<h3 id="首先创建一个目录用于存放dockerfile文件和制作镜像需要的一些文件">首先，创建一个目录，用于存放Dockerfile文件和制作镜像需要的一些文件。</h3>
+<pre tabindex="0"><code># mkdir nginx
+# cd nginx
+# vim Dockerfile
+FROM centos:7
+MAINTAINER itbing xxxxx@qq.com
+RUN yum install -y gcc gcc-c++ make openssl-devel pcre-devel 
+ADD nginx-1.14.2.tar.gz /tmp
+
+RUN cd /tmp/nginx-1.14.2 &amp;&amp; ./configure --prefix=/usr/local/nginx &amp;&amp; make -j 2 &amp;&amp; make install
+
+RUN rm -rf /tmp/nginx-1.14.2 
+COPY nginx.conf /usr/local/nginx/conf
+WORKDIR /usr/local/nginx 
+EXPOSE 80
+CMD [“./sbin/nginx“, “-g“, “daemon off;“]
+</code></pre><p>FROM centos:7：以centos7为基础源的镜像。FROM一定是第一句。要部署任何应用，必须要先有一个基础环境才能运行。基础操作系统还可以是Ubuntu/Debian/RHEL等等。根据你要部署的应用选择合适的基础源镜像。
+MAINTAINER itbing <a href="mailto:xxxxx@qq.com">xxxxx@qq.com</a>：指定镜像制作者的用户名和邮箱地址。
+RUN：要在创建镜像时执行的命令。
+ADD:添加本地文件进镜像中。添加压缩文件时，会自动解压。COPY命令也是添加本地文件进镜像中，但不会解压压缩文件。
+WORKDIR：指定当前工作的目录。后面执行命令时，都是在这个工作目录中。
+EXPOSE：容器对外映射出来的端口。
+CMD [&quot;./sbin/nginx&quot;, &ldquo;-g&rdquo;, &ldquo;daemon off;&quot;]：在容器内开启应用的命令。CMD只能有一个，如果有多个的话，以最后一个为准。</p>
+<p>创建好Dockerfile文件后，还需要把Dockerfile文件用到的文件跟Dockerfile文件放在同一个目录下。</p>
+<p>最终目录内容：</p>
+<pre tabindex="0"><code># ls
+Dockerfile nginx-1.14.2.tar.gz  nginx.conf
+</code></pre><p>文件准备齐全后，就可以使用docker image build来创建出一个镜像了。
+<code>docker image build -t 名称:tag -f Dockerfile名称 .</code>
+注意：最后有一个“.&quot;，表示当前目录。</p>
+<p>进入到存放Dockerfile文件的目录内</p>
+<pre tabindex="0"><code># cd nginx
+# docker image build -t nginx:v1 -f Dockerfile .
+Step 1/10 : FROM centos:7
+7: Pulling from library/centos
+d8d02d457314: Pull complete 
+Digest: sha256:307835c385f656ec2e2fec602cf093224173c51119bbebd602c53c3653a3d6eb
+Status: Downloaded newer image for centos:7
+ ---&gt;; 67fa590cfc1c
+Step 2/10 : MAINTAINER itbing xxxxx@qq.com
+ ---&gt;; Running in 1cf2e4ea263c
+Removing intermediate container 1cf2e4ea263c
+ ---&gt;; e7160a3c6fe7
+Step 3/10 : RUN yum install -y gcc gcc-c++ make openssl-devel pcre-devel
+ ---&gt;; Running in 9c3b0596fbf2
+Loaded plugins: fastestmirror, ovl
+Determining fastest mirrors
+ * base: mirrors.aliyun.com
+ * extras: mirrors.aliyun.com
+ * updates: mirrors.163.com
+Resolving Dependencies
+--&gt;; Running transaction check
+---&gt;; Package gcc.x86_64 0:4.8.5-39.el7 will be installed
+--&gt;; Processing Dependency: libgomp = 4.8.5-39.el7 for package: gcc-4.8.5-39.el7.x86_64
+--&gt;; Processing Dependency: cpp = 4.8.5-39.el7 for package: gcc-4.8.5-39.el7.x86_64
+--&gt;; Processing Dependency: libgcc &gt;;= 4.8.5-39.el7 for package: gcc-4.8.5-39.el7.x86_64
+--&gt;; Processing Dependency: glibc-devel &gt;;= 2.2.90-12 for package: gcc-4.8.5-39.el7.x86_64
+--&gt;; Processing Dependency: libmpfr.so.4()(64bit) for package: gcc-4.8.5-39.el7.x86_64
+--&gt;; Processing Dependency: libmpc.so.3()(64bit) for package: gcc-4.8.5-39.el7.x86_64
+--&gt;; Processing Dependency: libgomp.so.1()(64bit) for package: gcc-4.8.5-39.el7.x86_64
+---&gt;; Package gcc-c++.x86_64 0:4.8.5-39.el7 will be installed
+--&gt;; Processing Dependency: libstdc++-devel = 4.8.5-39.el7 for package: gcc-c++-4.8.5-39.el7.x86_64
+--&gt;; Processing Dependency: libstdc++ = 4.8.5-39.el7 for package: gcc-c++-4.8.5-39.el7.x86_64
+---&gt;; Package make.x86_64 1:3.82-24.el7 will be installed
+---&gt;; Package openssl-devel.x86_64 1:1.0.2k-19.el7 will be installed
+--&gt;; Processing Dependency: openssl-libs(x86-64) = 1:1.0.2k-19.el7 for package: 1:openssl-devel-1.0.2k-19.el7.x86_64
+--&gt;; Processing Dependency: zlib-devel(x86-64) for package: 1:openssl-devel-1.0.2k-19.el7.x86_64
+--&gt;; Processing Dependency: krb5-devel(x86-64) for package: 1:openssl-devel-1.0.2k-19.el7.x86_64
+---&gt;; Package pcre-devel.x86_64 0:8.32-17.el7 will be installed
+--&gt;; Running transaction check
+---&gt;; Package cpp.x86_64 0:4.8.5-39.el7 will be installed
+---&gt;; Package glibc-devel.x86_64 0:2.17-292.el7 will be installed
+--&gt;; Processing Dependency: glibc-headers = 2.17-292.el7 for package: glibc-devel-2.17-292.el7.x86_64
+--&gt;; Processing Dependency: glibc = 2.17-292.el7 for package: glibc-devel-2.17-292.el7.x86_64
+--&gt;; Processing Dependency: glibc-headers for package: glibc-devel-2.17-292.el7.x86_64
+---&gt;; Package krb5-devel.x86_64 0:1.15.1-37.el7_7.2 will be installed
+--&gt;; Processing Dependency: libkadm5(x86-64) = 1.15.1-37.el7_7.2 for package: krb5-devel-1.15.1-37.el7_7.2.x86_64
+--&gt;; Processing Dependency: krb5-libs(x86-64) = 1.15.1-37.el7_7.2 for package: krb5-devel-1.15.1-37.el7_7.2.x86_64
+--&gt;; Processing Dependency: libverto-devel for package: krb5-devel-1.15.1-37.el7_7.2.x86_64
+--&gt;; Processing Dependency: libselinux-devel for package: krb5-devel-1.15.1-37.el7_7.2.x86_64
+--&gt;; Processing Dependency: libcom_err-devel for package: krb5-devel-1.15.1-37.el7_7.2.x86_64
+--&gt;; Processing Dependency: keyutils-libs-devel for package: krb5-devel-1.15.1-37.el7_7.2.x86_64
+---&gt;; Package libgcc.x86_64 0:4.8.5-36.el7_6.2 will be updated
+---&gt;; Package libgcc.x86_64 0:4.8.5-39.el7 will be an update
+---&gt;; Package libgomp.x86_64 0:4.8.5-39.el7 will be installed
+---&gt;; Package libmpc.x86_64 0:1.0.1-3.el7 will be installed
+---&gt;; Package libstdc++.x86_64 0:4.8.5-36.el7_6.2 will be updated
+---&gt;; Package libstdc++.x86_64 0:4.8.5-39.el7 will be an update
+---&gt;; Package libstdc++-devel.x86_64 0:4.8.5-39.el7 will be installed
+---&gt;; Package mpfr.x86_64 0:3.1.1-4.el7 will be installed
+---&gt;; Package openssl-libs.x86_64 1:1.0.2k-16.el7_6.1 will be updated
+---&gt;; Package openssl-libs.x86_64 1:1.0.2k-19.el7 will be an update
+---&gt;; Package zlib-devel.x86_64 0:1.2.7-18.el7 will be installed
+--&gt;; Running transaction check
+---&gt;; Package glibc.x86_64 0:2.17-260.el7_6.6 will be updated
+--&gt;; Processing Dependency: glibc = 2.17-260.el7_6.6 for package: glibc-common-2.17-260.el7_6.6.x86_64
+---&gt;; Package glibc.x86_64 0:2.17-292.el7 will be an update
+---&gt;; Package glibc-headers.x86_64 0:2.17-292.el7 will be installed
+--&gt;; Processing Dependency: kernel-headers &gt;;= 2.2.1 for package: glibc-headers-2.17-292.el7.x86_64
+--&gt;; Processing Dependency: kernel-headers for package: glibc-headers-2.17-292.el7.x86_64
+---&gt;; Package keyutils-libs-devel.x86_64 0:1.5.8-3.el7 will be installed
+---&gt;; Package krb5-libs.x86_64 0:1.15.1-37.el7_6 will be updated
+---&gt;; Package krb5-libs.x86_64 0:1.15.1-37.el7_7.2 will be an update
+---&gt;; Package libcom_err-devel.x86_64 0:1.42.9-16.el7 will be installed
+--&gt;; Processing Dependency: libcom_err(x86-64) = 1.42.9-16.el7 for package: libcom_err-devel-1.42.9-16.el7.x86_64
+---&gt;; Package libkadm5.x86_64 0:1.15.1-37.el7_7.2 will be installed
+---&gt;; Package libselinux-devel.x86_64 0:2.5-14.1.el7 will be installed
+--&gt;; Processing Dependency: libsepol-devel(x86-64) &gt;;= 2.5-10 for package: libselinux-devel-2.5-14.1.el7.x86_64
+--&gt;; Processing Dependency: pkgconfig(libsepol) for package: libselinux-devel-2.5-14.1.el7.x86_64
+---&gt;; Package libverto-devel.x86_64 0:0.2.5-4.el7 will be installed
+--&gt;; Running transaction check
+---&gt;; Package glibc-common.x86_64 0:2.17-260.el7_6.6 will be updated
+---&gt;; Package glibc-common.x86_64 0:2.17-292.el7 will be an update
+---&gt;; Package kernel-headers.x86_64 0:3.10.0-1062.1.1.el7 will be installed
+---&gt;; Package libcom_err.x86_64 0:1.42.9-13.el7 will be updated
+---&gt;; Package libcom_err.x86_64 0:1.42.9-16.el7 will be an update
+---&gt;; Package libsepol-devel.x86_64 0:2.5-10.el7 will be installed
+--&gt;; Finished Dependency Resolution
+
+Dependencies Resolved
+
+================================================================================
+ Package                 Arch       Version                   Repository   Size
+================================================================================
+Installing:
+ gcc                     x86_64     4.8.5-39.el7              base         16 M
+ gcc-c++                 x86_64     4.8.5-39.el7              base        7.2 M
+ make                    x86_64     1:3.82-24.el7             base        421 k
+ openssl-devel           x86_64     1:1.0.2k-19.el7           base        1.5 M
+ pcre-devel              x86_64     8.32-17.el7               base        480 k
+Installing for dependencies:
+ cpp                     x86_64     4.8.5-39.el7              base        5.9 M
+ glibc-devel             x86_64     2.17-292.el7              base        1.1 M
+ glibc-headers           x86_64     2.17-292.el7              base        687 k
+ kernel-headers          x86_64     3.10.0-1062.1.1.el7       updates     8.7 M
+ keyutils-libs-devel     x86_64     1.5.8-3.el7               base         37 k
+ krb5-devel              x86_64     1.15.1-37.el7_7.2         updates     272 k
+ libcom_err-devel        x86_64     1.42.9-16.el7             base         32 k
+ libgomp                 x86_64     4.8.5-39.el7              base        158 k
+ libkadm5                x86_64     1.15.1-37.el7_7.2         updates     178 k
+ libmpc                  x86_64     1.0.1-3.el7               base         51 k
+ libselinux-devel        x86_64     2.5-14.1.el7              base        187 k
+ libsepol-devel          x86_64     2.5-10.el7                base         77 k
+ libstdc++-devel         x86_64     4.8.5-39.el7              base        1.5 M
+ libverto-devel          x86_64     0.2.5-4.el7               base         12 k
+ mpfr                    x86_64     3.1.1-4.el7               base        203 k
+ zlib-devel              x86_64     1.2.7-18.el7              base         50 k
+Updating for dependencies:
+ glibc                   x86_64     2.17-292.el7              base        3.6 M
+ glibc-common            x86_64     2.17-292.el7              base         11 M
+ krb5-libs               x86_64     1.15.1-37.el7_7.2         updates     805 k
+ libcom_err              x86_64     1.42.9-16.el7             base         41 k
+ libgcc                  x86_64     4.8.5-39.el7              base        102 k
+ libstdc++               x86_64     4.8.5-39.el7              base        305 k
+ openssl-libs            x86_64     1:1.0.2k-19.el7           base        1.2 M
+
+Transaction Summary
+================================================================================
+Install  5 Packages (+16 Dependent packages)
+Upgrade             (  7 Dependent packages)
+
+Total download size: 62 M
+Downloading packages:
+Delta RPMs disabled because /usr/bin/applydeltarpm not installed.
+warning: /var/cache/yum/x86_64/7/base/packages/gcc-c++-4.8.5-39.el7.x86_64.rpm: Header V3 RSA/SHA256 Signature, key ID f4a80eb5: NOKEY
+Public key for gcc-c++-4.8.5-39.el7.x86_64.rpm is not installed
+Public key for krb5-devel-1.15.1-37.el7_7.2.x86_64.rpm is not installed
+--------------------------------------------------------------------------------
+Total                                              3.6 MB/s |  62 MB  00:17     
+Retrieving key from file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-7
+Importing GPG key 0xF4A80EB5:
+ Userid     : “CentOS-7 Key (CentOS 7 Official Signing Key) &amp;lt;security@centos.org&gt;;“
+ Fingerprint: 6341 ab27 53d7 8a78 a7c2 7bb1 24c6 a8a7 f4a8 0eb5
+ Package    : centos-release-7-6.1810.2.el7.centos.x86_64 (@CentOS)
+ From       : /etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-7
+Running transaction check
+Running transaction test
+Transaction test succeeded
+Running transaction
+  Updating   : libgcc-4.8.5-39.el7.x86_64                                  1/35 
+  Updating   : glibc-2.17-292.el7.x86_64                                   2/35 
+warning: /etc/nsswitch.conf created as /etc/nsswitch.conf.rpmnew
+  Updating   : glibc-common-2.17-292.el7.x86_64                            3/35 
+  Updating   : libcom_err-1.42.9-16.el7.x86_64                             4/35 
+  Installing : mpfr-3.1.1-4.el7.x86_64                                     5/35 
+  Installing : libmpc-1.0.1-3.el7.x86_64                                   6/35 
+  Updating   : krb5-libs-1.15.1-37.el7_7.2.x86_64                          7/35 
+  Updating   : 1:openssl-libs-1.0.2k-19.el7.x86_64                         8/35 
+  Updating   : libstdc++-4.8.5-39.el7.x86_64                               9/35 
+  Installing : libstdc++-devel-4.8.5-39.el7.x86_64                        10/35 
+  Installing : libkadm5-1.15.1-37.el7_7.2.x86_64                          11/35 
+  Installing : cpp-4.8.5-39.el7.x86_64                                    12/35 
+  Installing : libcom_err-devel-1.42.9-16.el7.x86_64                      13/35 
+  Installing : libgomp-4.8.5-39.el7.x86_64                                14/35 
+  Installing : kernel-headers-3.10.0-1062.1.1.el7.x86_64                  15/35 
+  Installing : glibc-headers-2.17-292.el7.x86_64                          16/35 
+  Installing : glibc-devel-2.17-292.el7.x86_64                            17/35 
+  Installing : gcc-4.8.5-39.el7.x86_64                                    18/35 
+  Installing : zlib-devel-1.2.7-18.el7.x86_64                             19/35 
+  Installing : libverto-devel-0.2.5-4.el7.x86_64                          20/35 
+  Installing : libsepol-devel-2.5-10.el7.x86_64                           21/35 
+  Installing : pcre-devel-8.32-17.el7.x86_64                              22/35 
+  Installing : libselinux-devel-2.5-14.1.el7.x86_64                       23/35 
+  Installing : keyutils-libs-devel-1.5.8-3.el7.x86_64                     24/35 
+  Installing : krb5-devel-1.15.1-37.el7_7.2.x86_64                        25/35 
+  Installing : 1:openssl-devel-1.0.2k-19.el7.x86_64                       26/35 
+  Installing : gcc-c++-4.8.5-39.el7.x86_64                                27/35 
+  Installing : 1:make-3.82-24.el7.x86_64                                  28/35 
+  Cleanup    : 1:openssl-libs-1.0.2k-16.el7_6.1.x86_64                    29/35 
+  Cleanup    : krb5-libs-1.15.1-37.el7_6.x86_64                           30/35 
+  Cleanup    : libstdc++-4.8.5-36.el7_6.2.x86_64                          31/35 
+  Cleanup    : libcom_err-1.42.9-13.el7.x86_64                            32/35 
+  Cleanup    : glibc-common-2.17-260.el7_6.6.x86_64                       33/35 
+  Cleanup    : glibc-2.17-260.el7_6.6.x86_64                              34/35 
+  Cleanup    : libgcc-4.8.5-36.el7_6.2.x86_64                             35/35 
+  Verifying  : keyutils-libs-devel-1.5.8-3.el7.x86_64                      1/35 
+  Verifying  : krb5-devel-1.15.1-37.el7_7.2.x86_64                         2/35 
+  Verifying  : libcom_err-devel-1.42.9-16.el7.x86_64                       3/35 
+  Verifying  : pcre-devel-8.32-17.el7.x86_64                               4/35 
+  Verifying  : gcc-4.8.5-39.el7.x86_64                                     5/35 
+  Verifying  : libstdc++-4.8.5-39.el7.x86_64                               6/35 
+  Verifying  : libsepol-devel-2.5-10.el7.x86_64                            7/35 
+  Verifying  : libverto-devel-0.2.5-4.el7.x86_64                           8/35 
+  Verifying  : zlib-devel-1.2.7-18.el7.x86_64                              9/35 
+  Verifying  : libgomp-4.8.5-39.el7.x86_64                                10/35 
+  Verifying  : 1:make-3.82-24.el7.x86_64                                  11/35 
+  Verifying  : glibc-common-2.17-292.el7.x86_64                           12/35 
+  Verifying  : libstdc++-devel-4.8.5-39.el7.x86_64                        13/35 
+  Verifying  : libgcc-4.8.5-39.el7.x86_64                                 14/35 
+  Verifying  : krb5-libs-1.15.1-37.el7_7.2.x86_64                         15/35 
+  Verifying  : gcc-c++-4.8.5-39.el7.x86_64                                16/35 
+  Verifying  : 1:openssl-devel-1.0.2k-19.el7.x86_64                       17/35 
+  Verifying  : libmpc-1.0.1-3.el7.x86_64                                  18/35 
+  Verifying  : libcom_err-1.42.9-16.el7.x86_64                            19/35 
+  Verifying  : glibc-2.17-292.el7.x86_64                                  20/35 
+  Verifying  : 1:openssl-libs-1.0.2k-19.el7.x86_64                        21/35 
+  Verifying  : kernel-headers-3.10.0-1062.1.1.el7.x86_64                  22/35 
+  Verifying  : glibc-devel-2.17-292.el7.x86_64                            23/35 
+  Verifying  : mpfr-3.1.1-4.el7.x86_64                                    24/35 
+  Verifying  : libkadm5-1.15.1-37.el7_7.2.x86_64                          25/35 
+  Verifying  : libselinux-devel-2.5-14.1.el7.x86_64                       26/35 
+  Verifying  : cpp-4.8.5-39.el7.x86_64                                    27/35 
+  Verifying  : glibc-headers-2.17-292.el7.x86_64                          28/35 
+  Verifying  : libcom_err-1.42.9-13.el7.x86_64                            29/35 
+  Verifying  : glibc-2.17-260.el7_6.6.x86_64                              30/35 
+  Verifying  : krb5-libs-1.15.1-37.el7_6.x86_64                           31/35 
+  Verifying  : libgcc-4.8.5-36.el7_6.2.x86_64                             32/35 
+  Verifying  : libstdc++-4.8.5-36.el7_6.2.x86_64                          33/35 
+  Verifying  : 1:openssl-libs-1.0.2k-16.el7_6.1.x86_64                    34/35 
+  Verifying  : glibc-common-2.17-260.el7_6.6.x86_64                       35/35 
+
+Installed:
+  gcc.x86_64 0:4.8.5-39.el7            gcc-c++.x86_64 0:4.8.5-39.el7            
+  make.x86_64 1:3.82-24.el7            openssl-devel.x86_64 1:1.0.2k-19.el7     
+  pcre-devel.x86_64 0:8.32-17.el7     
+
+Dependency Installed:
+  cpp.x86_64 0:4.8.5-39.el7                                                     
+  glibc-devel.x86_64 0:2.17-292.el7                                             
+  glibc-headers.x86_64 0:2.17-292.el7                                           
+  kernel-headers.x86_64 0:3.10.0-1062.1.1.el7                                   
+  keyutils-libs-devel.x86_64 0:1.5.8-3.el7                                      
+  krb5-devel.x86_64 0:1.15.1-37.el7_7.2                                         
+  libcom_err-devel.x86_64 0:1.42.9-16.el7                                       
+  libgomp.x86_64 0:4.8.5-39.el7                                                 
+  libkadm5.x86_64 0:1.15.1-37.el7_7.2                                           
+  libmpc.x86_64 0:1.0.1-3.el7                                                   
+  libselinux-devel.x86_64 0:2.5-14.1.el7                                        
+  libsepol-devel.x86_64 0:2.5-10.el7                                            
+  libstdc++-devel.x86_64 0:4.8.5-39.el7                                         
+  libverto-devel.x86_64 0:0.2.5-4.el7                                           
+  mpfr.x86_64 0:3.1.1-4.el7                                                     
+  zlib-devel.x86_64 0:1.2.7-18.el7                                              
+
+Dependency Updated:
+  glibc.x86_64 0:2.17-292.el7             glibc-common.x86_64 0:2.17-292.el7   
+  krb5-libs.x86_64 0:1.15.1-37.el7_7.2    libcom_err.x86_64 0:1.42.9-16.el7    
+  libgcc.x86_64 0:4.8.5-39.el7            libstdc++.x86_64 0:4.8.5-39.el7      
+  openssl-libs.x86_64 1:1.0.2k-19.el7    
+
+Complete!
+Removing intermediate container 9c3b0596fbf2
+ ---&gt;; 35cd3ea89970
+Step 4/10 : ADD nginx-1.14.2.tar.gz /tmp
+ ---&gt;; 8a4f605b8ce5
+Step 5/10 : RUN cd /tmp/nginx-1.14.2 &amp;&amp; ./configure --prefix=/usr/local/nginx &amp;&amp; make -j 2 &amp;&amp; make install
+ ---&gt;; Running in 88115d79a556
+checking for OS
+ + Linux 3.10.0-327.el7.x86_64 x86_64
+checking for C compiler ... found
+ + using GNU C compiler
+ + gcc version: 4.8.5 20150623 (Red Hat 4.8.5-39) (GCC) 
+checking for gcc -pipe switch ... found
+checking for -Wl,-E switch ... found
+.........(省略nginx编译过程).................
+test -d \&#39;/usr/local/nginx/logs\&#39; \\
+	|| mkdir -p \&#39;/usr/local/nginx/logs\&#39;
+make[1]: Leaving directory `/tmp/nginx-1.14.2\&#39;
+Removing intermediate container 88115d79a556
+ ---&gt;; fd23e067dc28
+Step 6/10 : RUN rm -rf /tmp/nginx-1.14.2
+ ---&gt;; Running in 3cdcbec35f30
+Removing intermediate container 3cdcbec35f30
+ ---&gt;; beb13f564035
+Step 7/10 : COPY nginx.conf /usr/local/nginx/conf
+ ---&gt;; 764231df92e9
+Step 8/10 : WORKDIR /usr/local/nginx
+ ---&gt;; Running in 43f45b9bedc9
+Removing intermediate container 43f45b9bedc9
+ ---&gt;; 853a1b6989f4
+Step 9/10 : EXPOSE 80
+ ---&gt;; Running in 8eeb8fa0aaf4
+Removing intermediate container 8eeb8fa0aaf4
+ ---&gt;; fdb91e8a1a74
+Step 10/10 : CMD [“./sbin/nginx“, “-g“, “daemon off;“]
+ ---&gt;; Running in 2904a157d7fc
+Removing intermediate container 2904a157d7fc
+ ---&gt;; 5dd2ed73d762
+Successfully built 5dd2ed73d762
+Successfully tagged nginx:v1
+</code></pre><p>从上面的过程中可以看出，先是下载centos7的镜像，然后在centos7镜像的基础上使用yum安装相关软件，安装完软件，把nginx-1.14.2.tar.gz包添加进镜像，然后开始编译nginx,编译完，把nginx.conf复制进了镜像中，最后是添加进启动nginx的命令。</p>
+<p>创建完成后，可以使用docker images进行查看。</p>
+<pre tabindex="0"><code># docker images
+REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
+nginx               v1                  5dd2ed73d762        11 minutes ago      400MB
+centos              7                   67fa590cfc1c        4 weeks ago         202MB
+hello-world         latest              fce289e99eb9        8 months ago        1.84kB
+</code></pre><p>其中nginx(ID：5dd2ed73d762)这个就是我们使用Dockerfile创建出来的新镜像。
+由于在创建nginx这个镜像时，引用了centos7这个镜像，所以还多出一个centos（ID： 67fa590cfc1c）的镜像。</p>
+<p>现在我们可以运行这个镜像
+<code># docker run --name nginx -p 805:80 -d nginx:v1</code></p>
+<p>&ndash;name:给运行的容器取名叫nginx
+-p:本地端口805映射内部端口80（由于我本地80端口已经被用，所以换成了805）
+nginx:v1：镜像名称如果不是最新版latest的，记得带上tag,要不然会找不到。</p>
+<p>在浏览器打开http://IP地址:805，如果出现以下画面，说明Nginx容器运行成功。</p>
+
+		</div>
+		<footer class="post__footer">
+			
+<div class="post__tags tags clearfix">
+	<svg class="tags__badge icon icon-tag" width="16" height="16" viewBox="0 0 32 32"><path d="M4 0h8s2 0 4 2l15 15s2 2 0 4L21 31s-2 2-4 0L2 16s-2-2-2-4V3s0-3 4-3m3 10a3 3 0 0 0 0-6 3 3 0 0 0 0 6"/></svg>
+	<ul class="tags__list">
+		<li class="tags__item">
+			<a class="tags__link btn" href="/tags/docker/" rel="tag">Docker</a>
+		</li>
+	</ul>
+</div>
+		</footer>
+	</article>
+</main>
+
+<div class="authorbox clearfix">
+	<div class="authorbox__header">
+		<span class="authorbox__name">About itbing</span>
+	</div>
+	<div class="authorbox__description">
+		从事于Linux/Unix系统类运维工作
+	</div>
+</div>
+
+<nav class="pager flex">
+	<div class="pager__item pager__item--prev">
+		<a class="pager__link" href="/posts/2019/2019-09-24-docker-tomcat/" rel="prev">
+			<span class="pager__subtitle">«&thinsp;Previous</span>
+			<p class="pager__title">通过实例讲解Docker：在Docker中搭建Tomcat应用</p>
+		</a>
+	</div>
+	<div class="pager__item pager__item--next">
+		<a class="pager__link" href="/posts/2019/2019-09-24-docker-images-upload/" rel="next">
+			<span class="pager__subtitle">Next&thinsp;»</span>
+			<p class="pager__title">Docker上传镜像保存</p>
+		</a>
+	</div>
+</nav>
+
+
+			</div>
+			<aside class="sidebar">
+<div class="widget-recent widget">
+	<h4 class="widget__title">Recent Posts</h4>
+	<div class="widget__content">
+		<ul class="widget__list">
+			<li class="widget__item"><a class="widget__link" href="/posts/2022/2022-05-08-k8s-docker-remove/">kubernetes1.24版本开始不再直接支持Docker</a></li>
+			<li class="widget__item"><a class="widget__link" href="/posts/2022/2022-03-06-k8s-kubectl-auto/">让kubectl命令能自动补全</a></li>
+			<li class="widget__item"><a class="widget__link" href="/posts/2021/2021-12-01-k8s-minikube-k3s/">k8s环境的几个替代产品-可用于入门、测试和开发等环境</a></li>
+			<li class="widget__item"><a class="widget__link" href="/posts/2021/2021-11-16-k8s-coredns/">在Kubernetes中自定义域名解析</a></li>
+			<li class="widget__item"><a class="widget__link" href="/posts/2021/2021-11-15-k8s-record-rollout/">Kubernetes更新和回滚</a></li>
+		</ul>
+	</div>
+</div>
+<div class="widget-taglist widget">
+	<h4 class="widget__title">Tags</h4>
+	<div class="widget__content">
+		<a class="widget-taglist__link widget__link btn" href="/tags/ansible/" title="ansible">ansible</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/clamav/" title="clamav">clamav</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/coding/" title="coding">coding</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/dashboard/" title="dashboard">dashboard</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/do_ypcall/" title="do_ypcall">do_ypcall</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/docker/" title="Docker">Docker</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/expect/" title="expect">expect</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/fdisk/" title="fdisk">fdisk</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/go-module/" title="go module">go module</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/gopath/" title="GOPATH">GOPATH</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/goproxy/" title="GOPROXY">GOPROXY</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/goroot/" title="GOROOT">GOROOT</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/go%E8%AF%AD%E8%A8%80/" title="go语言">go语言</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/history/" title="history">history</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/influxdb/" title="InfluxDB">InfluxDB</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/ip%E9%99%90%E5%88%B6/" title="IP限制">IP限制</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/jenkins/" title="jenkins">jenkins</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/k3s/" title="k3s">k3s</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/k8s/" title="k8s">k8s</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/kubernetes/" title="Kubernetes">Kubernetes</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/kvm/" title="kvm">kvm</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/linux/" title="linux">linux</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/linux-site/" title="linux site">linux site</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/lsehll/" title="lsehll">lsehll</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/mkfifo/" title="mkfifo">mkfifo</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/mysql/" title="mysql">mysql</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/mysql%E9%94%99%E8%AF%AF/" title="MySQL错误">MySQL错误</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/ntp/" title="ntp">ntp</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/parted/" title="parted">parted</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/print/" title="Print">Print</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/puppet/" title="Puppet">Puppet</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/rancher/" title="rancher">rancher</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/saltstack/" title="SaltStack">SaltStack</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/script/" title="script">script</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/scriptreplay/" title="scriptreplay">scriptreplay</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/sendemail/" title="sendEmail">sendEmail</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/shell/" title="shell">shell</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/solaris/" title="solaris">solaris</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/sshpass/" title="sshpass">sshpass</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/suse/" title="suse">suse</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/tar%E5%A4%87%E4%BB%BD%E6%81%A2%E5%A4%8D/" title="tar备份恢复">tar备份恢复</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/tcp_wrappers/" title="tcp_wrappers">tcp_wrappers</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/telnet-server/" title="telnet server">telnet server</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/ypbind/" title="ypbind">ypbind</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/zfs/" title="zfs">zfs</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E4%B8%BB%E5%A4%87%E5%90%8C%E6%AD%A5/" title="主备同步">主备同步</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E5%83%B5%E5%B0%B8%E8%BF%9B%E7%A8%8B/" title="僵尸进程">僵尸进程</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E5%9F%BA%E6%9C%AC%E9%85%8D%E7%BD%AE%E6%93%8D%E4%BD%9C/" title="基本配置操作">基本配置操作</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E5%A0%A1%E5%9E%92%E6%9C%BA/" title="堡垒机">堡垒机</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E6%95%85%E9%9A%9C%E5%88%86%E6%9E%90/" title="故障分析">故障分析</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E6%9D%80%E6%AF%92%E8%BD%AF%E4%BB%B6/" title="杀毒软件">杀毒软件</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E8%87%AA%E5%8A%A8%E6%8C%82%E8%BD%BD/" title="自动挂载">自动挂载</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E8%BD%AF%E4%BB%B6%E5%AE%89%E8%A3%85/" title="软件安装">软件安装</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E8%BF%90%E7%BB%B4%E5%B7%A5%E7%A8%8B%E5%B8%88/" title="运维工程师">运维工程师</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E9%98%B2%E7%81%AB%E5%A2%99/" title="防火墙">防火墙</a>
+	</div>
+</div>
+</aside>
+		</div>
+		<footer class="footer">
+	<div class="container footer__container flex">
+		
+		<div class="footer__copyright">
+			&copy; 2024 IT兵的技术小站.
+			<span class="footer__copyright-credits">Generated with <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/Vimux/Mainroad/" rel="nofollow noopener" target="_blank">Mainroad</a> theme.</span>
+		</div>
+	</div>
+</footer>
+	</div>
+<script async defer src="/js/menu.js"></script>
+</body>
+</html>

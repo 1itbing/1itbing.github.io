@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>coding on IT兵的技术小站</title>
+    <link>http://itbing.cn/tags/coding/</link>
+    <description>Recent content in coding on IT兵的技术小站</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Sat, 01 Jun 2019 10:41:24 +0800</lastBuildDate><atom:link href="http://itbing.cn/tags/coding/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>代码重构优化-不要用过多的if嵌套</title>
+      <link>http://itbing.cn/posts/2019/2019-06-01-coding-too-many-if/</link>
+      <pubDate>Sat, 01 Jun 2019 10:41:24 +0800</pubDate>
+      
+      <guid>http://itbing.cn/posts/2019/2019-06-01-coding-too-many-if/</guid>
+      <description>不要用过多的if嵌套
+重构前：
+def project_version(request,group_name,branch_name,project_name): if branch_name and group_name and project_name: project_name_with_namespace = &amp;#39;%s/%s&amp;#39; %(group_name,project_name) project = gl.projects.get(project_name_with_namespace) if project: branches = [] branch = project.</description>
+    </item>
+    
+  </channel>
+</rss>

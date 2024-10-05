@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Kubernetes的web管理：dashboard的安装 - IT兵的技术小站</title>
+	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
+	<meta name="description" content="">
+		<meta property="og:title" content="Kubernetes的web管理：dashboard的安装" />
+<meta property="og:description" content="k8s在使用时，不仅是运维人员需要使用，很多时候还需要给开发人员来使用。 给开发人员使用，就不可能让他们用命令行去使用，这个时候就需要有web页面这种管理方式。 k8s的web管理方式其实不只有dashboard这一种，还有很多其它的解决方案，比如Rancher，其实就比dashboard更好用。
+一、查询kubernetes版本，下载对应的dashboard版本 安装前要先确认自己的kubernetes版本，因为dashboard要对应不同的kubernetes版本来进行安装使用，如果版本不对应，安装完打开可能会报错。
+# kubectl version Client Version: version.Info{Major:&amp;quot;1&amp;quot;, Minor:&amp;quot;19&amp;quot;, GitVersion:&amp;quot;v1.19.0&amp;quot;, GitCommit:&amp;quot;e19964183377d0ec2052d1f1fa930c4d7575bd50&amp;quot;, GitTreeState:&amp;quot;clean&amp;quot;, BuildDate:&amp;quot;2020-08-26T14:30:33Z&amp;quot;, GoVersion:&amp;quot;go1.15&amp;quot;, Compiler:&amp;quot;gc&amp;quot;, Platform:&amp;quot;linux/amd64&amp;quot;} Server Version: version." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://itbing.cn/posts/2021/2021-05-10-k8s-dashboard/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2021-05-10T16:25:29+08:00" />
+<meta property="article:modified_time" content="2021-05-10T16:25:29+08:00" />
+
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link rel="dns-prefetch" href="//fonts.googleapis.com">
+	<link rel="dns-prefetch" href="//fonts.gstatic.com">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700">
+
+	<link rel="stylesheet" href="/css/style.css">
+	
+
+	<link rel="shortcut icon" href="/favicon.ico">
+		
+		
+</head>
+<body class="body">
+	<div class="container container--outer">
+		<header class="header">
+	<div class="container header__container">
+		
+	<div class="logo">
+		<a class="logo__link" href="/" title="IT兵的技术小站" rel="home">
+			<div class="logo__item logo__text">
+					<div class="logo__title">IT兵的技术小站</div>
+					
+				</div>
+		</a>
+	</div>
+		<div class="divider"></div>
+	</div>
+</header>
+		<div class="wrapper flex">
+			<div class="primary">
+			
+<main class="main" role="main">
+	<article class="post">
+		<header class="post__header">
+			<h1 class="post__title">Kubernetes的web管理：dashboard的安装</h1>
+			<div class="post__meta meta">
+<div class="meta__item-datetime meta__item">
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0a14 14 0 1 1 0 28 1 1 0 0 1 0-28m0 3a3 3 0 1 0 0 22 3 3 0 0 0 0-22m1 4h-2v8.4l6.8 4.4L22 18l-6-3.8z"/></svg><time class="meta__text" datetime="2021-05-10T16:25:29&#43;08:00">May 10, 2021</time></div></div>
+		</header>
+		<div class="content post__content clearfix">
+			<p>k8s在使用时，不仅是运维人员需要使用，很多时候还需要给开发人员来使用。
+给开发人员使用，就不可能让他们用命令行去使用，这个时候就需要有web页面这种管理方式。
+k8s的web管理方式其实不只有dashboard这一种，还有很多其它的解决方案，比如Rancher，其实就比dashboard更好用。</p>
+<h2 id="一查询kubernetes版本下载对应的dashboard版本">一、查询kubernetes版本，下载对应的dashboard版本</h2>
+<p>安装前要先确认自己的kubernetes版本，因为dashboard要对应不同的kubernetes版本来进行安装使用，如果版本不对应，安装完打开可能会报错。</p>
+<pre tabindex="0"><code># kubectl version
+Client Version: version.Info{Major:&amp;quot;1&amp;quot;, Minor:&amp;quot;19&amp;quot;, GitVersion:&amp;quot;v1.19.0&amp;quot;, GitCommit:&amp;quot;e19964183377d0ec2052d1f1fa930c4d7575bd50&amp;quot;, GitTreeState:&amp;quot;clean&amp;quot;, BuildDate:&amp;quot;2020-08-26T14:30:33Z&amp;quot;, GoVersion:&amp;quot;go1.15&amp;quot;, Compiler:&amp;quot;gc&amp;quot;, Platform:&amp;quot;linux/amd64&amp;quot;}
+Server Version: version.Info{Major:&amp;quot;1&amp;quot;, Minor:&amp;quot;19&amp;quot;, GitVersion:&amp;quot;v1.19.0&amp;quot;, GitCommit:&amp;quot;e19964183377d0ec2052d1f1fa930c4d7575bd50&amp;quot;, GitTreeState:&amp;quot;clean&amp;quot;, BuildDate:&amp;quot;2020-08-26T14:23:04Z&amp;quot;, GoVersion:&amp;quot;go1.15&amp;quot;, Compiler:&amp;quot;gc&amp;quot;, Platform:&amp;quot;linux/amd64&amp;quot;}
+</code></pre><p>这里kubernetes是1.19.0，然后根据这个去找到相对应的dashboard版本安装。</p>
+<p>版本对应关系，可以去https://github.com/kubernetes/dashboard/releases上去查，我这里列几个常用的版本对应关系。(点击可以下载）</p>
+<pre tabindex="0"><code>dashboard v2.0.0-beta5 ---&gt; kubernetes 1.16
+dashboard v2.0.0 ---&gt;  kubernetes 1.18
+dashboard v2.0.1 ---&gt;  kubernetes 1.18
+dashboard v2.0.2 ---&gt;  kubernetes 1.18
+dashboard v2.0.3 ---&gt;  kubernetes 1.18
+dashboard v2.0.4 ---&gt;  kubernetes 1.19
+dashboard v2.0.5 ---&gt;  kubernetes 1.19
+dashboard v2.1.0 ---&gt;  kubernetes 1.20
+dashboard v2.2.0 ---&gt;  kubernetes 1.20
+dashboard v2.3.0 ---&gt;  kubernetes 1.21
+dashboard v2.3.1 ---&gt;  kubernetes 1.21
+</code></pre><p>kubernetes是1.19.0对应的dashboard分别是v2.0.4和v2.0.5，装其中一个版本就可以了。</p>
+<h2 id="二下载dashboardyaml并修改">二、下载dashboard.yaml并修改</h2>
+<p>修改一下dashboard-v2.0.5.yaml文件中Service部分，修改为nodePort模式访问。(访问方式：集群内任意节点ip加nodePort所配端口号就可以访问）</p>
+<p>#增加直接访问端口</p>
+<pre tabindex="0"><code># vim dashboard-v2.0.5.yaml
+.......
+.......
+kind: Service
+apiVersion: v1
+metadata:
+  labels:
+    k8s-app: kubernetes-dashboard
+  name: kubernetes-dashboard
+  namespace: kubernetes-dashboard
+spec:
+  type: NodePort #新添加的
+  ports:
+    - port: 443
+      targetPort: 8443
+      nodePort: 30003 #新添加的（可以改成其它的端口号，要大于30000）
+  selector:
+    k8s-app: kubernetes-dashboard
+
+---
+.......
+.......
+</code></pre><h2 id="三安装dashboard">三、安装dashboard</h2>
+<p>在安装前，如果有旧的dashboard，要先删掉旧的版本：可以根据创建yaml文件来进行删除</p>
+<pre tabindex="0"><code>kubectl delete -f  dashboard.yaml
+kubectl delete -f  dashboard-svc.yaml
+kubectl delete -f  dashboard-svc-account.yaml
+</code></pre><p>如果是比较新的dashboard版本，可能是在单独在kubernetes-dashboard这个命名空间中的，这种直接把kubernetes-dashboard这个命名空间删掉就行了。</p>
+<p><code>kubectl delete ns kubernetes-dashboard</code></p>
+<p>执行yaml文件开始安装</p>
+<pre tabindex="0"><code># kubectl apply -f dashboard-v2.0.5.yaml
+namespace/kubernetes-dashboard created
+serviceaccount/kubernetes-dashboard created
+service/kubernetes-dashboard created
+secret/kubernetes-dashboard-certs created
+secret/kubernetes-dashboard-csrf created
+secret/kubernetes-dashboard-key-holder created
+configmap/kubernetes-dashboard-settings created
+role.rbac.authorization.k8s.io/kubernetes-dashboard created
+clusterrole.rbac.authorization.k8s.io/kubernetes-dashboard created
+rolebinding.rbac.authorization.k8s.io/kubernetes-dashboard created
+clusterrolebinding.rbac.authorization.k8s.io/kubernetes-dashboard created
+deployment.apps/kubernetes-dashboard created
+service/dashboard-metrics-scraper created
+deployment.apps/dashboard-metrics-scraper created
+</code></pre><p>新的dashboard版本服务都是统一在kubernetes-dashboard这个命名空间中。</p>
+<pre tabindex="0"><code># kubectl get pods -n kubernetes-dashboard
+NAME                                         READY   STATUS    RESTARTS   AGE
+dashboard-metrics-scraper-79c5968bdc-6dbp5   1/1     Running   0          71s
+kubernetes-dashboard-6f65cb5c64-f4qp7        1/1     Running   0          71s
+
+# kubectl get deploy -n kubernetes-dashboard
+NAME                        READY   UP-TO-DATE   AVAILABLE   AGE
+dashboard-metrics-scraper   1/1     1            1           84s
+kubernetes-dashboard        1/1     1            1           84s
+
+# kubectl get service -n kubernetes-dashboard
+NAME                        TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)    AGE
+dashboard-metrics-scraper   ClusterIP   10.101.111.29   &amp;lt;none&amp;gt;        8000/TCP   93s
+kubernetes-dashboard        ClusterIP   10.101.7.248    &amp;lt;none&amp;gt;        443/TCP    93s
+</code></pre><p>查看dashboard在哪个节点上，我的是在master上面。</p>
+<pre tabindex="0"><code># kubectl get pods --all-namespaces -o wide
+NAMESPACE              NAME                                         READY   STATUS    RESTARTS   AGE     IP               NODE     NOMINATED NODE   READINESS GATES
+
+kubernetes-dashboard   dashboard-metrics-scraper-79c5968bdc-6dbp5   1/1     Running   0          18m     10.244.0.6       master   &amp;lt;none&amp;gt;           &amp;lt;none&amp;gt;
+kubernetes-dashboard   kubernetes-dashboard-6f65cb5c64-f4qp7        1/1     Running   0          18m     10.244.0.5       master   &amp;lt;none&amp;gt;           &amp;lt;none&amp;gt;
+</code></pre><h2 id="四创建dashboard用户及权限">四、创建dashboard用户及权限</h2>
+<p>创建dashboard管理员。（没有管理员也可以用一个token进web页面，但很多权限是没有的）</p>
+<p>创建账号：</p>
+<pre tabindex="0"><code># vim dashboard-admin.yaml
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  labels:
+    k8s-app: kubernetes-dashboard
+  name: dashboard-admin
+  namespace: kubernetes-dashboard
+</code></pre><p>dashboard-admin就是创建的管理员账号。</p>
+<p>保存退出后执行</p>
+<p><code>kubectl create -f dashboard-admin.yaml</code></p>
+<p>为用户分配角色权限：</p>
+<pre tabindex="0"><code># vim dashboard-admin-role.yaml
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: dashboard-admin-role
+  labels:
+    k8s-app: kubernetes-dashboard
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: cluster-admin
+subjects:
+- kind: ServiceAccount
+  name: dashboard-admin
+  namespace: kubernetes-dashboard
+</code></pre><p>给dashboard-admin账号分配了cluster-admin集群管理员的权限。</p>
+<p>保存退出后执行
+<code>kubectl create -f dashboard-admin-role.yaml</code></p>
+<p>查看token</p>
+<pre tabindex="0"><code># kubectl get secret -n kubernetes-dashboard
+NAME                               TYPE                                  DATA   AGE
+dashboard-admin-token-fj9v6        kubernetes.io/service-account-token   3      95s
+default-token-lj7xg                kubernetes.io/service-account-token   3      33m
+kubernetes-dashboard-certs         Opaque                                0      33m
+kubernetes-dashboard-csrf          Opaque                                1      33m
+kubernetes-dashboard-key-holder    Opaque                                2      33m
+kubernetes-dashboard-token-cdkzc   kubernetes.io/service-account-token   3      33m
+</code></pre><p>这个dashboard-admin-token-fj9v6是我们创建的，查看它的信息筛选出token。</p>
+<pre tabindex="0"><code># kubectl describe -n kubernetes-dashboard secret/dashboard-admin-token-fj9v6|grep token:
+token:      eyJhbGciOiJSUzI1NiIsImtpZCI6ImJyYjJDR18tMDQtdkc3MzBBN0RwQU8zTlVjV01PM2w0dGRBWVh5UXhPN3MifQ.eyJpc3MiOiJrdWJlcm5ldGVzL3NlcnZpY2VhY2NvdW50Iiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9uYW1lc3BhY2UiOiJrdWJlcm5ldGVzLWRhc2hib2FyZCIsImt1YmVybmV0ZXMuaW8vc2VydmljZWFjY291bnQvc2VjcmV0Lm5hbWUiOiJkYXNoYm9hcmQtYWRtaW4tdG9rZW4tZmo5djYiLCJrdWJlcm5ldGVzLmlvL3NlcnZpY2VhY2NvdW50L3NlcnZpY2UtYWNjb3VudC5uYW1lIjoiZGFzaGJvYXJkLWFkbWluIiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9zZXJ2aWNlLWFjY291bnQudWlkIjoiMzhjYzU0MDktNGZhNy00ZGE2LTk0OTEtZjA3ODg4NTUxN2VjIiwic3ViIjoic3lzdGVtOnNlcnZpY2VhY2NvdW50Omt1YmVybmV0ZXMtZGFzaGJvYXJkOmRhc2hib2FyZC1hZG1pbiJ9.h-dfDHlmpeclQkRo5qqHD_QlFz9kn-WJTkndwau5K_bAoFVG3Nc_5E3wi9irxS-OhsivL8aFZje-1D02xDboXFmx14-88ZCt4vgmNcUdqp3iB6WkzKOIOGGPo-0Xal9vdiGFSm0liskhS4698hDIOqf50hwggECPVQzeXDbCcFiGqZAY8BEcC1Sz4cQZPIPt0pU66z6-pip8eHmmiwt4l6j5BmxQgcpBewXM3OITA-cdcq9iOMIGJkoqfiaCJ1Tk-oEnSmrkRFVdXxYoNgqePPg037FbrzNkJi3z7s-TmOzrgkcbMOK97VF_ED8X0nSek66bDFj8ivqFCGSxL8JDpQ
+</code></pre><p>访问dashboard，我的是master节点IP:30003。</p>
+<p>注意：因为https证书的原因，有些浏览器可能会打不开。chrome浏览器打开也会提示不安全，而且没有“下一步”访问的链接，</p>
+<p>这个时候在页面上盲打”thisisunsafe&quot;这个英文词组（不是在地址栏，就是在页面上盲打），浏览器就会跳转了。</p>
+<p>把上面查出来的token复制进去，登录，就能进去了。</p>
+<p>进去后，能看到各种服务信息。如果没有，就是账号权限的问题了。</p>
+
+		</div>
+		<footer class="post__footer">
+			
+<div class="post__tags tags clearfix">
+	<svg class="tags__badge icon icon-tag" width="16" height="16" viewBox="0 0 32 32"><path d="M4 0h8s2 0 4 2l15 15s2 2 0 4L21 31s-2 2-4 0L2 16s-2-2-2-4V3s0-3 4-3m3 10a3 3 0 0 0 0-6 3 3 0 0 0 0 6"/></svg>
+	<ul class="tags__list">
+		<li class="tags__item">
+			<a class="tags__link btn" href="/tags/kubernetes/" rel="tag">Kubernetes</a>
+		</li>
+		<li class="tags__item">
+			<a class="tags__link btn" href="/tags/k8s/" rel="tag">k8s</a>
+		</li>
+		<li class="tags__item">
+			<a class="tags__link btn" href="/tags/dashboard/" rel="tag">dashboard</a>
+		</li>
+	</ul>
+</div>
+		</footer>
+	</article>
+</main>
+
+<div class="authorbox clearfix">
+	<div class="authorbox__header">
+		<span class="authorbox__name">About itbing</span>
+	</div>
+	<div class="authorbox__description">
+		从事于Linux/Unix系统类运维工作
+	</div>
+</div>
+
+<nav class="pager flex">
+	<div class="pager__item pager__item--prev">
+		<a class="pager__link" href="/posts/2021/2021-03-20-k8s-setup/" rel="prev">
+			<span class="pager__subtitle">«&thinsp;Previous</span>
+			<p class="pager__title">Kubernetes的安装部署</p>
+		</a>
+	</div>
+	<div class="pager__item pager__item--next">
+		<a class="pager__link" href="/posts/2021/2021-07-06-k8s-rancher/" rel="next">
+			<span class="pager__subtitle">Next&thinsp;»</span>
+			<p class="pager__title">rancher的安装与设置</p>
+		</a>
+	</div>
+</nav>
+
+
+			</div>
+			<aside class="sidebar">
+<div class="widget-recent widget">
+	<h4 class="widget__title">Recent Posts</h4>
+	<div class="widget__content">
+		<ul class="widget__list">
+			<li class="widget__item"><a class="widget__link" href="/posts/2022/2022-05-08-k8s-docker-remove/">kubernetes1.24版本开始不再直接支持Docker</a></li>
+			<li class="widget__item"><a class="widget__link" href="/posts/2022/2022-03-06-k8s-kubectl-auto/">让kubectl命令能自动补全</a></li>
+			<li class="widget__item"><a class="widget__link" href="/posts/2021/2021-12-01-k8s-minikube-k3s/">k8s环境的几个替代产品-可用于入门、测试和开发等环境</a></li>
+			<li class="widget__item"><a class="widget__link" href="/posts/2021/2021-11-16-k8s-coredns/">在Kubernetes中自定义域名解析</a></li>
+			<li class="widget__item"><a class="widget__link" href="/posts/2021/2021-11-15-k8s-record-rollout/">Kubernetes更新和回滚</a></li>
+		</ul>
+	</div>
+</div>
+<div class="widget-taglist widget">
+	<h4 class="widget__title">Tags</h4>
+	<div class="widget__content">
+		<a class="widget-taglist__link widget__link btn" href="/tags/ansible/" title="ansible">ansible</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/clamav/" title="clamav">clamav</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/coding/" title="coding">coding</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/dashboard/" title="dashboard">dashboard</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/do_ypcall/" title="do_ypcall">do_ypcall</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/docker/" title="Docker">Docker</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/expect/" title="expect">expect</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/fdisk/" title="fdisk">fdisk</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/go-module/" title="go module">go module</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/gopath/" title="GOPATH">GOPATH</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/goproxy/" title="GOPROXY">GOPROXY</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/goroot/" title="GOROOT">GOROOT</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/go%E8%AF%AD%E8%A8%80/" title="go语言">go语言</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/history/" title="history">history</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/influxdb/" title="InfluxDB">InfluxDB</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/ip%E9%99%90%E5%88%B6/" title="IP限制">IP限制</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/jenkins/" title="jenkins">jenkins</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/k3s/" title="k3s">k3s</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/k8s/" title="k8s">k8s</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/kubernetes/" title="Kubernetes">Kubernetes</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/kvm/" title="kvm">kvm</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/linux/" title="linux">linux</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/linux-site/" title="linux site">linux site</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/lsehll/" title="lsehll">lsehll</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/mkfifo/" title="mkfifo">mkfifo</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/mysql/" title="mysql">mysql</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/mysql%E9%94%99%E8%AF%AF/" title="MySQL错误">MySQL错误</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/ntp/" title="ntp">ntp</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/parted/" title="parted">parted</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/print/" title="Print">Print</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/puppet/" title="Puppet">Puppet</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/rancher/" title="rancher">rancher</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/saltstack/" title="SaltStack">SaltStack</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/script/" title="script">script</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/scriptreplay/" title="scriptreplay">scriptreplay</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/sendemail/" title="sendEmail">sendEmail</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/shell/" title="shell">shell</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/solaris/" title="solaris">solaris</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/sshpass/" title="sshpass">sshpass</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/suse/" title="suse">suse</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/tar%E5%A4%87%E4%BB%BD%E6%81%A2%E5%A4%8D/" title="tar备份恢复">tar备份恢复</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/tcp_wrappers/" title="tcp_wrappers">tcp_wrappers</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/telnet-server/" title="telnet server">telnet server</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/ypbind/" title="ypbind">ypbind</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/zfs/" title="zfs">zfs</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E4%B8%BB%E5%A4%87%E5%90%8C%E6%AD%A5/" title="主备同步">主备同步</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E5%83%B5%E5%B0%B8%E8%BF%9B%E7%A8%8B/" title="僵尸进程">僵尸进程</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E5%9F%BA%E6%9C%AC%E9%85%8D%E7%BD%AE%E6%93%8D%E4%BD%9C/" title="基本配置操作">基本配置操作</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E5%A0%A1%E5%9E%92%E6%9C%BA/" title="堡垒机">堡垒机</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E6%95%85%E9%9A%9C%E5%88%86%E6%9E%90/" title="故障分析">故障分析</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E6%9D%80%E6%AF%92%E8%BD%AF%E4%BB%B6/" title="杀毒软件">杀毒软件</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E8%87%AA%E5%8A%A8%E6%8C%82%E8%BD%BD/" title="自动挂载">自动挂载</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E8%BD%AF%E4%BB%B6%E5%AE%89%E8%A3%85/" title="软件安装">软件安装</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E8%BF%90%E7%BB%B4%E5%B7%A5%E7%A8%8B%E5%B8%88/" title="运维工程师">运维工程师</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E9%98%B2%E7%81%AB%E5%A2%99/" title="防火墙">防火墙</a>
+	</div>
+</div>
+</aside>
+		</div>
+		<footer class="footer">
+	<div class="container footer__container flex">
+		
+		<div class="footer__copyright">
+			&copy; 2024 IT兵的技术小站.
+			<span class="footer__copyright-credits">Generated with <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/Vimux/Mainroad/" rel="nofollow noopener" target="_blank">Mainroad</a> theme.</span>
+		</div>
+	</div>
+</footer>
+	</div>
+<script async defer src="/js/menu.js"></script>
+</body>
+</html>

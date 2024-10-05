@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>solaris on IT兵的技术小站</title>
+    <link>http://itbing.cn/tags/solaris/</link>
+    <description>Recent content in solaris on IT兵的技术小站</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Wed, 30 Aug 2017 20:58:45 +0800</lastBuildDate><atom:link href="http://itbing.cn/tags/solaris/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>恢复已销毁的 ZFS 存储池</title>
+      <link>http://itbing.cn/posts/2017/2017-08-30-solaris-zfs/</link>
+      <pubDate>Wed, 30 Aug 2017 20:58:45 +0800</pubDate>
+      
+      <guid>http://itbing.cn/posts/2017/2017-08-30-solaris-zfs/</guid>
+      <description>同事发个消息给我，说大事不好了，他用zpool destroy命令把盘销毁了，但是现在突然发现里面还有东西，又想恢复。
+我说别慌，冷静，我有一招，马上能恢复。
+祭出神命令
+#zpool import -D 可以查看哪些盘被销毁了，盘的状态怎么样，能不能恢复 pool: backup id: 5154272182900538157 state: ONLINE (DESTROYED) action: The pool can be imported using its name or numeric identifier.</description>
+    </item>
+    
+  </channel>
+</rss>

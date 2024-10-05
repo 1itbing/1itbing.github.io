@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>堡垒机 on IT兵的技术小站</title>
+    <link>http://itbing.cn/tags/%E5%A0%A1%E5%9E%92%E6%9C%BA/</link>
+    <description>Recent content in 堡垒机 on IT兵的技术小站</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Fri, 04 Mar 2016 20:42:00 +0800</lastBuildDate><atom:link href="http://itbing.cn/tags/%E5%A0%A1%E5%9E%92%E6%9C%BA/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>用lshell实现堡垒机(跳转机)功能</title>
+      <link>http://itbing.cn/posts/2016/2016-03-04-math-float/</link>
+      <pubDate>Fri, 04 Mar 2016 20:42:00 +0800</pubDate>
+      
+      <guid>http://itbing.cn/posts/2016/2016-03-04-math-float/</guid>
+      <description>写一下怎么利用lshell这个工具把一台Linux系统变成一台堡垒机（跳转机）。
+一、跳转机的基本功能 1、多用户权限管理 2、限制登录用户所处的目录 3、限制登录用户能使用的命令 4、记录登录用户执行的命令
+基本上在堡垒机上只要能执行ls、scp、ssh、passwd等几个命令就行。
+准备一台Linux服务器安装lshell工具，添加受限用户组和用户，设置好能执行的命令，做为堡垒机使用，然后在其它服务器上在/etc/hosts.allow中设置只能从这台堡垒机服务器上远程登录。
+二、安装和启用lshell 2.1、安装Linux系统 可以安装一个最简单的CentOS系统，多余的东西都不要安装，后面需要什么再安装什么。 安装完，可以加强这台服务器的安全设置，可以禁用或删除各种不需要的服务、文件。 开防火墙 开SELinux
+2.2 安装lshell工具 如果堡垒机没有联网，可以从别的地方下载安装文件，再复制过来。 文章后有提供下载地址。 如果是CentOS7，需要先安装一下依赖软件
+#yum install *ncurses* #pip install readline #git clone https://github.</description>
+    </item>
+    
+    <item>
+      <title>批量管理服务器的几种方法</title>
+      <link>http://itbing.cn/posts/2015/2015-12-20-linux-expect-sshpass/</link>
+      <pubDate>Sun, 20 Dec 2015 23:05:17 +0800</pubDate>
+      
+      <guid>http://itbing.cn/posts/2015/2015-12-20-linux-expect-sshpass/</guid>
+      <description>一、shell+expect 二、shell+sshpass 三、ansible、Puppet、SaltStack&amp;hellip; 四、堡垒机系统 五、一些运维系统 </description>
+    </item>
+    
+  </channel>
+</rss>

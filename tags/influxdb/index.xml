@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>InfluxDB on IT兵的技术小站</title>
+    <link>http://itbing.cn/tags/influxdb/</link>
+    <description>Recent content in InfluxDB on IT兵的技术小站</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Mon, 30 Jan 2017 16:35:33 +0800</lastBuildDate><atom:link href="http://itbing.cn/tags/influxdb/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>InfluxDB 1.2.0安装及新旧版本的注意事项</title>
+      <link>http://itbing.cn/posts/2017/2017-01-30-influxdb/</link>
+      <pubDate>Mon, 30 Jan 2017 16:35:33 +0800</pubDate>
+      
+      <guid>http://itbing.cn/posts/2017/2017-01-30-influxdb/</guid>
+      <description>随着大数据的爆发，系统数量也是直线上升，监控系统，收集系统运行状态成了保障业务正常运行中的重要一个环节。
+针对这种产生频率快、带时间标签、测点多、信息量大的数据，时序数据库(Time Series Database,简称TSDB)应运而生。而其中InfluxDB是比较应用广泛的其中一个。
+InfluxDB是用Go语言写的，专为时间序列数据持久化所开发的，由于使用Go语言，所以各平台基本都支持。类似的时间序列数据库还有OpenTSDB，Prometheus等。
+InfluxDB的Cluster功能收费，单机功能免费使用。
+1、安装 可以直接rpm安装 到http://repos.influxdata.com下载相应的版本
+#wget https://repos.influxdata.com/rhel/6Server/x86_64/stable/influxdb-1.2.0.x86_64.rpm #rpm -ivh influxdb-1.2.0.x86_64.rpm 或者 添加yum 源安装
+#cat &amp;amp;lt;&amp;amp;lt; EOF | sudo tee /etc/yum.</description>
+    </item>
+    
+  </channel>
+</rss>

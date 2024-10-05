@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Kubernetes更新和回滚 - IT兵的技术小站</title>
+	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
+	<meta name="description" content="">
+		<meta property="og:title" content="Kubernetes更新和回滚" />
+<meta property="og:description" content="如果对Deployment的Pod template部分进行更改，例如更新template 中的 label 和容器镜像时，就会创建出一个新的 revision版本记录，如果想回滚恢复到以前某个版本状态，可以随时进行操作恢复。
+1.先创建一个deploy 这里直接用命令创建一个nginx服务的deploy # kubectl create deploy nginx-deploy --image=nginx:1.19.0 --replicas=2 -n dev
+这里用的nginx镜像是1.19.0版本
+2.查看revision版本记录 查看nginx的deploy历史版本记录" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://itbing.cn/posts/2021/2021-11-15-k8s-record-rollout/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2021-11-15T14:12:16+08:00" />
+<meta property="article:modified_time" content="2021-11-15T14:12:16+08:00" />
+
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link rel="dns-prefetch" href="//fonts.googleapis.com">
+	<link rel="dns-prefetch" href="//fonts.gstatic.com">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700">
+
+	<link rel="stylesheet" href="/css/style.css">
+	
+
+	<link rel="shortcut icon" href="/favicon.ico">
+		
+		
+</head>
+<body class="body">
+	<div class="container container--outer">
+		<header class="header">
+	<div class="container header__container">
+		
+	<div class="logo">
+		<a class="logo__link" href="/" title="IT兵的技术小站" rel="home">
+			<div class="logo__item logo__text">
+					<div class="logo__title">IT兵的技术小站</div>
+					
+				</div>
+		</a>
+	</div>
+		<div class="divider"></div>
+	</div>
+</header>
+		<div class="wrapper flex">
+			<div class="primary">
+			
+<main class="main" role="main">
+	<article class="post">
+		<header class="post__header">
+			<h1 class="post__title">Kubernetes更新和回滚</h1>
+			<div class="post__meta meta">
+<div class="meta__item-datetime meta__item">
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0a14 14 0 1 1 0 28 1 1 0 0 1 0-28m0 3a3 3 0 1 0 0 22 3 3 0 0 0 0-22m1 4h-2v8.4l6.8 4.4L22 18l-6-3.8z"/></svg><time class="meta__text" datetime="2021-11-15T14:12:16&#43;08:00">November 15, 2021</time></div></div>
+		</header>
+		<div class="content post__content clearfix">
+			<p>如果对Deployment的Pod template部分进行更改，例如更新template 中的 label 和容器镜像时，就会创建出一个新的 revision版本记录，如果想回滚恢复到以前某个版本状态，可以随时进行操作恢复。</p>
+<h3 id="1先创建一个deploy">1.先创建一个deploy</h3>
+<p>这里直接用命令创建一个nginx服务的deploy
+<code># kubectl create deploy nginx-deploy --image=nginx:1.19.0 --replicas=2 -n dev</code></p>
+<p>这里用的nginx镜像是1.19.0版本</p>
+<h3 id="2查看revision版本记录">2.查看revision版本记录</h3>
+<p>查看nginx的deploy历史版本记录</p>
+<pre tabindex="0"><code># kubectl -n dev rollout history deploy nginx-deploy
+REVISION  CHANGE-CAUSE
+1         &amp;lt;none&amp;gt;
+</code></pre><p>第一栏REVISION是记录修改过的历史序列号，如果要回滚可以指定一个序列号来选择恢复到哪个状态。
+第二栏CHANGE-CAUSE是记录回滚的一个标注内容，这里显示为<!-- raw HTML omitted -->，如果想直接显示记录内容，可以在命令后加上&ndash;record，也可以用annotate和patch来后期添加</p>
+<p>如果前面执行命令没有加–record，也是可以查看revision版本记录的详细信息的。
+可以用“&ndash;revision=序列号”来查看某个记录的详细信息。</p>
+<pre tabindex="0"><code># kubectl -n dev rollout history deploy nginx-deploy --revision=1
+deployment.apps/nginx-deploy with revision #1
+Pod Template:
+  Labels:	app=nginx-deploy
+	pod-template-hash=5bcb7bd7ff
+  Containers:
+   nginx:
+    Image:	nginx:1.19.0
+    Port:	&amp;lt;none&amp;gt;
+    Host Port:	&amp;lt;none&amp;gt;
+    Environment:	&amp;lt;none&amp;gt;
+    Mounts:	&amp;lt;none&amp;gt;
+  Volumes:	&amp;lt;none&amp;gt;
+</code></pre><p>会显示出Template部分，从这里也能知道这个revision版本的信息。</p>
+<p>这个历史记录的条数，可以在deploy的spec中修改revisionHistoryLimit这个值，一般默认是10条。</p>
+<pre tabindex="0"><code># kubectl -n dev get deploy nginx-deploy -o yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    deployment.kubernetes.io/revision: &amp;quot;1&amp;quot;
+  creationTimestamp: &amp;quot;2023-02-26T15:31:49Z&amp;quot;
+  generation: 1
+  labels:
+    app: nginx-deploy
+  name: nginx-deploy
+  namespace: dev
+  resourceVersion: &amp;quot;7525&amp;quot;
+  uid: 751913ce-eee1-43a8-a92f-c0704a89f3bd
+spec:
+  progressDeadlineSeconds: 600
+  replicas: 2
+  revisionHistoryLimit: 10  #这里
+......
+</code></pre><h3 id="3升级更新">3、升级更新</h3>
+<p>把nginx镜像版本升级到1.19.1，这里在命令后加上&ndash;record
+<code># kubectl -n dev set image deploy nginx-deploy nginx=nginx:1.19.1 --record</code>
+Flag &ndash;record has been deprecated, &ndash;record will be removed in the future
+我用的是Kubernetes v1.23版本，有提示说&ndash;record这个参数在未来不再使用了。Kubernetes一直在更新，所以命令也一直在小变化中。</p>
+<p>如果用yaml文件来更新的话，也可以加&ndash;record
+<code># kubectl apply -f nginx.yaml --record</code></p>
+<p>更新完，再查看一下历史版本记录信息</p>
+<pre tabindex="0"><code># kubectl -n dev rollout history deploy nginx-deploy
+REVISION  CHANGE-CAUSE
+1         &amp;lt;none&amp;gt;
+2         kubectl set image deploy nginx-deploy nginx=nginx:1.19.1 --namespace=dev --record=true
+</code></pre><p>可以看到，第二栏中，由于#1执行命令时没有加&ndash;record，所以是none，后面#2执行命令时加上了&ndash;record就有具体内容显示了。
+一般如果用程序或者用脚本来执行更新命令，最好加上&ndash;record，这样方便查看和操作。不过前面有说–record这个参数会在未来删除，所以后面可能需要用annotate和patch来添加</p>
+<h3 id="4不指定版本直接回滚">4、不指定版本直接回滚</h3>
+<p>如果直接执行回滚命令，就是会回滚到上一个版本
+<code># kubectl -n dev rollout undo deploy nginx-deploy</code></p>
+<p>查看记录</p>
+<pre tabindex="0"><code># kubectl -n dev rollout history deploy nginx-deploy
+REVISION  CHANGE-CAUSE
+2         kubectl set image deploy nginx-deploy nginx=nginx:1.19.1 --namespace=dev --record=true
+3         &amp;lt;none&amp;gt;
+</code></pre><p>可以看到，在原先只有两条版本记录的情况下，还原掉了原先的#1，现在最新序列号是#3。</p>
+<p>因为#1原先记录内容是none，可以使用命令来查看详细信息进行验证一下</p>
+<pre tabindex="0"><code># kubectl -n dev rollout history deploy nginx-deploy --revision=3
+deployment.apps/nginx-deploy with revision #3
+Pod Template:
+  Labels:	app=nginx-deploy
+	pod-template-hash=5bcb7bd7ff
+  Containers:
+   nginx:
+    Image:	nginx:1.19.0
+    Port:	&amp;lt;none&amp;gt;
+    Host Port:	&amp;lt;none&amp;gt;
+    Environment:	&amp;lt;none&amp;gt;
+    Mounts:	&amp;lt;none&amp;gt;
+  Volumes:	&amp;lt;none&amp;gt;
+</code></pre><p>可以看到，#3这个镜像信息是nginx:1.19.0，就是原先#1的nginx版本号。
+当然，也可以直接查看当前deploy的信息来验证。</p>
+<pre tabindex="0"><code># kubectl -n dev get deploy nginx-deploy -o yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    deployment.kubernetes.io/revision: &amp;quot;3&amp;quot;
+  creationTimestamp: &amp;quot;2023-02-26T15:31:49Z&amp;quot;
+</code></pre><h3 id="5指定版本回滚strong">5.指定版本回滚<!-- raw HTML omitted --></h3>
+<p>只要在上面的命令后加上“&ndash;to-revision=记录序列号”就可以了。
+我们再升级一下nginx版本，升级到1.19.2版本，然后再做一个回滚。
+<code># kubectl -n dev set image deploy nginx-deploy nginx=nginx:1.19.2 --record</code></p>
+<p>升级完成。</p>
+<p>再查看历史版本信息</p>
+<pre tabindex="0"><code># kubectl -n dev rollout history deploy nginx-deploy
+REVISION  CHANGE-CAUSE
+2         kubectl set image deploy nginx-deploy nginx=nginx:1.19.1 --namespace=dev --record=true
+3         &amp;lt;none&amp;gt;
+4         kubectl set image deploy nginx-deploy nginx=nginx:1.19.2 --namespace=dev --record=true
+</code></pre><p>现在有三条记录了。</p>
+<p>现在使用“–to-revision=记录序列号”来进行回滚操作。</p>
+<pre tabindex="0"><code># kubectl -n dev rollout undo deploy nginx-deploy --to-revision=2
+deployment.apps/nginx-deploy rolled back
+</code></pre><p>这里指定回滚到原先#2版本，也就是nginx版本回滚到1.19.1。</p>
+<p>回滚完成，查看历史信息验证</p>
+<pre tabindex="0"><code># kubectl -n dev rollout history deploy nginx-deploy
+deployment.apps/nginx-deploy
+REVISION  CHANGE-CAUSE
+3         &amp;lt;none&amp;gt;
+4         kubectl set image deploy nginx-deploy nginx=nginx:1.19.2 --namespace=dev --record=true
+5         kubectl set image deploy nginx-deploy nginx=nginx:1.19.1 --namespace=dev --record=true
+</code></pre><p>原先的#2已经被还原掉了，现在最新记录是#5，nginx版本已经是1.19.1了。</p>
+
+		</div>
+		<footer class="post__footer">
+			
+<div class="post__tags tags clearfix">
+	<svg class="tags__badge icon icon-tag" width="16" height="16" viewBox="0 0 32 32"><path d="M4 0h8s2 0 4 2l15 15s2 2 0 4L21 31s-2 2-4 0L2 16s-2-2-2-4V3s0-3 4-3m3 10a3 3 0 0 0 0-6 3 3 0 0 0 0 6"/></svg>
+	<ul class="tags__list">
+		<li class="tags__item">
+			<a class="tags__link btn" href="/tags/kubernetes/" rel="tag">Kubernetes</a>
+		</li>
+		<li class="tags__item">
+			<a class="tags__link btn" href="/tags/k8s/" rel="tag">k8s</a>
+		</li>
+	</ul>
+</div>
+		</footer>
+	</article>
+</main>
+
+<div class="authorbox clearfix">
+	<div class="authorbox__header">
+		<span class="authorbox__name">About itbing</span>
+	</div>
+	<div class="authorbox__description">
+		从事于Linux/Unix系统类运维工作
+	</div>
+</div>
+
+<nav class="pager flex">
+	<div class="pager__item pager__item--prev">
+		<a class="pager__link" href="/posts/2021/2021-10-01-k8s-configmap-secret/" rel="prev">
+			<span class="pager__subtitle">«&thinsp;Previous</span>
+			<p class="pager__title">k8s:configmap/secret存储二进制文件研究</p>
+		</a>
+	</div>
+	<div class="pager__item pager__item--next">
+		<a class="pager__link" href="/posts/2021/2021-11-16-k8s-coredns/" rel="next">
+			<span class="pager__subtitle">Next&thinsp;»</span>
+			<p class="pager__title">在Kubernetes中自定义域名解析</p>
+		</a>
+	</div>
+</nav>
+
+
+			</div>
+			<aside class="sidebar">
+<div class="widget-recent widget">
+	<h4 class="widget__title">Recent Posts</h4>
+	<div class="widget__content">
+		<ul class="widget__list">
+			<li class="widget__item"><a class="widget__link" href="/posts/2022/2022-05-08-k8s-docker-remove/">kubernetes1.24版本开始不再直接支持Docker</a></li>
+			<li class="widget__item"><a class="widget__link" href="/posts/2022/2022-03-06-k8s-kubectl-auto/">让kubectl命令能自动补全</a></li>
+			<li class="widget__item"><a class="widget__link" href="/posts/2021/2021-12-01-k8s-minikube-k3s/">k8s环境的几个替代产品-可用于入门、测试和开发等环境</a></li>
+			<li class="widget__item"><a class="widget__link" href="/posts/2021/2021-11-16-k8s-coredns/">在Kubernetes中自定义域名解析</a></li>
+			<li class="widget__item"><a class="widget__link" href="/posts/2021/2021-11-15-k8s-record-rollout/">Kubernetes更新和回滚</a></li>
+		</ul>
+	</div>
+</div>
+<div class="widget-taglist widget">
+	<h4 class="widget__title">Tags</h4>
+	<div class="widget__content">
+		<a class="widget-taglist__link widget__link btn" href="/tags/ansible/" title="ansible">ansible</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/clamav/" title="clamav">clamav</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/coding/" title="coding">coding</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/dashboard/" title="dashboard">dashboard</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/do_ypcall/" title="do_ypcall">do_ypcall</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/docker/" title="Docker">Docker</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/expect/" title="expect">expect</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/fdisk/" title="fdisk">fdisk</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/go-module/" title="go module">go module</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/gopath/" title="GOPATH">GOPATH</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/goproxy/" title="GOPROXY">GOPROXY</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/goroot/" title="GOROOT">GOROOT</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/go%E8%AF%AD%E8%A8%80/" title="go语言">go语言</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/history/" title="history">history</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/influxdb/" title="InfluxDB">InfluxDB</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/ip%E9%99%90%E5%88%B6/" title="IP限制">IP限制</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/jenkins/" title="jenkins">jenkins</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/k3s/" title="k3s">k3s</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/k8s/" title="k8s">k8s</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/kubernetes/" title="Kubernetes">Kubernetes</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/kvm/" title="kvm">kvm</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/linux/" title="linux">linux</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/linux-site/" title="linux site">linux site</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/lsehll/" title="lsehll">lsehll</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/mkfifo/" title="mkfifo">mkfifo</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/mysql/" title="mysql">mysql</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/mysql%E9%94%99%E8%AF%AF/" title="MySQL错误">MySQL错误</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/ntp/" title="ntp">ntp</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/parted/" title="parted">parted</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/print/" title="Print">Print</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/puppet/" title="Puppet">Puppet</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/rancher/" title="rancher">rancher</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/saltstack/" title="SaltStack">SaltStack</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/script/" title="script">script</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/scriptreplay/" title="scriptreplay">scriptreplay</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/sendemail/" title="sendEmail">sendEmail</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/shell/" title="shell">shell</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/solaris/" title="solaris">solaris</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/sshpass/" title="sshpass">sshpass</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/suse/" title="suse">suse</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/tar%E5%A4%87%E4%BB%BD%E6%81%A2%E5%A4%8D/" title="tar备份恢复">tar备份恢复</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/tcp_wrappers/" title="tcp_wrappers">tcp_wrappers</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/telnet-server/" title="telnet server">telnet server</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/ypbind/" title="ypbind">ypbind</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/zfs/" title="zfs">zfs</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E4%B8%BB%E5%A4%87%E5%90%8C%E6%AD%A5/" title="主备同步">主备同步</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E5%83%B5%E5%B0%B8%E8%BF%9B%E7%A8%8B/" title="僵尸进程">僵尸进程</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E5%9F%BA%E6%9C%AC%E9%85%8D%E7%BD%AE%E6%93%8D%E4%BD%9C/" title="基本配置操作">基本配置操作</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E5%A0%A1%E5%9E%92%E6%9C%BA/" title="堡垒机">堡垒机</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E6%95%85%E9%9A%9C%E5%88%86%E6%9E%90/" title="故障分析">故障分析</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E6%9D%80%E6%AF%92%E8%BD%AF%E4%BB%B6/" title="杀毒软件">杀毒软件</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E8%87%AA%E5%8A%A8%E6%8C%82%E8%BD%BD/" title="自动挂载">自动挂载</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E8%BD%AF%E4%BB%B6%E5%AE%89%E8%A3%85/" title="软件安装">软件安装</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E8%BF%90%E7%BB%B4%E5%B7%A5%E7%A8%8B%E5%B8%88/" title="运维工程师">运维工程师</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E9%98%B2%E7%81%AB%E5%A2%99/" title="防火墙">防火墙</a>
+	</div>
+</div>
+</aside>
+		</div>
+		<footer class="footer">
+	<div class="container footer__container flex">
+		
+		<div class="footer__copyright">
+			&copy; 2024 IT兵的技术小站.
+			<span class="footer__copyright-credits">Generated with <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/Vimux/Mainroad/" rel="nofollow noopener" target="_blank">Mainroad</a> theme.</span>
+		</div>
+	</div>
+</footer>
+	</div>
+<script async defer src="/js/menu.js"></script>
+</body>
+</html>

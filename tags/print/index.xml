@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Print on IT兵的技术小站</title>
+    <link>http://itbing.cn/tags/print/</link>
+    <description>Recent content in Print on IT兵的技术小站</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Tue, 14 May 2019 14:11:13 +0800</lastBuildDate><atom:link href="http://itbing.cn/tags/print/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>go语言的fmt一些打印输出函数之间的区别：Print、Println、Printf、Sprint、Fprint</title>
+      <link>http://itbing.cn/posts/2019/2019-05-14-golang-print/</link>
+      <pubDate>Tue, 14 May 2019 14:11:13 +0800</pubDate>
+      
+      <guid>http://itbing.cn/posts/2019/2019-05-14-golang-print/</guid>
+      <description>Print：不带格式的最基础的输出函数 a := &amp;#34;a&amp;#34; b := &amp;#34;b&amp;#34; fmt.Print(a) fmt.Print(b) 输出：ab
+Println：带一个换行效果的输出函数 a := &amp;#34;a&amp;#34; b := &amp;#34;b&amp;#34; fmt.Println(a) fmt.Println(b) 输出： a\r\nb\r\n</description>
+    </item>
+    
+  </channel>
+</rss>

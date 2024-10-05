@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>杀毒软件 on IT兵的技术小站</title>
+    <link>http://itbing.cn/tags/%E6%9D%80%E6%AF%92%E8%BD%AF%E4%BB%B6/</link>
+    <description>Recent content in 杀毒软件 on IT兵的技术小站</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Fri, 30 Jun 2017 17:07:19 +0800</lastBuildDate><atom:link href="http://itbing.cn/tags/%E6%9D%80%E6%AF%92%E8%BD%AF%E4%BB%B6/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Linux下杀毒软件clamav的安装和使用</title>
+      <link>http://itbing.cn/posts/2017/2015-06-31-clamav/</link>
+      <pubDate>Fri, 30 Jun 2017 17:07:19 +0800</pubDate>
+      
+      <guid>http://itbing.cn/posts/2017/2015-06-31-clamav/</guid>
+      <description>最近发现有台服务器中毒了，手动去查杀总是会有遗漏，最后安装了Linux下的杀毒软件clamav，使用起来还是不错的。
+环境： Linux 6.8
+版本： clamav-0.99.2.tar.gz
+依赖关系： yum install pcre* zlib zlib-devel libssl-devel libssl openssl version 0.9.8 or higher
+一.安装clamav 有两种方法安装：</description>
+    </item>
+    
+  </channel>
+</rss>

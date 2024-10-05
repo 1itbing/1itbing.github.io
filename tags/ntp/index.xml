@@ -6,7 +6,21 @@
     <description>Recent content in ntp on IT兵的技术小站</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Fri, 30 Oct 2015 21:05:43 +0800</lastBuildDate><atom:link href="http://itbing.cn/tags/ntp/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 13 Jun 2016 14:18:24 +0800</lastBuildDate><atom:link href="http://itbing.cn/tags/ntp/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>NTP服务被利用做流量攻击以及检测预防手段</title>
+      <link>http://itbing.cn/posts/2016/2016-06-13-linux-ntp-attack/</link>
+      <pubDate>Mon, 13 Jun 2016 14:18:24 +0800</pubDate>
+      
+      <guid>http://itbing.cn/posts/2016/2016-06-13-linux-ntp-attack/</guid>
+      <description>被攻击服务器相关配置： ip: eth0: 172.28.9.2 eth1: 192.168.0.2 eth3: 外网IP
+某一天发现这台WEB服务器流量一直很高。 开始一直以为是WEB服务的流量很高，根本没往NTP服务那方面想。 因为我设置NTP服务的时候就有考虑到安全问题。
+检测过程： #dstat -N eth3
+可以发现发送流量非常大。
+后面还用了nethogs和iptraf两个流量分析软件进行了分析。
+nethogs 是检测进程的流量，但是检测不到UDP的流量，所以一开始也没想到是ntp的引起的。因为ntp用的是123的UDP端口。</description>
+    </item>
+    
     <item>
       <title>生产上Ntp Server的研究与配置</title>
       <link>http://itbing.cn/posts/2015/2015-10-30-ntp-server-conf/</link>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>kvm on IT兵的技术小站</title>
+    <link>http://itbing.cn/tags/kvm/</link>
+    <description>Recent content in kvm on IT兵的技术小站</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Wed, 19 Aug 2020 21:07:25 +0800</lastBuildDate><atom:link href="http://itbing.cn/tags/kvm/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>linux上用kvm快速创建虚拟机</title>
+      <link>http://itbing.cn/posts/2020/2020-08-19-linux-kvm-setup/</link>
+      <pubDate>Wed, 19 Aug 2020 21:07:25 +0800</pubDate>
+      
+      <guid>http://itbing.cn/posts/2020/2020-08-19-linux-kvm-setup/</guid>
+      <description>教大家怎么快速的来使用KVM创建一个虚拟机和管理虚拟机，如果有准备好ISO系统安装文件的话，就算是第一次使用KVM，只要跟着操作，也可以很快能创建出一个虚拟机了。
+一、查看系统是否支持KVM虚拟化 查看cpu是否支持虚拟化
+# grep -E&amp;#39;(vmx|svm)&amp;#39; /proc/cpuinfo flags :fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflushdts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tscart arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc aperfmperfeagerfpu pni pclmulqdq dtes64 monitor ds_cpl vmx est tm2 ssse3 sdbg fma cx16 xtpr pdcm pcid sse4_1 sse4_2 x2apic movbe popcnttsc_deadline_timer aes xsave avx f16c rdrand lahf_lm abm 3dnowprefetch epbinvpcid_single intel_pt ssbd ibrs ibpb stibp tpr_shadow vnmi flexpriority eptvpid fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid mpx rdseed adx smapclflushopt xsaveopt xsavec xgetbv1 dtherm ida arat pln pts hwp hwp_notifyhwp_act_window hwp_epp md_clear spec_ctrl intel_stibp flush_l1d 说明CPU是Intel的，如果是AMD的CPU，应该是“svm”。</description>
+    </item>
+    
+  </channel>
+</rss>
