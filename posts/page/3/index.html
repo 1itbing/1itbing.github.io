@@ -62,6 +62,8 @@
 		系统环境： Oracle Linux 5.8
 操作过程： 应同事需求，想对一台服务器做IP限制，让它只能访问某几个IP。 用iptables做output限制
 如限制只能访问192.168.0.9 #iptables -I OUTPUT -d 192.168.0.9 -j ACCEPT 前面有做所有DROP
+然而ssh登录192.168.0.9时报错
+#ssh 192.168.0.9 do_ypcall: clnt_call: RPC: Unable to send; errno = Operation not permitted do_ypcall: clnt_call: RPC: Unable to send; errno = Operation not permitted 加上-vvv看详细过程
 	</div>
 	<div class="list__footer clearfix">
 		<a class="list__footer-readmore btn" href="/posts/2017/2017-05-31-ypbind-do_ypcall/">Read more…</a>
@@ -85,6 +87,7 @@ InfluxDB是用Go语言写的，专为时间序列数据持久化所开发的，�
 InfluxDB的Cluster功能收费，单机功能免费使用。
 1、安装 可以直接rpm安装 到http://repos.influxdata.com下载相应的版本
 #wget https://repos.influxdata.com/rhel/6Server/x86_64/stable/influxdb-1.2.0.x86_64.rpm #rpm -ivh influxdb-1.2.0.x86_64.rpm 或者 添加yum 源安装
+#cat &amp;lt;&amp;lt; EOF | sudo tee /etc/yum.repos.d/influxdb.repo [influxdb] name = InfluxDB Repository - RHEL \$releasever baseurl = https://repos.
 	</div>
 	<div class="list__footer clearfix">
 		<a class="list__footer-readmore btn" href="/posts/2017/2017-01-30-influxdb/">Read more…</a>
@@ -105,6 +108,13 @@ InfluxDB的Cluster功能收费，单机功能免费使用。
 		被攻击服务器相关配置： ip: eth0: 172.28.9.2 eth1: 192.168.0.2 eth3: 外网IP
 某一天发现这台WEB服务器流量一直很高。 开始一直以为是WEB服务的流量很高，根本没往NTP服务那方面想。 因为我设置NTP服务的时候就有考虑到安全问题。
 检测过程： #dstat -N eth3
+可以发现发送流量非常大。
+后面还用了nethogs和iptraf两个流量分析软件进行了分析。
+nethogs 是检测进程的流量，但是检测不到UDP的流量，所以一开始也没想到是ntp的引起的。因为ntp用的是123的UDP端口。
+iptraf是检测连接到服务器某个端口的流量 这里需要注意了：默认执行iptraf在上面窗口中只会显示TCP流量，而不会显示UDP流量，UDP流量会在下面快速闪现。所以一开始也没注意到是ntp引起的，因为UDP流量没排在上面。后面会讲怎么查看UDP流量。
+可以先设置一下iptraf，开启按服务名显示，而不是显示端口号，比较直观。
+#iptraf configure #iptraf -s eth3 这里一定要加上-s，才能显示UDP流量
+这样就会看到ntp的流量非常高，从而可以判断是ntp服务而引起的。
 	</div>
 	<div class="list__footer clearfix">
 		<a class="list__footer-readmore btn" href="/posts/2016/2016-06-13-linux-ntp-attack/">Read more…</a>
@@ -128,7 +138,9 @@ InfluxDB的Cluster功能收费，单机功能免费使用。
 或者有时候一小心删除了某个目录也可以用备份恢复。 备份系统应有选择性的备份某些服务器系统，或某些重要的系统文件，不用全部服务器做备份。 可以专门准备一个服务器或空间，根据服务器IP创建目录，再根据日期来存放tar好的各服务器的备份文件。
 备份： 一般LINUX分区至少分三个： 一个/boot分区 一个/根分区 一个/swap交换分区 我们以这个为基础来实施备份策略。
 /boot分区安装系统后一般不会变动，所以安装完系统后就可以备份一份，以后如果有升级系统，可以再备份
-#tar -zcpf /boot.
+#tar -zcpf /boot.tgz /boot
+/根分区 #备份整个根目录要排除一些动态的目录和一些不必要的目录 #备份根目录应等业务应用配置完成，运行一段时间稳定后再备份，这样以后恢复出来后也能马上使用。以后应用有重大修改，运行稳定后再备份，前面的备份就可以删除
+#tar -zcpf /root.tgz --exclude=/mnt --exclude=/media --exclude=/proc --exlude=/sys --exclude=/boot --exclude=/root.tgz /
 	</div>
 	<div class="list__footer clearfix">
 		<a class="list__footer-readmore btn" href="/posts/2016/2016-04-14-linux-tar-backup/">Read more…</a>
@@ -149,7 +161,7 @@ InfluxDB的Cluster功能收费，单机功能免费使用。
 		环境：SUSE Linux Enterprise Server 11 SP2
 检测到一个suse系统的zombie达到100多个
 登录服务器检测
-首先查询是哪个进程引起的 ps -ef|grep defu sfhadm 7444 7443 0 02:10 ?
+首先查询是哪个进程引起的 ps -ef|grep defu sfhadm 7444 7443 0 02:10 ? 00:00:00 [test.sh] &amp;lt;defunct&amp;gt; sfhadm 7463 7462 0 02:12 ? 00:00:00 [test.sh] &amp;lt;defunct&amp;gt; sfhadm 7481 7480 0 02:14 ?
 	</div>
 	<div class="list__footer clearfix">
 		<a class="list__footer-readmore btn" href="/posts/2016/2016-03-08-failure-analysis-zombie/">Read more…</a>
@@ -173,6 +185,7 @@ InfluxDB的Cluster功能收费，单机功能免费使用。
 准备一台Linux服务器安装lshell工具，添加受限用户组和用户，设置好能执行的命令，做为堡垒机使用，然后在其它服务器上在/etc/hosts.allow中设置只能从这台堡垒机服务器上远程登录。
 二、安装和启用lshell 2.1、安装Linux系统 可以安装一个最简单的CentOS系统，多余的东西都不要安装，后面需要什么再安装什么。 安装完，可以加强这台服务器的安全设置，可以禁用或删除各种不需要的服务、文件。 开防火墙 开SELinux
 2.2 安装lshell工具 如果堡垒机没有联网，可以从别的地方下载安装文件，再复制过来。 文章后有提供下载地址。 如果是CentOS7，需要先安装一下依赖软件
+#yum install *ncurses* #pip install readline #git clone https://github.com/ghantoos/lshell.git #cd lshell #python setup.
 	</div>
 	<div class="list__footer clearfix">
 		<a class="list__footer-readmore btn" href="/posts/2016/2016-03-04-math-float/">Read more…</a>
@@ -194,7 +207,12 @@ InfluxDB的Cluster功能收费，单机功能免费使用。
 一、前言 为了系统安全，我们经常对Linux服务器做设置，限制远程登录的来源IP，只允许我们信任的IP进行访问。 今天要讲的几种限制IP的方法，其中“通过tcp_wrappers限制”和“通过防火墙限制”只能通过IP进行限制，就是所有用户都得遵循这个限制。而“通过ssh配置限制”和“通过pam机制限制”可以根据用户名分别来进行IP的限制。
 二、通过tcp_wrappers限制 这种方法有比较大的局限性，只能针对一些针对tcp_wrappers的服务进行限制。而SSH登录服务是刚好支持的。 这种方法就是配置文件/etc/hosts.deny和/etc/hosts.allow。
 先编辑/etc/hosts.allow，先把允许要登录的IP或者IP段添加进去。
-sshd: 192.168.0.2 172.
+sshd: 192.168.0.2 172.31.1.* 192.168.10.*
+再编辑/etc/hosts.deny,拒绝所有的登录。
+sshd: ALL
+这样设置好后，只有在/etc/hosts.allow中的IP和IP段能登录这个系统，其它的IP都不能登录。
+三、通过防火墙限制 这种方式相对简单，只要拒绝相应的IP就可以。 可以拒绝IP不能访问系统的所有服务，也就不能登录了
+# iptables -I INPUT -s 192.168.0.3 -j DROP # 拒绝从192.
 	</div>
 	<div class="list__footer clearfix">
 		<a class="list__footer-readmore btn" href="/posts/2015/2015-12-31-ip-limit/">Read more…</a>
@@ -229,6 +247,11 @@ sshd: 192.168.0.2 172.
 	<div class="content list__excerpt post__content clearfix">
 		环境：oracle linux 6.4
 #fdisk -v fdisk (util-linux-ng 2.17.2) #parted -v parted (GNU parted) 2.1 我们讲的调整分区大小，都是要保证不损坏分区中数据为前提。 这里我们讲一下用fdisk、parted调整普通分区的方法。 LVM卷组的就不讲了，这个一般比较简单。
+切记：一般都只用于扩容分区，如果要缩减分区，特别是根目录，可能会出问题 而扩容分区时，要保证跟扩容分区相邻的分区是未分配的（或者可以先暂时删除的）
+操作有风险，重要数据还是要备份保存一下。
+一、fdisk普通分区调整： 大概步骤： 先执行fdisk查看原分区的cylinder起始值，一定要记住。 再umount分区，进fdisk删除原有分区， 再重建原有分区，再分区的时候，cylinder起始值一定要跟原来的是一样的，要不然就会破坏原分区的数据，只要调整cylinder结束值大小即可扩容分区。
+分区建好后， 用e2fsck先检查一下分区， 再用resize2fs扩大就可以了。
+实例演示： 我要把swap分区删掉，把原先swap中的一部分空间增加到根目录/中来（/dev/sda2），剩下的空间再创建新的比原来小的swap。 （增加点实验难度）
 	</div>
 	<div class="list__footer clearfix">
 		<a class="list__footer-readmore btn" href="/posts/2015/2015-12-11-linux-fdisk-parted/">Read more…</a>
@@ -250,6 +273,7 @@ sshd: 192.168.0.2 172.
 1、选择版本 现在发行版本已经让人有点眼花缭乱了。但是架构和底层的东西都是一样的，只是各自会有一些自己特有的工具。 LINUX:CentOS、Red Hat、Oracle Linux、Debian、Ubuntu、SUSE 只要玩转精通一类，基本上就可以了。有空再去玩玩其它的发行版本。Unix版本也要学学。 UNIX:Oracle Solaris、IBM AIX、HP-UX、FreeBSD 在熟悉之前可以多安装系统，了解系统安装的每个步骤，自定义选择组件安装。
 注：Unix系统现在慢慢被淘汰掉了，比如Solaris就不再更新了。(2023.2.8更新） 由于CentOS8开始更新规则变化，很多人开始不用CentOS了，所以Debian现在最好也要掌握
 2、系统基础 要去了解和理解跟WIN不一样的思想，彻底改变固定的思维，如 开源的思想和本质 一切皆文件 根目录结构 根目录下每个文件存放什么文件 挂载分区 安装软件 源码编译安装软件 系统上各种服务的功能
+3、各种命令 因为Linux下一般都是文字界面，不用图形界面，平时管理都要靠命令来操作。 掌握基本的命令至关重要，特别是一些基本的文件操作命令，如： cp 复制文件 mkdir 新建目录 touch 新建文件 cat 显示文件内容 rm 删除目录和文件 cd 切换路径 ls 列出目录和文件 man 列出命令的详细说明 find 找文件
 	</div>
 	<div class="list__footer clearfix">
 		<a class="list__footer-readmore btn" href="/posts/2015/2015-11-02-linux-devops-skill/">Read more…</a>
@@ -268,7 +292,8 @@ sshd: 192.168.0.2 172.
 	</header>
 	<div class="content list__excerpt post__content clearfix">
 		环境：redhat 6.4 工具：script、scriptreplay、mkfifo
-在redhat 6中自动带有scriptreplay指令，在redhat5中没有该指令，需要手动安装 从ftp://ftp.kernel.org/pub/linux/utils/util-linux/v2.14/下载util-linux-ng-2.14.1.tar.gz 从http://rpm.pbone.net中下载util-linux-2.13-0.44.el5.x86_64.rpm 安装rpm包 #rpm -ivh util-linux-2.13-0.44.el5.x86_64.rpm 解压util-linux-ng-2.14.1.tar.gz #tar zxvf util-linux-ng-2.
+在redhat 6中自动带有scriptreplay指令，在redhat5中没有该指令，需要手动安装 从ftp://ftp.kernel.org/pub/linux/utils/util-linux/v2.14/下载util-linux-ng-2.14.1.tar.gz 从http://rpm.pbone.net中下载util-linux-2.13-0.44.el5.x86_64.rpm 安装rpm包 #rpm -ivh util-linux-2.13-0.44.el5.x86_64.rpm 解压util-linux-ng-2.14.1.tar.gz #tar zxvf util-linux-ng-2.14.1.tar.gz 进入解压后的目录 然后运行 #./configure &amp;amp;&amp;amp; make &amp;amp;&amp;amp; make install 前言： 平时用history也能查自己操作过的命令，但是只能看自己输入的命令记录，系统的回显等等信息是看不了的。 而script工具可以记录在终端中所做的一切，包括回显信息等，就相当于是图形桌面环境下的录屏软件，不同的是，这里记录下来保存的文件是文本格式。 这些记录可以用来当作日志，保存终端所发生的一切，需要时回放查看。 也可以结合mkfifo,实时跟同事共享，协同工作。
+一、script详解： 1、默认状态 默认情况下，我们可以通过在终端中输入script来启动scirpt命令:
 	</div>
 	<div class="list__footer clearfix">
 		<a class="list__footer-readmore btn" href="/posts/2015/2015-10-31-history-script-scriptreplay-mkfifo/">Read more…</a>
@@ -288,7 +313,9 @@ sshd: 192.168.0.2 172.
 	<div class="content list__excerpt post__content clearfix">
 		环境：Redhat 6.4
 方法1： 实时记录历史命令到.bash_history
-[root@itbing~]#vim /etc/bashrc export HISTTIMEFORMAT=&#39;%F %T &#39; #让历史命令记录操作时间 export HISTSIZE=1000000 #设置保存历史命令条数 export HISTFILESIZE=1000000 #设置保存历史命令的文件大小 shopt -s histappend PROMPT_COMMAND=&#39;history -a&#39; #实时记录历史命令，防止丢失 优点：简单方便，易设置 缺点：安全性较差，多用户下，只能分别记录到各自的.
+[root@itbing~]#vim /etc/bashrc export HISTTIMEFORMAT=&#39;%F %T &#39; #让历史命令记录操作时间 export HISTSIZE=1000000 #设置保存历史命令条数 export HISTFILESIZE=1000000 #设置保存历史命令的文件大小 shopt -s histappend PROMPT_COMMAND=&#39;history -a&#39; #实时记录历史命令，防止丢失 优点：简单方便，易设置 缺点：安全性较差，多用户下，只能分别记录到各自的.bash_history中，没有统一管理
+方法2： 实时记录历史命令到自定义文件中
+[root@itbing~]#vim /etc/bashrc export HISTORY_FILE=/var/.
 	</div>
 	<div class="list__footer clearfix">
 		<a class="list__footer-readmore btn" href="/posts/2015/2015-10-31-history-command-record/">Read more…</a>
@@ -307,7 +334,8 @@ sshd: 192.168.0.2 172.
 	</header>
 	<div class="content list__excerpt post__content clearfix">
 		###推荐使用的NTP服务器：http://www.pool.ntp.org/zone/cn
-time.pool.aliyun.com cn.pool.ntp.org 2.cn.pool.ntp.org s1a.time.edu.cn s2c.time.edu.cn s2m.time.edu.cn time.asia.apple.com 1.asia.pool.ntp.org 3.asia.pool.ntp.org #加两个IP的，防止DNS域名解析有问题 202.112.10.60 202.112.10.36 有的可能是集群，一个域名后面有很多服务器。可以通过ntpdate -q cn.
+time.pool.aliyun.com cn.pool.ntp.org 2.cn.pool.ntp.org s1a.time.edu.cn s2c.time.edu.cn s2m.time.edu.cn time.asia.apple.com 1.asia.pool.ntp.org 3.asia.pool.ntp.org #加两个IP的，防止DNS域名解析有问题 202.112.10.60 202.112.10.36 有的可能是集群，一个域名后面有很多服务器。可以通过ntpdate -q cn.pool.ntp.org
+# ntpdate -q cn.pool.ntp.org server 202.118.1.130, stratum 2, offset -0.011422, delay 0.18146 server 202.120.2.101, stratum 3, offset -0.
 	</div>
 	<div class="list__footer clearfix">
 		<a class="list__footer-readmore btn" href="/posts/2015/2015-10-30-ntp-server-conf/">Read more…</a>

@@ -8,7 +8,9 @@
 	<meta name="description" content="">
 		<meta property="og:title" content="通过实例讲解Docker：Dockerfile构建镜像创建Nginx服务" />
 <meta property="og:description" content="前一篇文章讲了用Docker普通方法创建Tomcat服务，大家对Docker容器已经有了一定的认识。 Docker更好的地方是可以完全定制化自己的镜像和容器。
-我们可以通过创建Dockerfile文件定制化自己的镜像。 Dockerfile文件支持的指令大概有十三个： FROM MAINTAINER RUN CMD EXPOSE ENV ADD COPY ENTRYPOINT VOLUME USER WORKDIR" />
+我们可以通过创建Dockerfile文件定制化自己的镜像。 Dockerfile文件支持的指令大概有十三个： FROM MAINTAINER RUN CMD EXPOSE ENV ADD COPY ENTRYPOINT VOLUME USER WORKDIR
+通过这十三个命令，我们就可以构建我们自己的镜像了。
+首先，创建一个目录，用于存放Dockerfile文件和制作镜像需要的一些文件。 # mkdir nginx # cd nginx # vim Dockerfile FROM centos:7 MAINTAINER itbing xxxxx@qq." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="http://itbing.cn/posts/2019/2019-09-24-dockerfile-nginx/" /><meta property="article:section" content="posts" />
 <meta property="article:published_time" content="2019-09-24T20:49:30+08:00" />

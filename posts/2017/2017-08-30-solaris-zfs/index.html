@@ -10,7 +10,7 @@
 <meta property="og:description" content="同事发个消息给我，说大事不好了，他用zpool destroy命令把盘销毁了，但是现在突然发现里面还有东西，又想恢复。
 我说别慌，冷静，我有一招，马上能恢复。
 祭出神命令
-#zpool import -D 可以查看哪些盘被销毁了，盘的状态怎么样，能不能恢复 pool: backup id: 5154272182900538157 state: ONLINE (DESTROYED) action: The pool can be imported using its name or numeric identifier." />
+#zpool import -D 可以查看哪些盘被销毁了，盘的状态怎么样，能不能恢复 pool: backup id: 5154272182900538157 state: ONLINE (DESTROYED) action: The pool can be imported using its name or numeric identifier. config: backup ONLINE c1t0d0 ONLINE c1t1d0 ONLINE 可以看到，state状态虽然是DESTROYED，但盘的状态都是online的" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="http://itbing.cn/posts/2017/2017-08-30-solaris-zfs/" /><meta property="article:section" content="posts" />
 <meta property="article:published_time" content="2017-08-30T20:58:45+08:00" />

@@ -12,7 +12,7 @@
 # kubectl create configmap configmap-ls --from-file=/root/ls
 注意：要把容器里的ls命令复制到你执行kubectl命令的这个系统上用来configmap存储，因为可能你执行命令的这个系统和容器的系统不一样，你如果用这个系统上的ls命令挂载进去，可能没办法正常使用。
 然后在deploy中，制作一个挂载配置，把这个configmap挂载进容器中。
-............ volumeMounts: - mountPath: /configmap/ name: configmap-ls ." />
+............ volumeMounts: - mountPath: /configmap/ name: configmap-ls ........... volumes: - configMap: defaultMode: 420 name: configmap-ls name: configmap-ls ls这个命令文件就会在这个容器挂载的目录/configmap/下。因为这个容器中的挂载目录是只读的，需要从挂载目录中把ls文件复制出来，再授予它执行权限就可以正常使用了。(具体步骤可以自己去操作）" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="http://itbing.cn/posts/2021/2021-10-01-k8s-configmap-secret/" /><meta property="article:section" content="posts" />
 <meta property="article:published_time" content="2021-10-01T10:11:18+08:00" />

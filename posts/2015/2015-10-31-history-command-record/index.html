@@ -9,7 +9,9 @@
 		<meta property="og:title" content="多种方法实时记录历史命令" />
 <meta property="og:description" content="环境：Redhat 6.4
 方法1： 实时记录历史命令到.bash_history
-[root@itbing~]#vim /etc/bashrc export HISTTIMEFORMAT=&#39;%F %T &#39; #让历史命令记录操作时间 export HISTSIZE=1000000 #设置保存历史命令条数 export HISTFILESIZE=1000000 #设置保存历史命令的文件大小 shopt -s histappend PROMPT_COMMAND=&#39;history -a&#39; #实时记录历史命令，防止丢失 优点：简单方便，易设置 缺点：安全性较差，多用户下，只能分别记录到各自的." />
+[root@itbing~]#vim /etc/bashrc export HISTTIMEFORMAT=&#39;%F %T &#39; #让历史命令记录操作时间 export HISTSIZE=1000000 #设置保存历史命令条数 export HISTFILESIZE=1000000 #设置保存历史命令的文件大小 shopt -s histappend PROMPT_COMMAND=&#39;history -a&#39; #实时记录历史命令，防止丢失 优点：简单方便，易设置 缺点：安全性较差，多用户下，只能分别记录到各自的.bash_history中，没有统一管理
+方法2： 实时记录历史命令到自定义文件中
+[root@itbing~]#vim /etc/bashrc export HISTORY_FILE=/var/." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="http://itbing.cn/posts/2015/2015-10-31-history-command-record/" /><meta property="article:section" content="posts" />
 <meta property="article:published_time" content="2015-10-31T11:14:25+08:00" />

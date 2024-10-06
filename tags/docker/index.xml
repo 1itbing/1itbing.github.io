@@ -25,7 +25,9 @@
       
       <guid>http://itbing.cn/posts/2019/2019-09-24-dockerfile-nginx/</guid>
       <description>前一篇文章讲了用Docker普通方法创建Tomcat服务，大家对Docker容器已经有了一定的认识。 Docker更好的地方是可以完全定制化自己的镜像和容器。
-我们可以通过创建Dockerfile文件定制化自己的镜像。 Dockerfile文件支持的指令大概有十三个： FROM MAINTAINER RUN CMD EXPOSE ENV ADD COPY ENTRYPOINT VOLUME USER WORKDIR</description>
+我们可以通过创建Dockerfile文件定制化自己的镜像。 Dockerfile文件支持的指令大概有十三个： FROM MAINTAINER RUN CMD EXPOSE ENV ADD COPY ENTRYPOINT VOLUME USER WORKDIR
+通过这十三个命令，我们就可以构建我们自己的镜像了。
+首先，创建一个目录，用于存放Dockerfile文件和制作镜像需要的一些文件。 # mkdir nginx # cd nginx # vim Dockerfile FROM centos:7 MAINTAINER itbing xxxxx@qq.</description>
     </item>
     
     <item>
@@ -50,7 +52,9 @@
 CentOS6上虽然还可以安装Docker，但是不推荐在CentOS6上进行安装，CentOS6也没办法安装最新版本的docker-ce版本。 如果要学习和在生产中使用Docker，推荐在CentOS7上安装docker-ce版本。
 一、在CentOS7上安装docker-ce 在CentOS7上安装Docker还是比较简单的。
 CentOS本身就有提供一个docker版本可以安装，但版本较旧，不推荐使用。
-# yum list|grep docker docker.x86_64 1.</description>
+# yum list|grep docker docker.x86_64 1.13.1-102.git7f2769b.el7.centos 要想安装最新版的Docker版本，还是需要从Docker官网下载repo文件来进行安装。 把repo文件下载到/etc/yum.repos.d目录下。
+#cd /etc/yum.repos.d #wget https://download.docker.com/linux/centos/docker-ce.repo 开始安装：
+# yum install docker-ce Loaded plugins: fastestmirror Loading mirror speeds from cached hostfile * base: mirrors.</description>
     </item>
     
     <item>
@@ -62,7 +66,8 @@ CentOS本身就有提供一个docker版本可以安装，但版本较旧，不�
       <description>一、说明 先说一下，现在要安装Docker的话，一定要在CentOS7上安装Docker-ce。docker-io是比较老的版本，很多功能是没有的。 CentOS6默认也只支持到Docker1.7（但其实CentOS6是可以支持到Docker1.9的）,后面的版本都需要安装在CentOS7上。 CentOS6也不能安装Docker0.7以下的版本了，比如Docker0.5/0.6,基本上是没办法使用的。因为最早Docker是在Ubuntu上的。
 CentOS6安装Docker必须要升级内核到3.10及以上内核版本才行，内核还必须开启aufs模块。
 我这里也就是单纯做个研究，就讲一下怎么在CentOS6上升级内核，然后再安装Docker1.7,再升级到1.9。
-二、操作系统环境 # cat /etc/issue CentOS release 6.5 (Final) # uname -r 2.</description>
+二、操作系统环境 # cat /etc/issue CentOS release 6.5 (Final) # uname -r 2.6.32-431.el6.x86_64 三、基础环境的准备 1、安装开发平台工具 #yum groupinstall &amp;quot;Development tools&amp;quot;
+2、安装内核升级需要的依赖组件 #yum install device-mapper ncurses-devel qt-devel hmaccalc zlib-devel binutils-devel elfutils-libelf-devel</description>
     </item>
     
     <item>
@@ -75,7 +80,14 @@ CentOS6安装Docker必须要升级内核到3.10及以上内核版本才行，内
 Docker 最初是由dotCloud公司创始人Solomon Hykes发起的一个公司内部项目。
 在2013年底，由于Docker的火爆，dotCloud公司改名为Docker。
 Docker最早是在Ubuntu 12.04上开发实现的； Red Hat则从 RHEL6.5 开始对Docker进行支持。
-多种docker版本的混乱情况 先讲一讲为什么会有docker.io,docker-io这种的命名方式。 在Docker技术出现之前，Linux是已经有一个docker的工具的，但此docker非彼Docker。</description>
+多种docker版本的混乱情况 先讲一讲为什么会有docker.io,docker-io这种的命名方式。 在Docker技术出现之前，Linux是已经有一个docker的工具的，但此docker非彼Docker。
+这个docker是一个窗口停靠栏程序，就像苹果的Mac系统中的dock那个程序一样的一个工具。 这是它的官网http://icculus.org/openbox/2/docker/， 里面有介绍。
+为了区分开来，我们以Docker和docker来区分。
+Docker：指容器技术。 docker：指窗口停靠栏程序。
+Docker技术出来后，因为原先Linux系统上已经有了docker这个工具，所以Docker软件名也不能跟人家重名啊，要不然没办法安装。 那个时候Docker的官网是docker.io，所以就在软件名称上加了io的后缀，在Ubuntu中就是docker.io，在CentOS中就是docker-io。
+但是虽然软件名跟docker程序不一样了，但软件安装后的命令还是一样的，都是docker的这个命令，所以要安装Docker软件，要先看看有没有安装了那个停靠栏程序，有的话要先卸载才行。这个时期要安装Docker，就要用docker加io后缀的方式来安装。
+Ubuntu中安装： apt-get install docker.io
+CentOS中安装： yum install docker-io</description>
     </item>
     
   </channel>

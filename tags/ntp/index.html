@@ -62,6 +62,13 @@
 		被攻击服务器相关配置： ip: eth0: 172.28.9.2 eth1: 192.168.0.2 eth3: 外网IP
 某一天发现这台WEB服务器流量一直很高。 开始一直以为是WEB服务的流量很高，根本没往NTP服务那方面想。 因为我设置NTP服务的时候就有考虑到安全问题。
 检测过程： #dstat -N eth3
+可以发现发送流量非常大。
+后面还用了nethogs和iptraf两个流量分析软件进行了分析。
+nethogs 是检测进程的流量，但是检测不到UDP的流量，所以一开始也没想到是ntp的引起的。因为ntp用的是123的UDP端口。
+iptraf是检测连接到服务器某个端口的流量 这里需要注意了：默认执行iptraf在上面窗口中只会显示TCP流量，而不会显示UDP流量，UDP流量会在下面快速闪现。所以一开始也没注意到是ntp引起的，因为UDP流量没排在上面。后面会讲怎么查看UDP流量。
+可以先设置一下iptraf，开启按服务名显示，而不是显示端口号，比较直观。
+#iptraf configure #iptraf -s eth3 这里一定要加上-s，才能显示UDP流量
+这样就会看到ntp的流量非常高，从而可以判断是ntp服务而引起的。
 	</div>
 	<div class="list__footer clearfix">
 		<a class="list__footer-readmore btn" href="/posts/2016/2016-06-13-linux-ntp-attack/">Read more…</a>
@@ -80,7 +87,8 @@
 	</header>
 	<div class="content list__excerpt post__content clearfix">
 		###推荐使用的NTP服务器：http://www.pool.ntp.org/zone/cn
-time.pool.aliyun.com cn.pool.ntp.org 2.cn.pool.ntp.org s1a.time.edu.cn s2c.time.edu.cn s2m.time.edu.cn time.asia.apple.com 1.asia.pool.ntp.org 3.asia.pool.ntp.org #加两个IP的，防止DNS域名解析有问题 202.112.10.60 202.112.10.36 有的可能是集群，一个域名后面有很多服务器。可以通过ntpdate -q cn.
+time.pool.aliyun.com cn.pool.ntp.org 2.cn.pool.ntp.org s1a.time.edu.cn s2c.time.edu.cn s2m.time.edu.cn time.asia.apple.com 1.asia.pool.ntp.org 3.asia.pool.ntp.org #加两个IP的，防止DNS域名解析有问题 202.112.10.60 202.112.10.36 有的可能是集群，一个域名后面有很多服务器。可以通过ntpdate -q cn.pool.ntp.org
+# ntpdate -q cn.pool.ntp.org server 202.118.1.130, stratum 2, offset -0.011422, delay 0.18146 server 202.120.2.101, stratum 3, offset -0.
 	</div>
 	<div class="list__footer clearfix">
 		<a class="list__footer-readmore btn" href="/posts/2015/2015-10-30-ntp-server-conf/">Read more…</a>

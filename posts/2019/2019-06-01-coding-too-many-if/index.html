@@ -9,7 +9,7 @@
 		<meta property="og:title" content="代码重构优化-不要用过多的if嵌套" />
 <meta property="og:description" content="不要用过多的if嵌套
 重构前：
-def project_version(request,group_name,branch_name,project_name): if branch_name and group_name and project_name: project_name_with_namespace = &#39;%s/%s&#39; %(group_name,project_name) project = gl." />
+def project_version(request,group_name,branch_name,project_name): if branch_name and group_name and project_name: project_name_with_namespace = &#39;%s/%s&#39; %(group_name,project_name) project = gl.projects.get(project_name_with_namespace) if project: branches = [] branch = project.branches.list() if branch: branches = [] branch_name_find = &#39;%s-&#39; %(branch_name) for branch_name_in in branch: if (branch_name_in." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="http://itbing.cn/posts/2019/2019-06-01-coding-too-many-if/" /><meta property="article:section" content="posts" />
 <meta property="article:published_time" content="2019-06-01T10:41:24+08:00" />

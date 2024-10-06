@@ -64,6 +64,9 @@
 可以右键，复制链接地址，使用wget下载 #wget http://caspian.dotconf.net/menu/Software/SendEmail/sendEmail-v1.56.tar.gz
 解压：
 #tar -zxvf sendEmail-v1.56.tar.gz #cd sendEmail-v1.56 把里面的主要程序复制到环境变量目录下，即可使用 #cp sendEmail /usr/bin/
+这个工具都不需要赋权，因为本身已经设置好了执行权限。 然后就可以执行此命令了。 # sendEmail -help
+命令说明：
+-f xxx@itbing.cn 发件人邮箱 -s mailserver 如果能直接连接的机器，就可以直接填QQ邮箱之类的SMTP服务器地址 -u &#34;我是邮件主题&#34; 邮件的标题 -o message-content-type=html 邮件内容的格式,html表示它是html格式 -o message-charset=utf8 邮件内容编码 -xu xxx@itbing.
 	</div>
 	<div class="list__footer clearfix">
 		<a class="list__footer-readmore btn" href="/posts/2018/2018-10-18-linux-sendemail/">Read more…</a>

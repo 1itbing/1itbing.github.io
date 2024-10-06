@@ -79,11 +79,8 @@
 	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0a14 14 0 1 1 0 28 1 1 0 0 1 0-28m0 3a3 3 0 1 0 0 22 3 3 0 0 0 0-22m1 4h-2v8.4l6.8 4.4L22 18l-6-3.8z"/></svg><time class="meta__text" datetime="2022-03-06T10:42:56&#43;08:00">March 06, 2022</time></div></div>
 	</header>
 	<div class="content list__excerpt post__content clearfix">
-		kubectl命令一般都挺长的，经常重复输入还挺麻烦的，其实也是可以让它自动补全的。
-默认bash包含了自动补全，只要输入命令的前几个字母，再按TAB键，如果这几个字母有很多命令匹配到会全部列出让选择，如果只匹配到一个，就会直接补全命令。 但这种补全一般是只针对命令和文件名。
-比如默认情况下输入&quot;kubectl&quot;,这个时候按TAB键，只会匹配出当前目录下的文件，不会列出这个命令的参数。 还比如输入&quot;kubectl -n k&quot;,这个时候按TAB键，并不能匹配出以k开头的命名空间来。
-想要让kubectl命令也补全这种信息，就需要安装bash的一个扩展包bash-completion。
-Linux下安装和设置： 1、安装bash-completion yum install bash-completion 或者 apt install bash-completion 2、使其生效 source /usr/share/bash-completion/bash_completion source &lt;(kubectl completion bash) 3、添加环境变量(让以后开机就生效） echo &quot;source &lt;(kubectl completion bash)&quot; &gt;&gt; ~/.
+		<p>kubectl命令一般都挺长的，经常重复输入还挺麻烦的，其实也是可以让它自动补全的。</p>
+<p>默认bash包含了自动补全，只要输入命令的前几个字母，再按TAB键，如果这几个字母有很多命令匹配到会全部列出让选择，如果只匹配到一个，就会直接补全命令。 但这种补全一般是只针对命令和文件名。</p>
 	</div>
 	<div class="list__footer clearfix">
 		<a class="list__footer-readmore btn" href="/posts/2022/2022-03-06-k8s-kubectl-auto/">Read more…</a>
@@ -101,12 +98,11 @@ Linux下安装和设置： 1、安装bash-completion yum install bash-completion
 	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0a14 14 0 1 1 0 28 1 1 0 0 1 0-28m0 3a3 3 0 1 0 0 22 3 3 0 0 0 0-22m1 4h-2v8.4l6.8 4.4L22 18l-6-3.8z"/></svg><time class="meta__text" datetime="2021-12-01T11:22:36&#43;08:00">December 01, 2021</time></div></div>
 	</header>
 	<div class="content list__excerpt post__content clearfix">
-		【Minikube】 Minikube是由Kubernetes官方维护的单机版的Kubernetes，支持Kubernetes的大部分功能，从基础的容器编排管理，到高级特性如负载均衡、Ingress，权限控制等。使用最新的官方stable版本。 非常适合作为Kubernetes入门、实验和开发测试环境使用。 支持macOS、Linux和Windows等多平台。
-网址：https://minikube.sigs.k8s.io
-【k3s】 SUSE(Rancher)公司出品，轻量型k8s。只支持Linux平台。 网址：https://k3s.io
-【Rancher Desktop带k3s】 SUSE(Rancher)公司出品，Rancher Desktop带k3s环境。安装快捷方便。 支持macOS、Linux和Windows等多平台。
-网址：https://rancherdesktop.io
-【Docker Desktop带k8s】 Docker公司出品。 支持macOS、Linux和Windows等多平台。 网址：https://www.
+		<h3 id="minikube">【Minikube】</h3>
+<p>Minikube是由Kubernetes官方维护的单机版的Kubernetes，支持Kubernetes的大部分功能，从基础的容器编排管理，到高级特性如负载均衡、Ingress，权限控制等。使用最新的官方stable版本。
+非常适合作为Kubernetes入门、实验和开发测试环境使用。
+支持macOS、Linux和Windows等多平台。</p>
+<p>网址：https://minikube.sigs.k8s.io</p>
 	</div>
 	<div class="list__footer clearfix">
 		<a class="list__footer-readmore btn" href="/posts/2021/2021-12-01-k8s-minikube-k3s/">Read more…</a>
@@ -128,6 +124,7 @@ Linux下安装和设置： 1、安装bash-completion yum install bash-completion
 这里有两种方便设置的方法：
 一种是用hostAliases 在yaml中的spec块中添加一个hostAliases，然后根据格式写上IP地址和想要解析的域名。
 ....... spec: hostAliases: - ip: &#34;172.11.0.23&#34; hostnames: - pre.itbing.local ...... 这样就会把pre.itbing.local解析到172.11.0.23。 hostAliases的机制是会把这个域名解析添加进容器中的/etc/hosts。
+一种是在coreDNS添加 # kubectl -n kube-system edit configmap coredns ...... .:53 { errors health kubernetes cluster.
 	</div>
 	<div class="list__footer clearfix">
 		<a class="list__footer-readmore btn" href="/posts/2021/2021-11-16-k8s-coredns/">Read more…</a>
@@ -147,6 +144,9 @@ Linux下安装和设置： 1、安装bash-completion yum install bash-completion
 	<div class="content list__excerpt post__content clearfix">
 		如果对Deployment的Pod template部分进行更改，例如更新template 中的 label 和容器镜像时，就会创建出一个新的 revision版本记录，如果想回滚恢复到以前某个版本状态，可以随时进行操作恢复。
 1.先创建一个deploy 这里直接用命令创建一个nginx服务的deploy # kubectl create deploy nginx-deploy --image=nginx:1.19.0 --replicas=2 -n dev
+这里用的nginx镜像是1.19.0版本
+2.查看revision版本记录 查看nginx的deploy历史版本记录
+# kubectl -n dev rollout history deploy nginx-deploy REVISION CHANGE-CAUSE 1 &amp;lt;none&amp;gt; 第一栏REVISION是记录修改过的历史序列号，如果要回滚可以指定一个序列号来选择恢复到哪个状态。 第二栏CHANGE-CAUSE是记录回滚的一个标注内容，这里显示为，如果想直接显示记录内容，可以在命令后加上&ndash;record，也可以用annotate和patch来后期添加
 	</div>
 	<div class="list__footer clearfix">
 		<a class="list__footer-readmore btn" href="/posts/2021/2021-11-15-k8s-record-rollout/">Read more…</a>
@@ -169,7 +169,7 @@ Linux下安装和设置： 1、安装bash-completion yum install bash-completion
 # kubectl create configmap configmap-ls --from-file=/root/ls
 注意：要把容器里的ls命令复制到你执行kubectl命令的这个系统上用来configmap存储，因为可能你执行命令的这个系统和容器的系统不一样，你如果用这个系统上的ls命令挂载进去，可能没办法正常使用。
 然后在deploy中，制作一个挂载配置，把这个configmap挂载进容器中。
-............ volumeMounts: - mountPath: /configmap/ name: configmap-ls .
+............ volumeMounts: - mountPath: /configmap/ name: configmap-ls ........... volumes: - configMap: defaultMode: 420 name: configmap-ls name: configmap-ls ls这个命令文件就会在这个容器挂载的目录/configmap/下。因为这个容器中的挂载目录是只读的，需要从挂载目录中把ls文件复制出来，再授予它执行权限就可以正常使用了。(具体步骤可以自己去操作）
 	</div>
 	<div class="list__footer clearfix">
 		<a class="list__footer-readmore btn" href="/posts/2021/2021-10-01-k8s-configmap-secret/">Read more…</a>
@@ -190,7 +190,7 @@ Linux下安装和设置： 1、安装bash-completion yum install bash-completion
 		把k8s/k3s集群导入rancher中进行管理，步骤还是很简单的。 rancher本身也是有提示说明的。
 1、登录rancher。 点击“集群”，再点击右边的“添加集群”按钮
 2、点击右边的“导入”链接 3、设置集群的名称（可随意）。 也可以在这里添加对集群管理的用户（成员角色），不过一般都是在后面细分权限划分。
-4、这里会根据你的rancher环境生成相应的命令。到要导入的集群系统上执行这个命令就行。 [root@master1 ~]# kubectl apply -f https://rancher.xxxxxx.net/v3/import/2cp2nlnkjv2l4d9tcwg6lbj72tfmjcxtvrndvhv6kx4tjcwppctnln.yaml clusterrole.rbac.authorization.k8s.io/proxy-clusterrole-kubeapiserver created clusterrolebinding.
+4、这里会根据你的rancher环境生成相应的命令。到要导入的集群系统上执行这个命令就行。 [root@master1 ~]# kubectl apply -f https://rancher.xxxxxx.net/v3/import/2cp2nlnkjv2l4d9tcwg6lbj72tfmjcxtvrndvhv6kx4tjcwppctnln.yaml clusterrole.rbac.authorization.k8s.io/proxy-clusterrole-kubeapiserver created clusterrolebinding.rbac.authorization.k8s.io/proxy-role-binding-kubernetes-master created namespace/cattle-system created serviceaccount/cattle created Warning: rbac.authorization.k8s.io/v1beta1 ClusterRoleBinding is deprecated in v1.17+, unavailable in v1.
 	</div>
 	<div class="list__footer clearfix">
 		<a class="list__footer-readmore btn" href="/posts/2021/2021-07-07-k8s-rancher-import/">Read more…</a>
@@ -211,7 +211,7 @@ Linux下安装和设置： 1、安装bash-completion yum install bash-completion
 		Docker安装方法： 以前1.x版本，镜像名是rancher/server，现在一般都是用2.x版本，镜像名是rancher/rancher
 $ docker pull rancher/rancher
 这个会安装最新版本的rancher，如果想指定版本安装，可以先查询有哪些版本，再加上版本号进行安装。
-$ curl -s https://registry.hub.docker.com/v2/repositories/rancher/rancher/tags/?page_size=100| jq \&#39;.&#34;results&#34;[] .name\&#39; &#34;v2.7-head&#34; &#34;v2.
+$ curl -s https://registry.hub.docker.com/v2/repositories/rancher/rancher/tags/?page_size=100| jq \&#39;.&#34;results&#34;[] .name\&#39; &#34;v2.7-head&#34; &#34;v2.7-828fe615a30ed0302d39df1a78366ce4f4a8b381-head&#34; &#34;v2.7-828fe615a30ed0302d39df1a78366ce4f4a8b381-linux-amd64&#34; &#34;v2.7-828fe615a30ed0302d39df1a78366ce4f4a8b381-linux-arm64&#34; &#34;v2.7-828fe615a30ed0302d39df1a78366ce4f4a8b381-linux-s390x&#34; &#34;v2.7-cd8eea1fdf0dd0071bfdcae4f1eb7de2c5b3722f-head&#34; &#34;v2.7-cd8eea1fdf0dd0071bfdcae4f1eb7de2c5b3722f-linux-amd64&#34; &#34;v2.7-cd8eea1fdf0dd0071bfdcae4f1eb7de2c5b3722f-linux-arm64&#34; &#34;v2.7-cd8eea1fdf0dd0071bfdcae4f1eb7de2c5b3722f-linux-s390x&#34; &#34;v2.7-7d937a2a6322dc7aca69cb01bb06f49a62be3a9d-linux-amd64&#34; &#34;v2.7-530a0c4ed972e607bf4bafc91d273a8ac1c524c2-linux-amd64&#34; &#34;v2.7-530a0c4ed972e607bf4bafc91d273a8ac1c524c2-linux-arm64&#34; &#34;v2.7-7d937a2a6322dc7aca69cb01bb06f49a62be3a9d-linux-s390x&#34; &#34;v2.7-530a0c4ed972e607bf4bafc91d273a8ac1c524c2-linux-s390x&#34; &#34;v2.6-1981e7ec13d19ab91619dd1bb85a042c3ae26a6b-linux-arm64&#34; &#34;v2.6-1981e7ec13d19ab91619dd1bb85a042c3ae26a6b-linux-s390x&#34; &#34;v2.
 	</div>
 	<div class="list__footer clearfix">
 		<a class="list__footer-readmore btn" href="/posts/2021/2021-07-06-k8s-rancher/">Read more…</a>
@@ -231,7 +231,7 @@ $ curl -s https://registry.hub.docker.com/v2/repositories/rancher/rancher/tags/?
 	<div class="content list__excerpt post__content clearfix">
 		k8s在使用时，不仅是运维人员需要使用，很多时候还需要给开发人员来使用。 给开发人员使用，就不可能让他们用命令行去使用，这个时候就需要有web页面这种管理方式。 k8s的web管理方式其实不只有dashboard这一种，还有很多其它的解决方案，比如Rancher，其实就比dashboard更好用。
 一、查询kubernetes版本，下载对应的dashboard版本 安装前要先确认自己的kubernetes版本，因为dashboard要对应不同的kubernetes版本来进行安装使用，如果版本不对应，安装完打开可能会报错。
-# kubectl version Client Version: version.Info{Major:&amp;quot;1&amp;quot;, Minor:&amp;quot;19&amp;quot;, GitVersion:&amp;quot;v1.19.0&amp;quot;, GitCommit:&amp;quot;e19964183377d0ec2052d1f1fa930c4d7575bd50&amp;quot;, GitTreeState:&amp;quot;clean&amp;quot;, BuildDate:&amp;quot;2020-08-26T14:30:33Z&amp;quot;, GoVersion:&amp;quot;go1.
+# kubectl version Client Version: version.Info{Major:&amp;quot;1&amp;quot;, Minor:&amp;quot;19&amp;quot;, GitVersion:&amp;quot;v1.19.0&amp;quot;, GitCommit:&amp;quot;e19964183377d0ec2052d1f1fa930c4d7575bd50&amp;quot;, GitTreeState:&amp;quot;clean&amp;quot;, BuildDate:&amp;quot;2020-08-26T14:30:33Z&amp;quot;, GoVersion:&amp;quot;go1.15&amp;quot;, Compiler:&amp;quot;gc&amp;quot;, Platform:&amp;quot;linux/amd64&amp;quot;} Server Version: version.Info{Major:&amp;quot;1&amp;quot;, Minor:&amp;quot;19&amp;quot;, GitVersion:&amp;quot;v1.19.0&amp;quot;, GitCommit:&amp;quot;e19964183377d0ec2052d1f1fa930c4d7575bd50&amp;quot;, GitTreeState:&amp;quot;clean&amp;quot;, BuildDate:&amp;quot;2020-08-26T14:23:04Z&amp;quot;, GoVersion:&amp;quot;go1.15&amp;quot;, Compiler:&amp;quot;gc&amp;quot;, Platform:&amp;quot;linux/amd64&amp;quot;} 这里kubernetes是1.
 	</div>
 	<div class="list__footer clearfix">
 		<a class="list__footer-readmore btn" href="/posts/2021/2021-05-10-k8s-dashboard/">Read more…</a>
@@ -283,7 +283,10 @@ pod： k8s集群管理的最小单位。k8s不会直接管理docker容器，而�
 	<div class="content list__excerpt post__content clearfix">
 		Kubernetes管理资源的两种方式: 1、用纯命令管理 比如用命令创建一个nginx服务，并且设置2个pod负载
 # kubectl run nginx-deployment --image=nginx:1.7.9 --replicas=2
-比如用命令更新服务的image镜像版本 # kubectl set image deploy/nginx nginx:nginx:1.
+比如用命令更新服务的image镜像版本 # kubectl set image deploy/nginx nginx:nginx:1.8.0
+2、用yaml文件管理 有纯命令管理的话，其实是不够规范化的，有问题了也不好追溯。 所以生产上其实都是用yaml文件来管理k8s，这也是官方推荐的方式。
+用yaml文件创建一个nginx应用服务：
+# cat nginx.yaml apiVersion: apps/v1 kind: Deployment metadata: name: nginx-deploy namespace: dev labels: app: nginx-deploy spec: replicas: 2 selector: matchLabels: app: nginx-server template: metadata: labels: app: nginx-server spec: containers: - image: nginx name: nginx ports: - containerPort: 80 protocol: TCP 执行命令用yaml创建服务 # kubectl apply -f nginx.
 	</div>
 	<div class="list__footer clearfix">
 		<a class="list__footer-readmore btn" href="/posts/2021/2021-03-19-k8s-manage/">Read more…</a>

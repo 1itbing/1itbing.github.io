@@ -8,10 +8,7 @@
 	<meta name="description" content="">
 		<meta property="og:title" content="让kubectl命令能自动补全" />
 <meta property="og:description" content="kubectl命令一般都挺长的，经常重复输入还挺麻烦的，其实也是可以让它自动补全的。
-默认bash包含了自动补全，只要输入命令的前几个字母，再按TAB键，如果这几个字母有很多命令匹配到会全部列出让选择，如果只匹配到一个，就会直接补全命令。 但这种补全一般是只针对命令和文件名。
-比如默认情况下输入&quot;kubectl&quot;,这个时候按TAB键，只会匹配出当前目录下的文件，不会列出这个命令的参数。 还比如输入&quot;kubectl -n k&quot;,这个时候按TAB键，并不能匹配出以k开头的命名空间来。
-想要让kubectl命令也补全这种信息，就需要安装bash的一个扩展包bash-completion。
-Linux下安装和设置： 1、安装bash-completion yum install bash-completion 或者 apt install bash-completion 2、使其生效 source /usr/share/bash-completion/bash_completion source &lt;(kubectl completion bash) 3、添加环境变量(让以后开机就生效） echo &quot;source &lt;(kubectl completion bash)&quot; &gt;&gt; ~/." />
+默认bash包含了自动补全，只要输入命令的前几个字母，再按TAB键，如果这几个字母有很多命令匹配到会全部列出让选择，如果只匹配到一个，就会直接补全命令。 但这种补全一般是只针对命令和文件名。" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="http://itbing.cn/posts/2022/2022-03-06-k8s-kubectl-auto/" /><meta property="article:section" content="posts" />
 <meta property="article:published_time" content="2022-03-06T10:42:56+08:00" />

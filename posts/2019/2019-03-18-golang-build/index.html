@@ -8,7 +8,12 @@
 	<meta name="description" content="">
 		<meta property="og:title" content="Go的程序：运行和编译" />
 <meta property="og:description" content="package main import ( &#34;fmt&#34; ) func main() { fmt.Println(&#34;&#34;Hello,world!) } package 包名:必须项。 如果是要编译执行的程序，那么一定要有一个main包和main函数。
-import 库名：可选项。导入多个项包库就用（）包起来。" />
+import 库名：可选项。导入多个项包库就用（）包起来。
+func main()：主函数。 如果是要编译执行的程序，那么一定要有一个main函数。 fmt.Println(&ldquo;Hello,world!&quot;)：主程序内容，输出打印“Hello,world!”。
+可以不编译运行程序： #go run 程序文件名
+也可以编译成二进制文件后再运行： #go build 程序文件名
+不同系统平台编译方式，可以跨平台使用。
+编译到 linux 64bit $ GOOS=linux GOARCH=amd64 go build 或者可以使用 -o 选项指定生成二进制文件名字 $ GOOS=linux GOARCH=amd64 go build -o 生成二进制文件名" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="http://itbing.cn/posts/2019/2019-03-18-golang-build/" /><meta property="article:section" content="posts" />
 <meta property="article:published_time" content="2019-03-18T20:41:13+08:00" />

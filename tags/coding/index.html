@@ -61,7 +61,7 @@
 	<div class="content list__excerpt post__content clearfix">
 		不要用过多的if嵌套
 重构前：
-def project_version(request,group_name,branch_name,project_name): if branch_name and group_name and project_name: project_name_with_namespace = &#39;%s/%s&#39; %(group_name,project_name) project = gl.
+def project_version(request,group_name,branch_name,project_name): if branch_name and group_name and project_name: project_name_with_namespace = &#39;%s/%s&#39; %(group_name,project_name) project = gl.projects.get(project_name_with_namespace) if project: branches = [] branch = project.branches.list() if branch: branches = [] branch_name_find = &#39;%s-&#39; %(branch_name) for branch_name_in in branch: if (branch_name_in.
 	</div>
 	<div class="list__footer clearfix">
 		<a class="list__footer-readmore btn" href="/posts/2019/2019-06-01-coding-too-many-if/">Read more…</a>

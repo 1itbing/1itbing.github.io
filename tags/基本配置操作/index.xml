@@ -15,7 +15,10 @@
       <guid>http://itbing.cn/posts/2018/2018-07-13-linux-base-set/</guid>
       <description>平时在管理系统时，总有一些不人性化的地方，也有很多不方便管理的地方，我们可以通过修改一些系统配置来使我们管理系统更方便。
 一、系统优化 1.1 命令实时记录 编辑/etc/bashrc，添加以下两句：
-shopt -s histappend PROMPT_COMMAND=&amp;#39;history -a&amp;#39; 1.2 给历史命令加上执行时间 编辑/etc/profile文件，加入如下一行： export HISTTIMEFORMAT=&#39;%F %T &#39;</description>
+shopt -s histappend PROMPT_COMMAND=&amp;#39;history -a&amp;#39; 1.2 给历史命令加上执行时间 编辑/etc/profile文件，加入如下一行： export HISTTIMEFORMAT=&#39;%F %T &#39;
+1.3 超时退出 编辑/etc/profile文件，加入如下一行： export TMOUT=3600
+1.4 关闭selinux 编辑/etc/sysconfig/selinux SELINUX=disabled
+1.5 sysstat vim /etc/sysconfig/sysstat HISTORY=31 </description>
     </item>
     
     <item>
@@ -24,7 +27,11 @@ shopt -s histappend PROMPT_COMMAND=&amp;#39;history -a&amp;#39; 1.2 给历史命
       <pubDate>Sun, 01 Jul 2018 23:14:58 +0800</pubDate>
       
       <guid>http://itbing.cn/posts/2018/2018-07-01-linux-base-operate/</guid>
-      <description>一、必须要熟练掌握的操作 1.1 忘记root密码（进入单用户模式） 1.2 进急救模式 1.3 配置IP地址 1.4 配置主机名 1.5 扫描磁盘、磁盘分区、挂载分区 1.6 LVM卷组管理 1.7 分区的扩展和收缩 1.</description>
+      <description>一、必须要熟练掌握的操作 1.1 忘记root密码（进入单用户模式） 1.2 进急救模式 1.3 配置IP地址 1.4 配置主机名 1.5 扫描磁盘、磁盘分区、挂载分区 1.6 LVM卷组管理 1.7 分区的扩展和收缩 1.8 VNC设置 1.9 定时设置
+二、详细配置步骤 2.1 忘记root密码 忘记root密码这种事情不会经常发生，但是是生产中必须要会的一个技能。 RHEL7之前的系统都比较简单，RHEL7之后有些变化。
+我这里都以RHEL6系统来做配置，有些比较不一样的配置也会加上RHEL7。
+进入单用户模式 RHEL6:
+step1:开机加载后，按任意键，进入启动菜单栏 step2:进入后看菜单栏下面的文字说明。按字母e可以编辑启动前的菜单命令 step3:按e后，进入菜单编辑状态，按上下键，把光标移到第二行，再按e step4:在命令最后加上1或者字母single,都表示单用户，回车 step5：按字母b进行启动（注意，这里不是回车） step6:确定是否是单用户模式\r\n启动完全后，会直接进入系统，不会有输入密码等提示。 可以输入runlevel查看系统级别： #runlevel N S 或者 #runlevel n1 S 都说明现在的系统是单用户模式。 然后就可以使用passwd命令修改系统密码。</description>
     </item>
     
   </channel>

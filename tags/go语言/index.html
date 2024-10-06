@@ -60,7 +60,8 @@
 	</header>
 	<div class="content list__excerpt post__content clearfix">
 		Print：不带格式的最基础的输出函数 a := &#34;a&#34; b := &#34;b&#34; fmt.Print(a) fmt.Print(b) 输出：ab
-Println：带一个换行效果的输出函数 a := &#34;a&#34; b := &#34;b&#34; fmt.
+Println：带一个换行效果的输出函数 a := &#34;a&#34; b := &#34;b&#34; fmt.Println(a) fmt.Println(b) 输出： a\r\nb\r\n
+Printf：支持占位符的输出函数 a := &ldquo;a&rdquo; b := &ldquo;b&rdquo; c := 1
 	</div>
 	<div class="list__footer clearfix">
 		<a class="list__footer-readmore btn" href="/posts/2019/2019-05-14-golang-print/">Read more…</a>
@@ -80,9 +81,9 @@ Println：带一个换行效果的输出函数 a := &#34;a&#34; b := &#34;b&#34;
 	<div class="content list__excerpt post__content clearfix">
 		go module是Go1.11版本之后官方推出的版本管理工具，并且从Go1.13版本开始，go module将是Go语言默认的依赖管理工具。
 go module有三个可选值：off、on、auto。 GO111MODULE=off 禁用模块支持，编译时会从GOPATH和vendor文件夹中查找包。 GO111MODULE=on 启用模块支持，编译时会忽略GOPATH和vendor文件夹，只根据 go.mod下载依赖。 GO111MODULE=auto，项目根目录有go.mod文件时，开启模块支持。 使用 go module 管理依赖后会在项目根目录下生成两个文件go.mod和go.sum。
-	</div>
-	<div class="list__footer clearfix">
-		<a class="list__footer-readmore btn" href="/posts/2019/2019-05-01-golang-gomodule/">Read more…</a>
+查看自己的环境中，GO111MODULE的值。
+# go env|grep GO111MODULE GO111MODULE=&#34;&#34; 从Go1.13版本开始，为空就是on的状态。
+如果想使用GO111MODULE=&ldquo;off&quot;的方法时，要先设置一下。 # go env -w GO111MODULE=&quot;off&quot;
 	</div>
 </article><article class="list__item post">
 	
@@ -98,7 +99,8 @@ go module有三个可选值：off、on、auto。 GO111MODULE=off 禁用模块支
 	</header>
 	<div class="content list__excerpt post__content clearfix">
 		1、双引号“ ” 最常用的符号，常用来定义字符串。 双引号中定义的字符串支持转义字符，比如\n将输出换行。
-package main import ( &#34;fmt&#34; ) func main() { a := &#34;i&#34; b := &#34;在\\n&#34; c := &#34;这里&#34; fmt.
+package main import ( &#34;fmt&#34; ) func main() { a := &#34;i&#34; b := &#34;在\\n&#34; c := &#34;这里&#34; fmt.Println(a, b, c) } 输出：i 在\n 这里
+2、单引号‘ ’ 单引号用来定义一个byte或者rune。
 	</div>
 	<div class="list__footer clearfix">
 		<a class="list__footer-readmore btn" href="/posts/2019/2019-04-07-golang-quote/">Read more…</a>
@@ -136,6 +138,11 @@ Go1.11版本之后官方推出go module版本管理工具，并且从Go1.13版�
 	<div class="content list__excerpt post__content clearfix">
 		package main import ( &#34;fmt&#34; ) func main() { fmt.Println(&#34;&#34;Hello,world!) } package 包名:必须项。 如果是要编译执行的程序，那么一定要有一个main包和main函数。
 import 库名：可选项。导入多个项包库就用（）包起来。
+func main()：主函数。 如果是要编译执行的程序，那么一定要有一个main函数。 fmt.Println(&ldquo;Hello,world!&quot;)：主程序内容，输出打印“Hello,world!”。
+可以不编译运行程序： #go run 程序文件名
+也可以编译成二进制文件后再运行： #go build 程序文件名
+不同系统平台编译方式，可以跨平台使用。
+编译到 linux 64bit $ GOOS=linux GOARCH=amd64 go build 或者可以使用 -o 选项指定生成二进制文件名字 $ GOOS=linux GOARCH=amd64 go build -o 生成二进制文件名
 	</div>
 	<div class="list__footer clearfix">
 		<a class="list__footer-readmore btn" href="/posts/2019/2019-03-18-golang-build/">Read more…</a>

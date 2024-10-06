@@ -24,11 +24,8 @@
       <pubDate>Sun, 06 Mar 2022 10:42:56 +0800</pubDate>
       
       <guid>http://itbing.cn/posts/2022/2022-03-06-k8s-kubectl-auto/</guid>
-      <description>kubectl命令一般都挺长的，经常重复输入还挺麻烦的，其实也是可以让它自动补全的。
-默认bash包含了自动补全，只要输入命令的前几个字母，再按TAB键，如果这几个字母有很多命令匹配到会全部列出让选择，如果只匹配到一个，就会直接补全命令。 但这种补全一般是只针对命令和文件名。
-比如默认情况下输入&amp;quot;kubectl&amp;quot;,这个时候按TAB键，只会匹配出当前目录下的文件，不会列出这个命令的参数。 还比如输入&amp;quot;kubectl -n k&amp;quot;,这个时候按TAB键，并不能匹配出以k开头的命名空间来。
-想要让kubectl命令也补全这种信息，就需要安装bash的一个扩展包bash-completion。
-Linux下安装和设置： 1、安装bash-completion yum install bash-completion 或者 apt install bash-completion 2、使其生效 source /usr/share/bash-completion/bash_completion source &amp;lt;(kubectl completion bash) 3、添加环境变量(让以后开机就生效） echo &amp;quot;source &amp;lt;(kubectl completion bash)&amp;quot; &amp;gt;&amp;gt; ~/.</description>
+      <description>&lt;p&gt;kubectl命令一般都挺长的，经常重复输入还挺麻烦的，其实也是可以让它自动补全的。&lt;/p&gt;
+&lt;p&gt;默认bash包含了自动补全，只要输入命令的前几个字母，再按TAB键，如果这几个字母有很多命令匹配到会全部列出让选择，如果只匹配到一个，就会直接补全命令。 但这种补全一般是只针对命令和文件名。&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -37,12 +34,11 @@ Linux下安装和设置： 1、安装bash-completion yum install bash-completion
       <pubDate>Wed, 01 Dec 2021 11:22:36 +0800</pubDate>
       
       <guid>http://itbing.cn/posts/2021/2021-12-01-k8s-minikube-k3s/</guid>
-      <description>【Minikube】 Minikube是由Kubernetes官方维护的单机版的Kubernetes，支持Kubernetes的大部分功能，从基础的容器编排管理，到高级特性如负载均衡、Ingress，权限控制等。使用最新的官方stable版本。 非常适合作为Kubernetes入门、实验和开发测试环境使用。 支持macOS、Linux和Windows等多平台。
-网址：https://minikube.sigs.k8s.io
-【k3s】 SUSE(Rancher)公司出品，轻量型k8s。只支持Linux平台。 网址：https://k3s.io
-【Rancher Desktop带k3s】 SUSE(Rancher)公司出品，Rancher Desktop带k3s环境。安装快捷方便。 支持macOS、Linux和Windows等多平台。
-网址：https://rancherdesktop.io
-【Docker Desktop带k8s】 Docker公司出品。 支持macOS、Linux和Windows等多平台。 网址：https://www.</description>
+      <description>&lt;h3 id=&#34;minikube&#34;&gt;【Minikube】&lt;/h3&gt;
+&lt;p&gt;Minikube是由Kubernetes官方维护的单机版的Kubernetes，支持Kubernetes的大部分功能，从基础的容器编排管理，到高级特性如负载均衡、Ingress，权限控制等。使用最新的官方stable版本。
+非常适合作为Kubernetes入门、实验和开发测试环境使用。
+支持macOS、Linux和Windows等多平台。&lt;/p&gt;
+&lt;p&gt;网址：https://minikube.sigs.k8s.io&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -54,7 +50,8 @@ Linux下安装和设置： 1、安装bash-completion yum install bash-completion
       <description>有时候需要在k8s容器中给一些主机名做一下域名解析指向某一个IP地址，一般想到的都是在容器中的/etc/hosts添加配置，但这种方法不够智能，修改一次就要重新创建一个镜像，非常麻烦。
 这里有两种方便设置的方法：
 一种是用hostAliases 在yaml中的spec块中添加一个hostAliases，然后根据格式写上IP地址和想要解析的域名。
-....... spec: hostAliases: - ip: &amp;#34;172.11.0.23&amp;#34; hostnames: - pre.itbing.local ...... 这样就会把pre.itbing.local解析到172.11.0.23。 hostAliases的机制是会把这个域名解析添加进容器中的/etc/hosts。</description>
+....... spec: hostAliases: - ip: &amp;#34;172.11.0.23&amp;#34; hostnames: - pre.itbing.local ...... 这样就会把pre.itbing.local解析到172.11.0.23。 hostAliases的机制是会把这个域名解析添加进容器中的/etc/hosts。
+一种是在coreDNS添加 # kubectl -n kube-system edit configmap coredns ...... .:53 { errors health kubernetes cluster.</description>
     </item>
     
     <item>
@@ -64,7 +61,10 @@ Linux下安装和设置： 1、安装bash-completion yum install bash-completion
       
       <guid>http://itbing.cn/posts/2021/2021-11-15-k8s-record-rollout/</guid>
       <description>如果对Deployment的Pod template部分进行更改，例如更新template 中的 label 和容器镜像时，就会创建出一个新的 revision版本记录，如果想回滚恢复到以前某个版本状态，可以随时进行操作恢复。
-1.先创建一个deploy 这里直接用命令创建一个nginx服务的deploy # kubectl create deploy nginx-deploy --image=nginx:1.19.0 --replicas=2 -n dev</description>
+1.先创建一个deploy 这里直接用命令创建一个nginx服务的deploy # kubectl create deploy nginx-deploy --image=nginx:1.19.0 --replicas=2 -n dev
+这里用的nginx镜像是1.19.0版本
+2.查看revision版本记录 查看nginx的deploy历史版本记录
+# kubectl -n dev rollout history deploy nginx-deploy REVISION CHANGE-CAUSE 1 &amp;amp;lt;none&amp;amp;gt; 第一栏REVISION是记录修改过的历史序列号，如果要回滚可以指定一个序列号来选择恢复到哪个状态。 第二栏CHANGE-CAUSE是记录回滚的一个标注内容，这里显示为，如果想直接显示记录内容，可以在命令后加上&amp;ndash;record，也可以用annotate和patch来后期添加</description>
     </item>
     
     <item>
@@ -78,7 +78,7 @@ Linux下安装和设置： 1、安装bash-completion yum install bash-completion
 # kubectl create configmap configmap-ls --from-file=/root/ls
 注意：要把容器里的ls命令复制到你执行kubectl命令的这个系统上用来configmap存储，因为可能你执行命令的这个系统和容器的系统不一样，你如果用这个系统上的ls命令挂载进去，可能没办法正常使用。
 然后在deploy中，制作一个挂载配置，把这个configmap挂载进容器中。
-............ volumeMounts: - mountPath: /configmap/ name: configmap-ls .</description>
+............ volumeMounts: - mountPath: /configmap/ name: configmap-ls ........... volumes: - configMap: defaultMode: 420 name: configmap-ls name: configmap-ls ls这个命令文件就会在这个容器挂载的目录/configmap/下。因为这个容器中的挂载目录是只读的，需要从挂载目录中把ls文件复制出来，再授予它执行权限就可以正常使用了。(具体步骤可以自己去操作）</description>
     </item>
     
     <item>
@@ -90,7 +90,7 @@ Linux下安装和设置： 1、安装bash-completion yum install bash-completion
       <description>把k8s/k3s集群导入rancher中进行管理，步骤还是很简单的。 rancher本身也是有提示说明的。
 1、登录rancher。 点击“集群”，再点击右边的“添加集群”按钮
 2、点击右边的“导入”链接 3、设置集群的名称（可随意）。 也可以在这里添加对集群管理的用户（成员角色），不过一般都是在后面细分权限划分。
-4、这里会根据你的rancher环境生成相应的命令。到要导入的集群系统上执行这个命令就行。 [root@master1 ~]# kubectl apply -f https://rancher.xxxxxx.net/v3/import/2cp2nlnkjv2l4d9tcwg6lbj72tfmjcxtvrndvhv6kx4tjcwppctnln.yaml clusterrole.rbac.authorization.k8s.io/proxy-clusterrole-kubeapiserver created clusterrolebinding.</description>
+4、这里会根据你的rancher环境生成相应的命令。到要导入的集群系统上执行这个命令就行。 [root@master1 ~]# kubectl apply -f https://rancher.xxxxxx.net/v3/import/2cp2nlnkjv2l4d9tcwg6lbj72tfmjcxtvrndvhv6kx4tjcwppctnln.yaml clusterrole.rbac.authorization.k8s.io/proxy-clusterrole-kubeapiserver created clusterrolebinding.rbac.authorization.k8s.io/proxy-role-binding-kubernetes-master created namespace/cattle-system created serviceaccount/cattle created Warning: rbac.authorization.k8s.io/v1beta1 ClusterRoleBinding is deprecated in v1.17+, unavailable in v1.</description>
     </item>
     
     <item>
@@ -102,7 +102,7 @@ Linux下安装和设置： 1、安装bash-completion yum install bash-completion
       <description>Docker安装方法： 以前1.x版本，镜像名是rancher/server，现在一般都是用2.x版本，镜像名是rancher/rancher
 $ docker pull rancher/rancher
 这个会安装最新版本的rancher，如果想指定版本安装，可以先查询有哪些版本，再加上版本号进行安装。
-$ curl -s https://registry.hub.docker.com/v2/repositories/rancher/rancher/tags/?page_size=100| jq \&amp;#39;.&amp;#34;results&amp;#34;[] .name\&amp;#39; &amp;#34;v2.7-head&amp;#34; &amp;#34;v2.</description>
+$ curl -s https://registry.hub.docker.com/v2/repositories/rancher/rancher/tags/?page_size=100| jq \&amp;#39;.&amp;#34;results&amp;#34;[] .name\&amp;#39; &amp;#34;v2.7-head&amp;#34; &amp;#34;v2.7-828fe615a30ed0302d39df1a78366ce4f4a8b381-head&amp;#34; &amp;#34;v2.7-828fe615a30ed0302d39df1a78366ce4f4a8b381-linux-amd64&amp;#34; &amp;#34;v2.7-828fe615a30ed0302d39df1a78366ce4f4a8b381-linux-arm64&amp;#34; &amp;#34;v2.7-828fe615a30ed0302d39df1a78366ce4f4a8b381-linux-s390x&amp;#34; &amp;#34;v2.7-cd8eea1fdf0dd0071bfdcae4f1eb7de2c5b3722f-head&amp;#34; &amp;#34;v2.7-cd8eea1fdf0dd0071bfdcae4f1eb7de2c5b3722f-linux-amd64&amp;#34; &amp;#34;v2.7-cd8eea1fdf0dd0071bfdcae4f1eb7de2c5b3722f-linux-arm64&amp;#34; &amp;#34;v2.7-cd8eea1fdf0dd0071bfdcae4f1eb7de2c5b3722f-linux-s390x&amp;#34; &amp;#34;v2.7-7d937a2a6322dc7aca69cb01bb06f49a62be3a9d-linux-amd64&amp;#34; &amp;#34;v2.7-530a0c4ed972e607bf4bafc91d273a8ac1c524c2-linux-amd64&amp;#34; &amp;#34;v2.7-530a0c4ed972e607bf4bafc91d273a8ac1c524c2-linux-arm64&amp;#34; &amp;#34;v2.7-7d937a2a6322dc7aca69cb01bb06f49a62be3a9d-linux-s390x&amp;#34; &amp;#34;v2.7-530a0c4ed972e607bf4bafc91d273a8ac1c524c2-linux-s390x&amp;#34; &amp;#34;v2.6-1981e7ec13d19ab91619dd1bb85a042c3ae26a6b-linux-arm64&amp;#34; &amp;#34;v2.6-1981e7ec13d19ab91619dd1bb85a042c3ae26a6b-linux-s390x&amp;#34; &amp;#34;v2.</description>
     </item>
     
     <item>
@@ -113,7 +113,7 @@ $ curl -s https://registry.hub.docker.com/v2/repositories/rancher/rancher/tags/?
       <guid>http://itbing.cn/posts/2021/2021-05-10-k8s-dashboard/</guid>
       <description>k8s在使用时，不仅是运维人员需要使用，很多时候还需要给开发人员来使用。 给开发人员使用，就不可能让他们用命令行去使用，这个时候就需要有web页面这种管理方式。 k8s的web管理方式其实不只有dashboard这一种，还有很多其它的解决方案，比如Rancher，其实就比dashboard更好用。
 一、查询kubernetes版本，下载对应的dashboard版本 安装前要先确认自己的kubernetes版本，因为dashboard要对应不同的kubernetes版本来进行安装使用，如果版本不对应，安装完打开可能会报错。
-# kubectl version Client Version: version.Info{Major:&amp;amp;quot;1&amp;amp;quot;, Minor:&amp;amp;quot;19&amp;amp;quot;, GitVersion:&amp;amp;quot;v1.19.0&amp;amp;quot;, GitCommit:&amp;amp;quot;e19964183377d0ec2052d1f1fa930c4d7575bd50&amp;amp;quot;, GitTreeState:&amp;amp;quot;clean&amp;amp;quot;, BuildDate:&amp;amp;quot;2020-08-26T14:30:33Z&amp;amp;quot;, GoVersion:&amp;amp;quot;go1.</description>
+# kubectl version Client Version: version.Info{Major:&amp;amp;quot;1&amp;amp;quot;, Minor:&amp;amp;quot;19&amp;amp;quot;, GitVersion:&amp;amp;quot;v1.19.0&amp;amp;quot;, GitCommit:&amp;amp;quot;e19964183377d0ec2052d1f1fa930c4d7575bd50&amp;amp;quot;, GitTreeState:&amp;amp;quot;clean&amp;amp;quot;, BuildDate:&amp;amp;quot;2020-08-26T14:30:33Z&amp;amp;quot;, GoVersion:&amp;amp;quot;go1.15&amp;amp;quot;, Compiler:&amp;amp;quot;gc&amp;amp;quot;, Platform:&amp;amp;quot;linux/amd64&amp;amp;quot;} Server Version: version.Info{Major:&amp;amp;quot;1&amp;amp;quot;, Minor:&amp;amp;quot;19&amp;amp;quot;, GitVersion:&amp;amp;quot;v1.19.0&amp;amp;quot;, GitCommit:&amp;amp;quot;e19964183377d0ec2052d1f1fa930c4d7575bd50&amp;amp;quot;, GitTreeState:&amp;amp;quot;clean&amp;amp;quot;, BuildDate:&amp;amp;quot;2020-08-26T14:23:04Z&amp;amp;quot;, GoVersion:&amp;amp;quot;go1.15&amp;amp;quot;, Compiler:&amp;amp;quot;gc&amp;amp;quot;, Platform:&amp;amp;quot;linux/amd64&amp;amp;quot;} 这里kubernetes是1.</description>
     </item>
     
     <item>
@@ -144,7 +144,10 @@ pod： k8s集群管理的最小单位。k8s不会直接管理docker容器，而�
       <guid>http://itbing.cn/posts/2021/2021-03-19-k8s-manage/</guid>
       <description>Kubernetes管理资源的两种方式: 1、用纯命令管理 比如用命令创建一个nginx服务，并且设置2个pod负载
 # kubectl run nginx-deployment --image=nginx:1.7.9 --replicas=2
-比如用命令更新服务的image镜像版本 # kubectl set image deploy/nginx nginx:nginx:1.</description>
+比如用命令更新服务的image镜像版本 # kubectl set image deploy/nginx nginx:nginx:1.8.0
+2、用yaml文件管理 有纯命令管理的话，其实是不够规范化的，有问题了也不好追溯。 所以生产上其实都是用yaml文件来管理k8s，这也是官方推荐的方式。
+用yaml文件创建一个nginx应用服务：
+# cat nginx.yaml apiVersion: apps/v1 kind: Deployment metadata: name: nginx-deploy namespace: dev labels: app: nginx-deploy spec: replicas: 2 selector: matchLabels: app: nginx-server template: metadata: labels: app: nginx-server spec: containers: - image: nginx name: nginx ports: - containerPort: 80 protocol: TCP 执行命令用yaml创建服务 # kubectl apply -f nginx.</description>
     </item>
     
     <item>
@@ -166,7 +169,10 @@ pod： k8s集群管理的最小单位。k8s不会直接管理docker容器，而�
       <guid>http://itbing.cn/posts/2020/2020-07-15-mysql-ignoring-query/</guid>
       <description>大家都知道报这个错的原因是忘了用户名前加-u这个参数造成的，比如是这样登录了MySQL
 mysql -root -p (注意看，-root前面没有加u） 登录后，不管你执行什么命令，都会提示Ignoring query to other database
-mysql&amp;gt;show databases; Ignoring query to other database 要解决这个问题，只要退出后加上-u这个参数就可以了。 # mysql -uroot -p</description>
+mysql&amp;gt;show databases; Ignoring query to other database 要解决这个问题，只要退出后加上-u这个参数就可以了。 # mysql -uroot -p
+网上很多都写到这里为止了，但并没有去分析为什么没有加-u也能登录成功，为什么登录成功后执行sql语句会报错。
+这里我就给大家分析一下为什么会这样的真正原因。
+这是因为当没有带上-u执行 “mysql -root -p ”时，mysql命令把-root识别成了它的参数，而不是root这个用户。并且把root这个词识别成了四个参数，拆开来就是“-r -o -o -t&amp;quot;。</description>
     </item>
     
     <item>
@@ -178,7 +184,10 @@ mysql&amp;gt;show databases; Ignoring query to other database 要解决这个问
       <description>一、前言 我们添加磁盘后，一般都想让磁盘在重启系统后能自动挂载。 自动挂载的方法有好几种，可根据实际情况来使用，各有各的优势，也有一些需要注意的地方。
 二、写进fstab 把磁盘挂载信息写进fstab文件中，一般是最先想到的方法。 只要把正确的格式写入进/etc/fstab文件中，这个磁盘就会在开机时自动挂载。
 fstab文件中的格式： 磁盘路径 挂载的目录 磁盘格式 挂载的参数 是否允许备份 开机是否fsck检测磁盘
-一般我们最常用的配置类似这样： /dev/vg01/lv00 /mnt xfs defaults 0 0</description>
+一般我们最常用的配置类似这样： /dev/vg01/lv00 /mnt xfs defaults 0 0
+意思是/dev/vg01/lv00这个LVM分区挂载在/mnt目录上，磁盘格式为xfs,使用的是默认的defaults挂载参数，0表示不备份磁盘，0表示开机不检测磁盘。
+三、写进rc.local 虽然有了/etc/fstab这种自动挂载方式，但在一些场合下，我们还需要用rc.local这种方式。 一般我们写入到/etc/fstab这里的挂载磁盘，是服务器自带的磁盘，是一般不会出问题的磁盘，也是需要从一开机就从底层开始启动的磁盘。 但也有一些我们不能保证是正常在用的磁盘，比如NFS远程磁盘、光驱磁盘等，这些磁盘都是有可能失效的，如果写进/etc/fstab中，一旦失效后重启，系统就可能卡住，这不是我们想看到的。
+写进rc.local很简单，就是把mount命令写进去即可。 mount -t 磁盘格式 磁盘分区 挂载的目录</description>
     </item>
     
     <item>
@@ -190,7 +199,8 @@ fstab文件中的格式： 磁盘路径 挂载的目录 磁盘格式 挂载的�
       <description>一、前言 Telnet是一个用来远程连接服务器或者设备执行操作的一个服务。但是由于是使用明文传输，现在基本上已经弃用了。 为什么我这里还要讲这个安装呢？主要是有时候在Linux系统做升级OpenSSH时，为了保险起见，一般都需要先启用Telnet服务，以防止由于OpenSSH升级失败而登录不上服务器或者设备。 由于Telnet服务在CentOS6和CentOS7上安装和配置方法都不一样，所以需要分开来写。
 二、在CentOS6上的安装及启用 2.1 安装telnet-server 在CentOS6中，telnet服务是由xinetd管理的，没有单独的服务，所以需要一起安装xinetd才行。 注意，在Linux系统中，telnet服务相对应的软件名称是telnet-server，而不是telnet，telnet这个名称只是telnet服务的客户端。
 # yum install xinetd telnet-server
-执行 chkconfig &amp;ndash;list，在最后一段会显示由xinetd管理的一些服务。</description>
+执行 chkconfig &amp;ndash;list，在最后一段会显示由xinetd管理的一些服务。
+# chkconfig --list ........ xinetd based services: chargen-dgram: off chargen-stream:	off daytime-dgram: off daytime-stream:	off discard-dgram: off discard-stream:	off echo-dgram: off echo-stream: off rsync: off tcpmux-server: off telnet: off time-dgram: off time-stream: off 可以看到，telnet服务是off的状态。</description>
     </item>
     
     <item>
@@ -211,7 +221,9 @@ fstab文件中的格式： 磁盘路径 挂载的目录 磁盘格式 挂载的�
       
       <guid>http://itbing.cn/posts/2019/2019-09-24-dockerfile-nginx/</guid>
       <description>前一篇文章讲了用Docker普通方法创建Tomcat服务，大家对Docker容器已经有了一定的认识。 Docker更好的地方是可以完全定制化自己的镜像和容器。
-我们可以通过创建Dockerfile文件定制化自己的镜像。 Dockerfile文件支持的指令大概有十三个： FROM MAINTAINER RUN CMD EXPOSE ENV ADD COPY ENTRYPOINT VOLUME USER WORKDIR</description>
+我们可以通过创建Dockerfile文件定制化自己的镜像。 Dockerfile文件支持的指令大概有十三个： FROM MAINTAINER RUN CMD EXPOSE ENV ADD COPY ENTRYPOINT VOLUME USER WORKDIR
+通过这十三个命令，我们就可以构建我们自己的镜像了。
+首先，创建一个目录，用于存放Dockerfile文件和制作镜像需要的一些文件。 # mkdir nginx # cd nginx # vim Dockerfile FROM centos:7 MAINTAINER itbing xxxxx@qq.</description>
     </item>
     
     <item>
@@ -236,7 +248,9 @@ fstab文件中的格式： 磁盘路径 挂载的目录 磁盘格式 挂载的�
 CentOS6上虽然还可以安装Docker，但是不推荐在CentOS6上进行安装，CentOS6也没办法安装最新版本的docker-ce版本。 如果要学习和在生产中使用Docker，推荐在CentOS7上安装docker-ce版本。
 一、在CentOS7上安装docker-ce 在CentOS7上安装Docker还是比较简单的。
 CentOS本身就有提供一个docker版本可以安装，但版本较旧，不推荐使用。
-# yum list|grep docker docker.x86_64 1.</description>
+# yum list|grep docker docker.x86_64 1.13.1-102.git7f2769b.el7.centos 要想安装最新版的Docker版本，还是需要从Docker官网下载repo文件来进行安装。 把repo文件下载到/etc/yum.repos.d目录下。
+#cd /etc/yum.repos.d #wget https://download.docker.com/linux/centos/docker-ce.repo 开始安装：
+# yum install docker-ce Loaded plugins: fastestmirror Loading mirror speeds from cached hostfile * base: mirrors.</description>
     </item>
     
     <item>
@@ -248,7 +262,8 @@ CentOS本身就有提供一个docker版本可以安装，但版本较旧，不�
       <description>一、说明 先说一下，现在要安装Docker的话，一定要在CentOS7上安装Docker-ce。docker-io是比较老的版本，很多功能是没有的。 CentOS6默认也只支持到Docker1.7（但其实CentOS6是可以支持到Docker1.9的）,后面的版本都需要安装在CentOS7上。 CentOS6也不能安装Docker0.7以下的版本了，比如Docker0.5/0.6,基本上是没办法使用的。因为最早Docker是在Ubuntu上的。
 CentOS6安装Docker必须要升级内核到3.10及以上内核版本才行，内核还必须开启aufs模块。
 我这里也就是单纯做个研究，就讲一下怎么在CentOS6上升级内核，然后再安装Docker1.7,再升级到1.9。
-二、操作系统环境 # cat /etc/issue CentOS release 6.5 (Final) # uname -r 2.</description>
+二、操作系统环境 # cat /etc/issue CentOS release 6.5 (Final) # uname -r 2.6.32-431.el6.x86_64 三、基础环境的准备 1、安装开发平台工具 #yum groupinstall &amp;quot;Development tools&amp;quot;
+2、安装内核升级需要的依赖组件 #yum install device-mapper ncurses-devel qt-devel hmaccalc zlib-devel binutils-devel elfutils-libelf-devel</description>
     </item>
     
     <item>
@@ -261,7 +276,14 @@ CentOS6安装Docker必须要升级内核到3.10及以上内核版本才行，内
 Docker 最初是由dotCloud公司创始人Solomon Hykes发起的一个公司内部项目。
 在2013年底，由于Docker的火爆，dotCloud公司改名为Docker。
 Docker最早是在Ubuntu 12.04上开发实现的； Red Hat则从 RHEL6.5 开始对Docker进行支持。
-多种docker版本的混乱情况 先讲一讲为什么会有docker.io,docker-io这种的命名方式。 在Docker技术出现之前，Linux是已经有一个docker的工具的，但此docker非彼Docker。</description>
+多种docker版本的混乱情况 先讲一讲为什么会有docker.io,docker-io这种的命名方式。 在Docker技术出现之前，Linux是已经有一个docker的工具的，但此docker非彼Docker。
+这个docker是一个窗口停靠栏程序，就像苹果的Mac系统中的dock那个程序一样的一个工具。 这是它的官网http://icculus.org/openbox/2/docker/， 里面有介绍。
+为了区分开来，我们以Docker和docker来区分。
+Docker：指容器技术。 docker：指窗口停靠栏程序。
+Docker技术出来后，因为原先Linux系统上已经有了docker这个工具，所以Docker软件名也不能跟人家重名啊，要不然没办法安装。 那个时候Docker的官网是docker.io，所以就在软件名称上加了io的后缀，在Ubuntu中就是docker.io，在CentOS中就是docker-io。
+但是虽然软件名跟docker程序不一样了，但软件安装后的命令还是一样的，都是docker的这个命令，所以要安装Docker软件，要先看看有没有安装了那个停靠栏程序，有的话要先卸载才行。这个时期要安装Docker，就要用docker加io后缀的方式来安装。
+Ubuntu中安装： apt-get install docker.io
+CentOS中安装： yum install docker-io</description>
     </item>
     
     <item>
@@ -273,7 +295,12 @@ Docker最早是在Ubuntu 12.04上开发实现的； Red Hat则从 RHEL6.5 开始
       <description>Pipeline Pipeline Maven Integration pipeline中使用withMaven语法必须安装的插件
 Credentials Binding 凭据插件
 HTTP Request Plugin 代替curl，curl也可以调用凭据的
-Image Tag Parameter 通过harbor获取镜像列表作为参数</description>
+Image Tag Parameter 通过harbor获取镜像列表作为参数
+simple theme jenkins的皮肤风格插件，可以美化jenkins页面
+timestamps 时间插件，可以让日志显示时间
+Email Extension 邮件通知
+Publish Over SSH 使用ssh的方式与remote服务器进行交互
+Subversion Plug-in 版本管理 SVN 的插件</description>
     </item>
     
     <item>
@@ -284,7 +311,8 @@ Image Tag Parameter 通过harbor获取镜像列表作为参数</description>
       <guid>http://itbing.cn/posts/2019/2019-06-19-ansible-28/</guid>
       <description>以前一直使用ansible1.9的版本，最近升级到2.8版本了，发现有挺多问题的。
 1、没有了-S -R参数 以前要使用su切换的话，使用-S -R就可以切换 #ansible test -S -R root -m shell -a &#39;ls&#39;
-升级到2.8之后，可以使用如下命令： 一是指定用户 #ansible test &amp;ndash;become-user=root -m shell -a &amp;rsquo;ls&#39;\</description>
+升级到2.8之后，可以使用如下命令： 一是指定用户 #ansible test &amp;ndash;become-user=root -m shell -a &amp;rsquo;ls&#39;\
+一是指定方法 #ansible test &amp;ndash;become-method=su -m shell -a &amp;rsquo;ls&#39;</description>
     </item>
     
     <item>
@@ -295,7 +323,7 @@ Image Tag Parameter 通过harbor获取镜像列表作为参数</description>
       <guid>http://itbing.cn/posts/2019/2019-06-01-coding-too-many-if/</guid>
       <description>不要用过多的if嵌套
 重构前：
-def project_version(request,group_name,branch_name,project_name): if branch_name and group_name and project_name: project_name_with_namespace = &amp;#39;%s/%s&amp;#39; %(group_name,project_name) project = gl.</description>
+def project_version(request,group_name,branch_name,project_name): if branch_name and group_name and project_name: project_name_with_namespace = &amp;#39;%s/%s&amp;#39; %(group_name,project_name) project = gl.projects.get(project_name_with_namespace) if project: branches = [] branch = project.branches.list() if branch: branches = [] branch_name_find = &amp;#39;%s-&amp;#39; %(branch_name) for branch_name_in in branch: if (branch_name_in.</description>
     </item>
     
     <item>
@@ -305,7 +333,8 @@ def project_version(request,group_name,branch_name,project_name): if branch_name
       
       <guid>http://itbing.cn/posts/2019/2019-05-14-golang-print/</guid>
       <description>Print：不带格式的最基础的输出函数 a := &amp;#34;a&amp;#34; b := &amp;#34;b&amp;#34; fmt.Print(a) fmt.Print(b) 输出：ab
-Println：带一个换行效果的输出函数 a := &amp;#34;a&amp;#34; b := &amp;#34;b&amp;#34; fmt.</description>
+Println：带一个换行效果的输出函数 a := &amp;#34;a&amp;#34; b := &amp;#34;b&amp;#34; fmt.Println(a) fmt.Println(b) 输出： a\r\nb\r\n
+Printf：支持占位符的输出函数 a := &amp;ldquo;a&amp;rdquo; b := &amp;ldquo;b&amp;rdquo; c := 1</description>
     </item>
     
     <item>
@@ -315,7 +344,10 @@ Println：带一个换行效果的输出函数 a := &amp;#34;a&amp;#34; b := &am
       
       <guid>http://itbing.cn/posts/2019/2019-05-01-golang-gomodule/</guid>
       <description>go module是Go1.11版本之后官方推出的版本管理工具，并且从Go1.13版本开始，go module将是Go语言默认的依赖管理工具。
-go module有三个可选值：off、on、auto。 GO111MODULE=off 禁用模块支持，编译时会从GOPATH和vendor文件夹中查找包。 GO111MODULE=on 启用模块支持，编译时会忽略GOPATH和vendor文件夹，只根据 go.mod下载依赖。 GO111MODULE=auto，项目根目录有go.mod文件时，开启模块支持。 使用 go module 管理依赖后会在项目根目录下生成两个文件go.mod和go.sum。</description>
+go module有三个可选值：off、on、auto。 GO111MODULE=off 禁用模块支持，编译时会从GOPATH和vendor文件夹中查找包。 GO111MODULE=on 启用模块支持，编译时会忽略GOPATH和vendor文件夹，只根据 go.mod下载依赖。 GO111MODULE=auto，项目根目录有go.mod文件时，开启模块支持。 使用 go module 管理依赖后会在项目根目录下生成两个文件go.mod和go.sum。
+查看自己的环境中，GO111MODULE的值。
+# go env|grep GO111MODULE GO111MODULE=&amp;#34;&amp;#34; 从Go1.13版本开始，为空就是on的状态。
+如果想使用GO111MODULE=&amp;ldquo;off&amp;quot;的方法时，要先设置一下。 # go env -w GO111MODULE=&amp;quot;off&amp;quot;</description>
     </item>
     
     <item>
@@ -325,7 +357,8 @@ go module有三个可选值：off、on、auto。 GO111MODULE=off 禁用模块支
       
       <guid>http://itbing.cn/posts/2019/2019-04-07-golang-quote/</guid>
       <description>1、双引号“ ” 最常用的符号，常用来定义字符串。 双引号中定义的字符串支持转义字符，比如\n将输出换行。
-package main import ( &amp;#34;fmt&amp;#34; ) func main() { a := &amp;#34;i&amp;#34; b := &amp;#34;在\\n&amp;#34; c := &amp;#34;这里&amp;#34; fmt.</description>
+package main import ( &amp;#34;fmt&amp;#34; ) func main() { a := &amp;#34;i&amp;#34; b := &amp;#34;在\\n&amp;#34; c := &amp;#34;这里&amp;#34; fmt.Println(a, b, c) } 输出：i 在\n 这里
+2、单引号‘ ’ 单引号用来定义一个byte或者rune。</description>
     </item>
     
     <item>
@@ -347,7 +380,12 @@ Go1.11版本之后官方推出go module版本管理工具，并且从Go1.13版�
       
       <guid>http://itbing.cn/posts/2019/2019-03-18-golang-build/</guid>
       <description>package main import ( &amp;#34;fmt&amp;#34; ) func main() { fmt.Println(&amp;#34;&amp;#34;Hello,world!) } package 包名:必须项。 如果是要编译执行的程序，那么一定要有一个main包和main函数。
-import 库名：可选项。导入多个项包库就用（）包起来。</description>
+import 库名：可选项。导入多个项包库就用（）包起来。
+func main()：主函数。 如果是要编译执行的程序，那么一定要有一个main函数。 fmt.Println(&amp;ldquo;Hello,world!&amp;quot;)：主程序内容，输出打印“Hello,world!”。
+可以不编译运行程序： #go run 程序文件名
+也可以编译成二进制文件后再运行： #go build 程序文件名
+不同系统平台编译方式，可以跨平台使用。
+编译到 linux 64bit $ GOOS=linux GOARCH=amd64 go build 或者可以使用 -o 选项指定生成二进制文件名字 $ GOOS=linux GOARCH=amd64 go build -o 生成二进制文件名</description>
     </item>
     
     <item>
@@ -373,7 +411,10 @@ nexus社区提供的 https://gonexus.dev ngoproxy.io https://goproxy.io\
 下载： 打开网站http://caspian.dotconf.net/menu/Software/SendEmail/
 可以右键，复制链接地址，使用wget下载 #wget http://caspian.dotconf.net/menu/Software/SendEmail/sendEmail-v1.56.tar.gz
 解压：
-#tar -zxvf sendEmail-v1.56.tar.gz #cd sendEmail-v1.56 把里面的主要程序复制到环境变量目录下，即可使用 #cp sendEmail /usr/bin/</description>
+#tar -zxvf sendEmail-v1.56.tar.gz #cd sendEmail-v1.56 把里面的主要程序复制到环境变量目录下，即可使用 #cp sendEmail /usr/bin/
+这个工具都不需要赋权，因为本身已经设置好了执行权限。 然后就可以执行此命令了。 # sendEmail -help
+命令说明：
+-f xxx@itbing.cn 发件人邮箱 -s mailserver 如果能直接连接的机器，就可以直接填QQ邮箱之类的SMTP服务器地址 -u &amp;#34;我是邮件主题&amp;#34; 邮件的标题 -o message-content-type=html 邮件内容的格式,html表示它是html格式 -o message-charset=utf8 邮件内容编码 -xu xxx@itbing.</description>
     </item>
     
     <item>
@@ -385,7 +426,11 @@ nexus社区提供的 https://gonexus.dev ngoproxy.io https://goproxy.io\
       <description>一、技术问答网站 https://stackoverflow.com https://www.linuxquestions.org
 二、软件下载站： 2.1 Linux软件包下载 http://pkgs.org 各种开源的Linux(CentOS/Debian/Ubuntu)系统软件基本都有下载
 2.2 rpm包软件的下载站 http://rpmfind.net/ http://rpm.pbone.net
-2.3 主要是SUSE下的软件 https://software.opensuse.org/package/dstat 注意下拉查看显示其它版本</description>
+2.3 主要是SUSE下的软件 https://software.opensuse.org/package/dstat 注意下拉查看显示其它版本
+2.4 托管站，有各种开源软件 http://sourceforge.net https://github.com
+三、软件源站 3.1 epel源 https://dl.fedoraproject.org/pub/epel/
+3.2 OracleLinux系统源 http://public-yum.oracle.com/index.html
+四、各系统下载站： 4.1 OracleLinux、Solaris、Oracle等下载： Oracle 软件交付云：http://edelivery.</description>
     </item>
     
     <item>
@@ -396,7 +441,10 @@ nexus社区提供的 https://gonexus.dev ngoproxy.io https://goproxy.io\
       <guid>http://itbing.cn/posts/2018/2018-07-13-linux-base-set/</guid>
       <description>平时在管理系统时，总有一些不人性化的地方，也有很多不方便管理的地方，我们可以通过修改一些系统配置来使我们管理系统更方便。
 一、系统优化 1.1 命令实时记录 编辑/etc/bashrc，添加以下两句：
-shopt -s histappend PROMPT_COMMAND=&amp;#39;history -a&amp;#39; 1.2 给历史命令加上执行时间 编辑/etc/profile文件，加入如下一行： export HISTTIMEFORMAT=&#39;%F %T &#39;</description>
+shopt -s histappend PROMPT_COMMAND=&amp;#39;history -a&amp;#39; 1.2 给历史命令加上执行时间 编辑/etc/profile文件，加入如下一行： export HISTTIMEFORMAT=&#39;%F %T &#39;
+1.3 超时退出 编辑/etc/profile文件，加入如下一行： export TMOUT=3600
+1.4 关闭selinux 编辑/etc/sysconfig/selinux SELINUX=disabled
+1.5 sysstat vim /etc/sysconfig/sysstat HISTORY=31 </description>
     </item>
     
     <item>
@@ -405,7 +453,11 @@ shopt -s histappend PROMPT_COMMAND=&amp;#39;history -a&amp;#39; 1.2 给历史命
       <pubDate>Sun, 01 Jul 2018 23:14:58 +0800</pubDate>
       
       <guid>http://itbing.cn/posts/2018/2018-07-01-linux-base-operate/</guid>
-      <description>一、必须要熟练掌握的操作 1.1 忘记root密码（进入单用户模式） 1.2 进急救模式 1.3 配置IP地址 1.4 配置主机名 1.5 扫描磁盘、磁盘分区、挂载分区 1.6 LVM卷组管理 1.7 分区的扩展和收缩 1.</description>
+      <description>一、必须要熟练掌握的操作 1.1 忘记root密码（进入单用户模式） 1.2 进急救模式 1.3 配置IP地址 1.4 配置主机名 1.5 扫描磁盘、磁盘分区、挂载分区 1.6 LVM卷组管理 1.7 分区的扩展和收缩 1.8 VNC设置 1.9 定时设置
+二、详细配置步骤 2.1 忘记root密码 忘记root密码这种事情不会经常发生，但是是生产中必须要会的一个技能。 RHEL7之前的系统都比较简单，RHEL7之后有些变化。
+我这里都以RHEL6系统来做配置，有些比较不一样的配置也会加上RHEL7。
+进入单用户模式 RHEL6:
+step1:开机加载后，按任意键，进入启动菜单栏 step2:进入后看菜单栏下面的文字说明。按字母e可以编辑启动前的菜单命令 step3:按e后，进入菜单编辑状态，按上下键，把光标移到第二行，再按e step4:在命令最后加上1或者字母single,都表示单用户，回车 step5：按字母b进行启动（注意，这里不是回车） step6:确定是否是单用户模式\r\n启动完全后，会直接进入系统，不会有输入密码等提示。 可以输入runlevel查看系统级别： #runlevel N S 或者 #runlevel n1 S 都说明现在的系统是单用户模式。 然后就可以使用passwd命令修改系统密码。</description>
     </item>
     
     <item>
@@ -419,7 +471,8 @@ shopt -s histappend PROMPT_COMMAND=&amp;#39;history -a&amp;#39; 1.2 给历史命
 1.1 源码发布 直接源码压缩打包方式，后缀一般为tar.gz,tar.bz2,zip这类文件，这种源码包Linux/Unix各大平台都能支持安装。
 1.2 发行版本自定义打包方式 发行版本自己定义的软件打包方式，如RedHat的RPM包，debian的deb包。
 1.3 编译好的软件 厂商自己编译打包好的软件，直接赋予执行权限就可以执行的软件包。
-二、Linux软件安装方式 根据软件发布方式的不同，安装方法也不同，主要有四种方法：</description>
+二、Linux软件安装方式 根据软件发布方式的不同，安装方法也不同，主要有四种方法：
+2.1 源码编译安装 源码方式的软件包安装，需要gcc工具支持，Linux/Unix等系统平台都支持安装，但需要耗费比较长的时间进行编译。 源码安装一般都是四步： 2.1.1 解压压缩包 tar -zxvf *.tar.gz或者tar -zjvf *.tar.bz2或者unzip -o *.zip 2.1.2 配置参数 .</description>
     </item>
     
     <item>
@@ -439,7 +492,8 @@ Last_IO_Errno: 1236 Last_IO_Error: Got fatal error 1236 from master when reading
       
       <guid>http://itbing.cn/posts/2018/2018-05-31-mysql-cant-find-file/</guid>
       <description>错误提示：
-/usr/libexec/mysqld: Can&amp;#39;t find file: &amp;#39;./mysql/plugin.frm&amp;#39; (errno: 13) 180530 15:19:43 [ERROR] Can&amp;#39;t open the mysql.</description>
+/usr/libexec/mysqld: Can&amp;#39;t find file: &amp;#39;./mysql/plugin.frm&amp;#39; (errno: 13) 180530 15:19:43 [ERROR] Can&amp;#39;t open the mysql.plugin table. Please run mysql_upgrade to create it. 版本环境：
+mysql&amp;gt; select version(); +------------+ | version() | +------------+ | 5.</description>
     </item>
     
     <item>
@@ -451,7 +505,7 @@ Last_IO_Errno: 1236 Last_IO_Error: Got fatal error 1236 from master when reading
       <description>同事发个消息给我，说大事不好了，他用zpool destroy命令把盘销毁了，但是现在突然发现里面还有东西，又想恢复。
 我说别慌，冷静，我有一招，马上能恢复。
 祭出神命令
-#zpool import -D 可以查看哪些盘被销毁了，盘的状态怎么样，能不能恢复 pool: backup id: 5154272182900538157 state: ONLINE (DESTROYED) action: The pool can be imported using its name or numeric identifier.</description>
+#zpool import -D 可以查看哪些盘被销毁了，盘的状态怎么样，能不能恢复 pool: backup id: 5154272182900538157 state: ONLINE (DESTROYED) action: The pool can be imported using its name or numeric identifier. config: backup ONLINE c1t0d0 ONLINE c1t1d0 ONLINE 可以看到，state状态虽然是DESTROYED，但盘的状态都是online的</description>
     </item>
     
     <item>
@@ -463,7 +517,11 @@ Last_IO_Errno: 1236 Last_IO_Error: Got fatal error 1236 from master when reading
       <description>最近发现有台服务器中毒了，手动去查杀总是会有遗漏，最后安装了Linux下的杀毒软件clamav，使用起来还是不错的。
 环境： Linux 6.8
 版本： clamav-0.99.2.tar.gz
-依赖关系： yum install pcre* zlib zlib-devel libssl-devel libssl openssl version 0.</description>
+依赖关系： yum install pcre* zlib zlib-devel libssl-devel libssl openssl version 0.9.8 or higher
+一.安装clamav 有两种方法安装：
+1.yum安装方法 用epel源进行安装，但是需要系统能访问外网才行。 安装后会自动生成服务文件，启动服务后，会实时监控扫描连接，虽然安全性高了，不过可能会对服务器性能有影响。 可使用clamdsacn命令手动扫描系统，扫描速度快。
+开始安装： 根据自己的系统版本下载相应的epel安装文件
+#wget https://dl.fedoraproject.org/pub/epel/epel-release-latest-6.noarch.rpm #wget https://dl.</description>
     </item>
     
     <item>
@@ -474,7 +532,9 @@ Last_IO_Errno: 1236 Last_IO_Error: Got fatal error 1236 from master when reading
       <guid>http://itbing.cn/posts/2017/2017-05-31-ypbind-do_ypcall/</guid>
       <description>系统环境： Oracle Linux 5.8
 操作过程： 应同事需求，想对一台服务器做IP限制，让它只能访问某几个IP。 用iptables做output限制
-如限制只能访问192.168.0.9 #iptables -I OUTPUT -d 192.168.0.9 -j ACCEPT 前面有做所有DROP</description>
+如限制只能访问192.168.0.9 #iptables -I OUTPUT -d 192.168.0.9 -j ACCEPT 前面有做所有DROP
+然而ssh登录192.168.0.9时报错
+#ssh 192.168.0.9 do_ypcall: clnt_call: RPC: Unable to send; errno = Operation not permitted do_ypcall: clnt_call: RPC: Unable to send; errno = Operation not permitted 加上-vvv看详细过程</description>
     </item>
     
     <item>
@@ -488,7 +548,8 @@ Last_IO_Errno: 1236 Last_IO_Error: Got fatal error 1236 from master when reading
 InfluxDB是用Go语言写的，专为时间序列数据持久化所开发的，由于使用Go语言，所以各平台基本都支持。类似的时间序列数据库还有OpenTSDB，Prometheus等。
 InfluxDB的Cluster功能收费，单机功能免费使用。
 1、安装 可以直接rpm安装 到http://repos.influxdata.com下载相应的版本
-#wget https://repos.influxdata.com/rhel/6Server/x86_64/stable/influxdb-1.2.0.x86_64.rpm #rpm -ivh influxdb-1.2.0.x86_64.rpm 或者 添加yum 源安装</description>
+#wget https://repos.influxdata.com/rhel/6Server/x86_64/stable/influxdb-1.2.0.x86_64.rpm #rpm -ivh influxdb-1.2.0.x86_64.rpm 或者 添加yum 源安装
+#cat &amp;amp;lt;&amp;amp;lt; EOF | sudo tee /etc/yum.repos.d/influxdb.repo [influxdb] name = InfluxDB Repository - RHEL \$releasever baseurl = https://repos.</description>
     </item>
     
     <item>
@@ -499,7 +560,14 @@ InfluxDB的Cluster功能收费，单机功能免费使用。
       <guid>http://itbing.cn/posts/2016/2016-06-13-linux-ntp-attack/</guid>
       <description>被攻击服务器相关配置： ip: eth0: 172.28.9.2 eth1: 192.168.0.2 eth3: 外网IP
 某一天发现这台WEB服务器流量一直很高。 开始一直以为是WEB服务的流量很高，根本没往NTP服务那方面想。 因为我设置NTP服务的时候就有考虑到安全问题。
-检测过程： #dstat -N eth3</description>
+检测过程： #dstat -N eth3
+可以发现发送流量非常大。
+后面还用了nethogs和iptraf两个流量分析软件进行了分析。
+nethogs 是检测进程的流量，但是检测不到UDP的流量，所以一开始也没想到是ntp的引起的。因为ntp用的是123的UDP端口。
+iptraf是检测连接到服务器某个端口的流量 这里需要注意了：默认执行iptraf在上面窗口中只会显示TCP流量，而不会显示UDP流量，UDP流量会在下面快速闪现。所以一开始也没注意到是ntp引起的，因为UDP流量没排在上面。后面会讲怎么查看UDP流量。
+可以先设置一下iptraf，开启按服务名显示，而不是显示端口号，比较直观。
+#iptraf configure #iptraf -s eth3 这里一定要加上-s，才能显示UDP流量
+这样就会看到ntp的流量非常高，从而可以判断是ntp服务而引起的。</description>
     </item>
     
     <item>
@@ -514,7 +582,9 @@ InfluxDB的Cluster功能收费，单机功能免费使用。
 或者有时候一小心删除了某个目录也可以用备份恢复。 备份系统应有选择性的备份某些服务器系统，或某些重要的系统文件，不用全部服务器做备份。 可以专门准备一个服务器或空间，根据服务器IP创建目录，再根据日期来存放tar好的各服务器的备份文件。
 备份： 一般LINUX分区至少分三个： 一个/boot分区 一个/根分区 一个/swap交换分区 我们以这个为基础来实施备份策略。
 /boot分区安装系统后一般不会变动，所以安装完系统后就可以备份一份，以后如果有升级系统，可以再备份
-#tar -zcpf /boot.</description>
+#tar -zcpf /boot.tgz /boot
+/根分区 #备份整个根目录要排除一些动态的目录和一些不必要的目录 #备份根目录应等业务应用配置完成，运行一段时间稳定后再备份，这样以后恢复出来后也能马上使用。以后应用有重大修改，运行稳定后再备份，前面的备份就可以删除
+#tar -zcpf /root.tgz --exclude=/mnt --exclude=/media --exclude=/proc --exlude=/sys --exclude=/boot --exclude=/root.tgz /</description>
     </item>
     
     <item>
@@ -526,7 +596,7 @@ InfluxDB的Cluster功能收费，单机功能免费使用。
       <description>环境：SUSE Linux Enterprise Server 11 SP2
 检测到一个suse系统的zombie达到100多个
 登录服务器检测
-首先查询是哪个进程引起的 ps -ef|grep defu sfhadm 7444 7443 0 02:10 ?</description>
+首先查询是哪个进程引起的 ps -ef|grep defu sfhadm 7444 7443 0 02:10 ? 00:00:00 [test.sh] &amp;amp;lt;defunct&amp;amp;gt; sfhadm 7463 7462 0 02:12 ? 00:00:00 [test.sh] &amp;amp;lt;defunct&amp;amp;gt; sfhadm 7481 7480 0 02:14 ?</description>
     </item>
     
     <item>
@@ -540,7 +610,8 @@ InfluxDB的Cluster功能收费，单机功能免费使用。
 基本上在堡垒机上只要能执行ls、scp、ssh、passwd等几个命令就行。
 准备一台Linux服务器安装lshell工具，添加受限用户组和用户，设置好能执行的命令，做为堡垒机使用，然后在其它服务器上在/etc/hosts.allow中设置只能从这台堡垒机服务器上远程登录。
 二、安装和启用lshell 2.1、安装Linux系统 可以安装一个最简单的CentOS系统，多余的东西都不要安装，后面需要什么再安装什么。 安装完，可以加强这台服务器的安全设置，可以禁用或删除各种不需要的服务、文件。 开防火墙 开SELinux
-2.2 安装lshell工具 如果堡垒机没有联网，可以从别的地方下载安装文件，再复制过来。 文章后有提供下载地址。 如果是CentOS7，需要先安装一下依赖软件</description>
+2.2 安装lshell工具 如果堡垒机没有联网，可以从别的地方下载安装文件，再复制过来。 文章后有提供下载地址。 如果是CentOS7，需要先安装一下依赖软件
+#yum install *ncurses* #pip install readline #git clone https://github.com/ghantoos/lshell.git #cd lshell #python setup.</description>
     </item>
     
     <item>
@@ -553,7 +624,12 @@ InfluxDB的Cluster功能收费，单机功能免费使用。
 一、前言 为了系统安全，我们经常对Linux服务器做设置，限制远程登录的来源IP，只允许我们信任的IP进行访问。 今天要讲的几种限制IP的方法，其中“通过tcp_wrappers限制”和“通过防火墙限制”只能通过IP进行限制，就是所有用户都得遵循这个限制。而“通过ssh配置限制”和“通过pam机制限制”可以根据用户名分别来进行IP的限制。
 二、通过tcp_wrappers限制 这种方法有比较大的局限性，只能针对一些针对tcp_wrappers的服务进行限制。而SSH登录服务是刚好支持的。 这种方法就是配置文件/etc/hosts.deny和/etc/hosts.allow。
 先编辑/etc/hosts.allow，先把允许要登录的IP或者IP段添加进去。
-sshd: 192.168.0.2 172.</description>
+sshd: 192.168.0.2 172.31.1.* 192.168.10.*
+再编辑/etc/hosts.deny,拒绝所有的登录。
+sshd: ALL
+这样设置好后，只有在/etc/hosts.allow中的IP和IP段能登录这个系统，其它的IP都不能登录。
+三、通过防火墙限制 这种方式相对简单，只要拒绝相应的IP就可以。 可以拒绝IP不能访问系统的所有服务，也就不能登录了
+# iptables -I INPUT -s 192.168.0.3 -j DROP # 拒绝从192.</description>
     </item>
     
     <item>
@@ -572,7 +648,12 @@ sshd: 192.168.0.2 172.</description>
       
       <guid>http://itbing.cn/posts/2015/2015-12-11-linux-fdisk-parted/</guid>
       <description>环境：oracle linux 6.4
-#fdisk -v fdisk (util-linux-ng 2.17.2) #parted -v parted (GNU parted) 2.1 我们讲的调整分区大小，都是要保证不损坏分区中数据为前提。 这里我们讲一下用fdisk、parted调整普通分区的方法。 LVM卷组的就不讲了，这个一般比较简单。</description>
+#fdisk -v fdisk (util-linux-ng 2.17.2) #parted -v parted (GNU parted) 2.1 我们讲的调整分区大小，都是要保证不损坏分区中数据为前提。 这里我们讲一下用fdisk、parted调整普通分区的方法。 LVM卷组的就不讲了，这个一般比较简单。
+切记：一般都只用于扩容分区，如果要缩减分区，特别是根目录，可能会出问题 而扩容分区时，要保证跟扩容分区相邻的分区是未分配的（或者可以先暂时删除的）
+操作有风险，重要数据还是要备份保存一下。
+一、fdisk普通分区调整： 大概步骤： 先执行fdisk查看原分区的cylinder起始值，一定要记住。 再umount分区，进fdisk删除原有分区， 再重建原有分区，再分区的时候，cylinder起始值一定要跟原来的是一样的，要不然就会破坏原分区的数据，只要调整cylinder结束值大小即可扩容分区。
+分区建好后， 用e2fsck先检查一下分区， 再用resize2fs扩大就可以了。
+实例演示： 我要把swap分区删掉，把原先swap中的一部分空间增加到根目录/中来（/dev/sda2），剩下的空间再创建新的比原来小的swap。 （增加点实验难度）</description>
     </item>
     
     <item>
@@ -584,7 +665,8 @@ sshd: 192.168.0.2 172.</description>
       <description>以自己有限的经验说说作为一名合格的Linux运维工程师需要掌握的东西：
 1、选择版本 现在发行版本已经让人有点眼花缭乱了。但是架构和底层的东西都是一样的，只是各自会有一些自己特有的工具。 LINUX:CentOS、Red Hat、Oracle Linux、Debian、Ubuntu、SUSE 只要玩转精通一类，基本上就可以了。有空再去玩玩其它的发行版本。Unix版本也要学学。 UNIX:Oracle Solaris、IBM AIX、HP-UX、FreeBSD 在熟悉之前可以多安装系统，了解系统安装的每个步骤，自定义选择组件安装。
 注：Unix系统现在慢慢被淘汰掉了，比如Solaris就不再更新了。(2023.2.8更新） 由于CentOS8开始更新规则变化，很多人开始不用CentOS了，所以Debian现在最好也要掌握
-2、系统基础 要去了解和理解跟WIN不一样的思想，彻底改变固定的思维，如 开源的思想和本质 一切皆文件 根目录结构 根目录下每个文件存放什么文件 挂载分区 安装软件 源码编译安装软件 系统上各种服务的功能</description>
+2、系统基础 要去了解和理解跟WIN不一样的思想，彻底改变固定的思维，如 开源的思想和本质 一切皆文件 根目录结构 根目录下每个文件存放什么文件 挂载分区 安装软件 源码编译安装软件 系统上各种服务的功能
+3、各种命令 因为Linux下一般都是文字界面，不用图形界面，平时管理都要靠命令来操作。 掌握基本的命令至关重要，特别是一些基本的文件操作命令，如： cp 复制文件 mkdir 新建目录 touch 新建文件 cat 显示文件内容 rm 删除目录和文件 cd 切换路径 ls 列出目录和文件 man 列出命令的详细说明 find 找文件</description>
     </item>
     
     <item>
@@ -594,7 +676,8 @@ sshd: 192.168.0.2 172.</description>
       
       <guid>http://itbing.cn/posts/2015/2015-10-31-history-script-scriptreplay-mkfifo/</guid>
       <description>环境：redhat 6.4 工具：script、scriptreplay、mkfifo
-在redhat 6中自动带有scriptreplay指令，在redhat5中没有该指令，需要手动安装 从ftp://ftp.kernel.org/pub/linux/utils/util-linux/v2.14/下载util-linux-ng-2.14.1.tar.gz 从http://rpm.pbone.net中下载util-linux-2.13-0.44.el5.x86_64.rpm 安装rpm包 #rpm -ivh util-linux-2.13-0.44.el5.x86_64.rpm 解压util-linux-ng-2.14.1.tar.gz #tar zxvf util-linux-ng-2.</description>
+在redhat 6中自动带有scriptreplay指令，在redhat5中没有该指令，需要手动安装 从ftp://ftp.kernel.org/pub/linux/utils/util-linux/v2.14/下载util-linux-ng-2.14.1.tar.gz 从http://rpm.pbone.net中下载util-linux-2.13-0.44.el5.x86_64.rpm 安装rpm包 #rpm -ivh util-linux-2.13-0.44.el5.x86_64.rpm 解压util-linux-ng-2.14.1.tar.gz #tar zxvf util-linux-ng-2.14.1.tar.gz 进入解压后的目录 然后运行 #./configure &amp;amp;amp;&amp;amp;amp; make &amp;amp;amp;&amp;amp;amp; make install 前言： 平时用history也能查自己操作过的命令，但是只能看自己输入的命令记录，系统的回显等等信息是看不了的。 而script工具可以记录在终端中所做的一切，包括回显信息等，就相当于是图形桌面环境下的录屏软件，不同的是，这里记录下来保存的文件是文本格式。 这些记录可以用来当作日志，保存终端所发生的一切，需要时回放查看。 也可以结合mkfifo,实时跟同事共享，协同工作。
+一、script详解： 1、默认状态 默认情况下，我们可以通过在终端中输入script来启动scirpt命令:</description>
     </item>
     
     <item>
@@ -605,7 +688,9 @@ sshd: 192.168.0.2 172.</description>
       <guid>http://itbing.cn/posts/2015/2015-10-31-history-command-record/</guid>
       <description>环境：Redhat 6.4
 方法1： 实时记录历史命令到.bash_history
-[root@itbing~]#vim /etc/bashrc export HISTTIMEFORMAT=&amp;#39;%F %T &amp;#39; #让历史命令记录操作时间 export HISTSIZE=1000000 #设置保存历史命令条数 export HISTFILESIZE=1000000 #设置保存历史命令的文件大小 shopt -s histappend PROMPT_COMMAND=&amp;#39;history -a&amp;#39; #实时记录历史命令，防止丢失 优点：简单方便，易设置 缺点：安全性较差，多用户下，只能分别记录到各自的.</description>
+[root@itbing~]#vim /etc/bashrc export HISTTIMEFORMAT=&amp;#39;%F %T &amp;#39; #让历史命令记录操作时间 export HISTSIZE=1000000 #设置保存历史命令条数 export HISTFILESIZE=1000000 #设置保存历史命令的文件大小 shopt -s histappend PROMPT_COMMAND=&amp;#39;history -a&amp;#39; #实时记录历史命令，防止丢失 优点：简单方便，易设置 缺点：安全性较差，多用户下，只能分别记录到各自的.bash_history中，没有统一管理
+方法2： 实时记录历史命令到自定义文件中
+[root@itbing~]#vim /etc/bashrc export HISTORY_FILE=/var/.</description>
     </item>
     
     <item>
@@ -615,7 +700,8 @@ sshd: 192.168.0.2 172.</description>
       
       <guid>http://itbing.cn/posts/2015/2015-10-30-ntp-server-conf/</guid>
       <description>###推荐使用的NTP服务器：http://www.pool.ntp.org/zone/cn
-time.pool.aliyun.com cn.pool.ntp.org 2.cn.pool.ntp.org s1a.time.edu.cn s2c.time.edu.cn s2m.time.edu.cn time.asia.apple.com 1.asia.pool.ntp.org 3.asia.pool.ntp.org #加两个IP的，防止DNS域名解析有问题 202.112.10.60 202.112.10.36 有的可能是集群，一个域名后面有很多服务器。可以通过ntpdate -q cn.</description>
+time.pool.aliyun.com cn.pool.ntp.org 2.cn.pool.ntp.org s1a.time.edu.cn s2c.time.edu.cn s2m.time.edu.cn time.asia.apple.com 1.asia.pool.ntp.org 3.asia.pool.ntp.org #加两个IP的，防止DNS域名解析有问题 202.112.10.60 202.112.10.36 有的可能是集群，一个域名后面有很多服务器。可以通过ntpdate -q cn.pool.ntp.org
+# ntpdate -q cn.pool.ntp.org server 202.118.1.130, stratum 2, offset -0.011422, delay 0.18146 server 202.120.2.101, stratum 3, offset -0.</description>
     </item>
     
   </channel>

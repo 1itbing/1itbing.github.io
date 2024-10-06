@@ -9,7 +9,10 @@
 		<meta property="og:title" content="Kubernetes管理资源的两种方式" />
 <meta property="og:description" content="Kubernetes管理资源的两种方式: 1、用纯命令管理 比如用命令创建一个nginx服务，并且设置2个pod负载
 # kubectl run nginx-deployment --image=nginx:1.7.9 --replicas=2
-比如用命令更新服务的image镜像版本 # kubectl set image deploy/nginx nginx:nginx:1." />
+比如用命令更新服务的image镜像版本 # kubectl set image deploy/nginx nginx:nginx:1.8.0
+2、用yaml文件管理 有纯命令管理的话，其实是不够规范化的，有问题了也不好追溯。 所以生产上其实都是用yaml文件来管理k8s，这也是官方推荐的方式。
+用yaml文件创建一个nginx应用服务：
+# cat nginx.yaml apiVersion: apps/v1 kind: Deployment metadata: name: nginx-deploy namespace: dev labels: app: nginx-deploy spec: replicas: 2 selector: matchLabels: app: nginx-server template: metadata: labels: app: nginx-server spec: containers: - image: nginx name: nginx ports: - containerPort: 80 protocol: TCP 执行命令用yaml创建服务 # kubectl apply -f nginx." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="http://itbing.cn/posts/2021/2021-03-19-k8s-manage/" /><meta property="article:section" content="posts" />
 <meta property="article:published_time" content="2021-03-19T21:07:25+08:00" />

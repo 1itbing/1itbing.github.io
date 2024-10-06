@@ -62,6 +62,9 @@
 		大家都知道报这个错的原因是忘了用户名前加-u这个参数造成的，比如是这样登录了MySQL
 mysql -root -p (注意看，-root前面没有加u） 登录后，不管你执行什么命令，都会提示Ignoring query to other database
 mysql&gt;show databases; Ignoring query to other database 要解决这个问题，只要退出后加上-u这个参数就可以了。 # mysql -uroot -p
+网上很多都写到这里为止了，但并没有去分析为什么没有加-u也能登录成功，为什么登录成功后执行sql语句会报错。
+这里我就给大家分析一下为什么会这样的真正原因。
+这是因为当没有带上-u执行 “mysql -root -p ”时，mysql命令把-root识别成了它的参数，而不是root这个用户。并且把root这个词识别成了四个参数，拆开来就是“-r -o -o -t&quot;。
 	</div>
 	<div class="list__footer clearfix">
 		<a class="list__footer-readmore btn" href="/posts/2020/2020-07-15-mysql-ignoring-query/">Read more…</a>
@@ -99,7 +102,8 @@ Last_IO_Errno: 1236 Last_IO_Error: Got fatal error 1236 from master when reading
 	</header>
 	<div class="content list__excerpt post__content clearfix">
 		错误提示：
-/usr/libexec/mysqld: Can&#39;t find file: &#39;./mysql/plugin.frm&#39; (errno: 13) 180530 15:19:43 [ERROR] Can&#39;t open the mysql.
+/usr/libexec/mysqld: Can&#39;t find file: &#39;./mysql/plugin.frm&#39; (errno: 13) 180530 15:19:43 [ERROR] Can&#39;t open the mysql.plugin table. Please run mysql_upgrade to create it. 版本环境：
+mysql&gt; select version(); +------------+ | version() | +------------+ | 5.
 	</div>
 	<div class="list__footer clearfix">
 		<a class="list__footer-readmore btn" href="/posts/2018/2018-05-31-mysql-cant-find-file/">Read more…</a>

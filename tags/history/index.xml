@@ -14,7 +14,8 @@
       
       <guid>http://itbing.cn/posts/2015/2015-10-31-history-script-scriptreplay-mkfifo/</guid>
       <description>环境：redhat 6.4 工具：script、scriptreplay、mkfifo
-在redhat 6中自动带有scriptreplay指令，在redhat5中没有该指令，需要手动安装 从ftp://ftp.kernel.org/pub/linux/utils/util-linux/v2.14/下载util-linux-ng-2.14.1.tar.gz 从http://rpm.pbone.net中下载util-linux-2.13-0.44.el5.x86_64.rpm 安装rpm包 #rpm -ivh util-linux-2.13-0.44.el5.x86_64.rpm 解压util-linux-ng-2.14.1.tar.gz #tar zxvf util-linux-ng-2.</description>
+在redhat 6中自动带有scriptreplay指令，在redhat5中没有该指令，需要手动安装 从ftp://ftp.kernel.org/pub/linux/utils/util-linux/v2.14/下载util-linux-ng-2.14.1.tar.gz 从http://rpm.pbone.net中下载util-linux-2.13-0.44.el5.x86_64.rpm 安装rpm包 #rpm -ivh util-linux-2.13-0.44.el5.x86_64.rpm 解压util-linux-ng-2.14.1.tar.gz #tar zxvf util-linux-ng-2.14.1.tar.gz 进入解压后的目录 然后运行 #./configure &amp;amp;amp;&amp;amp;amp; make &amp;amp;amp;&amp;amp;amp; make install 前言： 平时用history也能查自己操作过的命令，但是只能看自己输入的命令记录，系统的回显等等信息是看不了的。 而script工具可以记录在终端中所做的一切，包括回显信息等，就相当于是图形桌面环境下的录屏软件，不同的是，这里记录下来保存的文件是文本格式。 这些记录可以用来当作日志，保存终端所发生的一切，需要时回放查看。 也可以结合mkfifo,实时跟同事共享，协同工作。
+一、script详解： 1、默认状态 默认情况下，我们可以通过在终端中输入script来启动scirpt命令:</description>
     </item>
     
     <item>
@@ -25,7 +26,9 @@
       <guid>http://itbing.cn/posts/2015/2015-10-31-history-command-record/</guid>
       <description>环境：Redhat 6.4
 方法1： 实时记录历史命令到.bash_history
-[root@itbing~]#vim /etc/bashrc export HISTTIMEFORMAT=&amp;#39;%F %T &amp;#39; #让历史命令记录操作时间 export HISTSIZE=1000000 #设置保存历史命令条数 export HISTFILESIZE=1000000 #设置保存历史命令的文件大小 shopt -s histappend PROMPT_COMMAND=&amp;#39;history -a&amp;#39; #实时记录历史命令，防止丢失 优点：简单方便，易设置 缺点：安全性较差，多用户下，只能分别记录到各自的.</description>
+[root@itbing~]#vim /etc/bashrc export HISTTIMEFORMAT=&amp;#39;%F %T &amp;#39; #让历史命令记录操作时间 export HISTSIZE=1000000 #设置保存历史命令条数 export HISTFILESIZE=1000000 #设置保存历史命令的文件大小 shopt -s histappend PROMPT_COMMAND=&amp;#39;history -a&amp;#39; #实时记录历史命令，防止丢失 优点：简单方便，易设置 缺点：安全性较差，多用户下，只能分别记录到各自的.bash_history中，没有统一管理
+方法2： 实时记录历史命令到自定义文件中
+[root@itbing~]#vim /etc/bashrc export HISTORY_FILE=/var/.</description>
     </item>
     
   </channel>

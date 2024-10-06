@@ -16,7 +16,11 @@
       <description>最近发现有台服务器中毒了，手动去查杀总是会有遗漏，最后安装了Linux下的杀毒软件clamav，使用起来还是不错的。
 环境： Linux 6.8
 版本： clamav-0.99.2.tar.gz
-依赖关系： yum install pcre* zlib zlib-devel libssl-devel libssl openssl version 0.</description>
+依赖关系： yum install pcre* zlib zlib-devel libssl-devel libssl openssl version 0.9.8 or higher
+一.安装clamav 有两种方法安装：
+1.yum安装方法 用epel源进行安装，但是需要系统能访问外网才行。 安装后会自动生成服务文件，启动服务后，会实时监控扫描连接，虽然安全性高了，不过可能会对服务器性能有影响。 可使用clamdsacn命令手动扫描系统，扫描速度快。
+开始安装： 根据自己的系统版本下载相应的epel安装文件
+#wget https://dl.fedoraproject.org/pub/epel/epel-release-latest-6.noarch.rpm #wget https://dl.</description>
     </item>
     
   </channel>

@@ -11,7 +11,14 @@
 Docker 最初是由dotCloud公司创始人Solomon Hykes发起的一个公司内部项目。
 在2013年底，由于Docker的火爆，dotCloud公司改名为Docker。
 Docker最早是在Ubuntu 12.04上开发实现的； Red Hat则从 RHEL6.5 开始对Docker进行支持。
-多种docker版本的混乱情况 先讲一讲为什么会有docker.io,docker-io这种的命名方式。 在Docker技术出现之前，Linux是已经有一个docker的工具的，但此docker非彼Docker。" />
+多种docker版本的混乱情况 先讲一讲为什么会有docker.io,docker-io这种的命名方式。 在Docker技术出现之前，Linux是已经有一个docker的工具的，但此docker非彼Docker。
+这个docker是一个窗口停靠栏程序，就像苹果的Mac系统中的dock那个程序一样的一个工具。 这是它的官网http://icculus.org/openbox/2/docker/， 里面有介绍。
+为了区分开来，我们以Docker和docker来区分。
+Docker：指容器技术。 docker：指窗口停靠栏程序。
+Docker技术出来后，因为原先Linux系统上已经有了docker这个工具，所以Docker软件名也不能跟人家重名啊，要不然没办法安装。 那个时候Docker的官网是docker.io，所以就在软件名称上加了io的后缀，在Ubuntu中就是docker.io，在CentOS中就是docker-io。
+但是虽然软件名跟docker程序不一样了，但软件安装后的命令还是一样的，都是docker的这个命令，所以要安装Docker软件，要先看看有没有安装了那个停靠栏程序，有的话要先卸载才行。这个时期要安装Docker，就要用docker加io后缀的方式来安装。
+Ubuntu中安装： apt-get install docker.io
+CentOS中安装： yum install docker-io" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="http://itbing.cn/posts/2019/2019-09-11-docker-history/" /><meta property="article:section" content="posts" />
 <meta property="article:published_time" content="2019-09-11T14:33:12+08:00" />

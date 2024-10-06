@@ -63,6 +63,7 @@
 二、在CentOS6上的安装及启用 2.1 安装telnet-server 在CentOS6中，telnet服务是由xinetd管理的，没有单独的服务，所以需要一起安装xinetd才行。 注意，在Linux系统中，telnet服务相对应的软件名称是telnet-server，而不是telnet，telnet这个名称只是telnet服务的客户端。
 # yum install xinetd telnet-server
 执行 chkconfig &ndash;list，在最后一段会显示由xinetd管理的一些服务。
+# chkconfig --list ........ xinetd based services: chargen-dgram: off chargen-stream:	off daytime-dgram: off daytime-stream:	off discard-dgram: off discard-stream:	off echo-dgram: off echo-stream: off rsync: off tcpmux-server: off telnet: off time-dgram: off time-stream: off 可以看到，telnet服务是off的状态。
 	</div>
 	<div class="list__footer clearfix">
 		<a class="list__footer-readmore btn" href="/posts/2020/2020-05-21-linux-telnet-server/">Read more…</a>

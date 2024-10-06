@@ -16,7 +16,7 @@
       <description>环境：SUSE Linux Enterprise Server 11 SP2
 检测到一个suse系统的zombie达到100多个
 登录服务器检测
-首先查询是哪个进程引起的 ps -ef|grep defu sfhadm 7444 7443 0 02:10 ?</description>
+首先查询是哪个进程引起的 ps -ef|grep defu sfhadm 7444 7443 0 02:10 ? 00:00:00 [test.sh] &amp;amp;lt;defunct&amp;amp;gt; sfhadm 7463 7462 0 02:12 ? 00:00:00 [test.sh] &amp;amp;lt;defunct&amp;amp;gt; sfhadm 7481 7480 0 02:14 ?</description>
     </item>
     
   </channel>

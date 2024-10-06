@@ -15,7 +15,8 @@
       <guid>http://itbing.cn/posts/2019/2019-06-19-ansible-28/</guid>
       <description>以前一直使用ansible1.9的版本，最近升级到2.8版本了，发现有挺多问题的。
 1、没有了-S -R参数 以前要使用su切换的话，使用-S -R就可以切换 #ansible test -S -R root -m shell -a &#39;ls&#39;
-升级到2.8之后，可以使用如下命令： 一是指定用户 #ansible test &amp;ndash;become-user=root -m shell -a &amp;rsquo;ls&#39;\</description>
+升级到2.8之后，可以使用如下命令： 一是指定用户 #ansible test &amp;ndash;become-user=root -m shell -a &amp;rsquo;ls&#39;\
+一是指定方法 #ansible test &amp;ndash;become-method=su -m shell -a &amp;rsquo;ls&#39;</description>
     </item>
     
     <item>

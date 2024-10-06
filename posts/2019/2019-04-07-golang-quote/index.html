@@ -8,7 +8,8 @@
 	<meta name="description" content="">
 		<meta property="og:title" content="Go中引号的不同作用：单引号、双引号、反引号" />
 <meta property="og:description" content="1、双引号“ ” 最常用的符号，常用来定义字符串。 双引号中定义的字符串支持转义字符，比如\n将输出换行。
-package main import ( &#34;fmt&#34; ) func main() { a := &#34;i&#34; b := &#34;在\\n&#34; c := &#34;这里&#34; fmt." />
+package main import ( &#34;fmt&#34; ) func main() { a := &#34;i&#34; b := &#34;在\\n&#34; c := &#34;这里&#34; fmt.Println(a, b, c) } 输出：i 在\n 这里
+2、单引号‘ ’ 单引号用来定义一个byte或者rune。" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="http://itbing.cn/posts/2019/2019-04-07-golang-quote/" /><meta property="article:section" content="posts" />
 <meta property="article:published_time" content="2019-04-07T20:02:42+08:00" />
