@@ -16,8 +16,7 @@
       <description>一、前言 Telnet是一个用来远程连接服务器或者设备执行操作的一个服务。但是由于是使用明文传输，现在基本上已经弃用了。 为什么我这里还要讲这个安装呢？主要是有时候在Linux系统做升级OpenSSH时，为了保险起见，一般都需要先启用Telnet服务，以防止由于OpenSSH升级失败而登录不上服务器或者设备。 由于Telnet服务在CentOS6和CentOS7上安装和配置方法都不一样，所以需要分开来写。
 二、在CentOS6上的安装及启用 2.1 安装telnet-server 在CentOS6中，telnet服务是由xinetd管理的，没有单独的服务，所以需要一起安装xinetd才行。 注意，在Linux系统中，telnet服务相对应的软件名称是telnet-server，而不是telnet，telnet这个名称只是telnet服务的客户端。
 # yum install xinetd telnet-server
-执行 chkconfig &amp;ndash;list，在最后一段会显示由xinetd管理的一些服务。
-# chkconfig --list .</description>
+执行 chkconfig &amp;ndash;list，在最后一段会显示由xinetd管理的一些服务。</description>
     </item>
     
   </channel>

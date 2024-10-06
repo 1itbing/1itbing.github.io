@@ -17,8 +17,7 @@
 下载： 打开网站http://caspian.dotconf.net/menu/Software/SendEmail/
 可以右键，复制链接地址，使用wget下载 #wget http://caspian.dotconf.net/menu/Software/SendEmail/sendEmail-v1.56.tar.gz
 解压：
-#tar -zxvf sendEmail-v1.56.tar.gz #cd sendEmail-v1.56 把里面的主要程序复制到环境变量目录下，即可使用 #cp sendEmail /usr/bin/
-这个工具都不需要赋权，因为本身已经设置好了执行权限。 然后就可以执行此命令了。 # sendEmail -help</description>
+#tar -zxvf sendEmail-v1.56.tar.gz #cd sendEmail-v1.56 把里面的主要程序复制到环境变量目录下，即可使用 #cp sendEmail /usr/bin/</description>
     </item>
     
   </channel>

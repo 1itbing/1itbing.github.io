@@ -50,8 +50,7 @@ fstab文件中的格式： 磁盘路径 挂载的目录 磁盘格式 挂载的�
       <description>一、前言 Telnet是一个用来远程连接服务器或者设备执行操作的一个服务。但是由于是使用明文传输，现在基本上已经弃用了。 为什么我这里还要讲这个安装呢？主要是有时候在Linux系统做升级OpenSSH时，为了保险起见，一般都需要先启用Telnet服务，以防止由于OpenSSH升级失败而登录不上服务器或者设备。 由于Telnet服务在CentOS6和CentOS7上安装和配置方法都不一样，所以需要分开来写。
 二、在CentOS6上的安装及启用 2.1 安装telnet-server 在CentOS6中，telnet服务是由xinetd管理的，没有单独的服务，所以需要一起安装xinetd才行。 注意，在Linux系统中，telnet服务相对应的软件名称是telnet-server，而不是telnet，telnet这个名称只是telnet服务的客户端。
 # yum install xinetd telnet-server
-执行 chkconfig &amp;ndash;list，在最后一段会显示由xinetd管理的一些服务。
-# chkconfig --list .</description>
+执行 chkconfig &amp;ndash;list，在最后一段会显示由xinetd管理的一些服务。</description>
     </item>
     
     <item>
@@ -63,9 +62,7 @@ fstab文件中的格式： 磁盘路径 挂载的目录 磁盘格式 挂载的�
       <description>Pipeline Pipeline Maven Integration pipeline中使用withMaven语法必须安装的插件
 Credentials Binding 凭据插件
 HTTP Request Plugin 代替curl，curl也可以调用凭据的
-Image Tag Parameter 通过harbor获取镜像列表作为参数
-simple theme jenkins的皮肤风格插件，可以美化jenkins页面
-timestamps 时间插件，可以让日志显示时间</description>
+Image Tag Parameter 通过harbor获取镜像列表作为参数</description>
     </item>
     
     <item>
@@ -78,8 +75,7 @@ timestamps 时间插件，可以让日志显示时间</description>
 下载： 打开网站http://caspian.dotconf.net/menu/Software/SendEmail/
 可以右键，复制链接地址，使用wget下载 #wget http://caspian.dotconf.net/menu/Software/SendEmail/sendEmail-v1.56.tar.gz
 解压：
-#tar -zxvf sendEmail-v1.56.tar.gz #cd sendEmail-v1.56 把里面的主要程序复制到环境变量目录下，即可使用 #cp sendEmail /usr/bin/
-这个工具都不需要赋权，因为本身已经设置好了执行权限。 然后就可以执行此命令了。 # sendEmail -help</description>
+#tar -zxvf sendEmail-v1.56.tar.gz #cd sendEmail-v1.56 把里面的主要程序复制到环境变量目录下，即可使用 #cp sendEmail /usr/bin/</description>
     </item>
     
     <item>
@@ -91,8 +87,7 @@ timestamps 时间插件，可以让日志显示时间</description>
       <description>一、技术问答网站 https://stackoverflow.com https://www.linuxquestions.org
 二、软件下载站： 2.1 Linux软件包下载 http://pkgs.org 各种开源的Linux(CentOS/Debian/Ubuntu)系统软件基本都有下载
 2.2 rpm包软件的下载站 http://rpmfind.net/ http://rpm.pbone.net
-2.3 主要是SUSE下的软件 https://software.opensuse.org/package/dstat 注意下拉查看显示其它版本
-2.4 托管站，有各种开源软件 http://sourceforge.net https://github.com</description>
+2.3 主要是SUSE下的软件 https://software.opensuse.org/package/dstat 注意下拉查看显示其它版本</description>
     </item>
     
     <item>
@@ -103,8 +98,7 @@ timestamps 时间插件，可以让日志显示时间</description>
       <guid>http://itbing.cn/posts/2018/2018-07-13-linux-base-set/</guid>
       <description>平时在管理系统时，总有一些不人性化的地方，也有很多不方便管理的地方，我们可以通过修改一些系统配置来使我们管理系统更方便。
 一、系统优化 1.1 命令实时记录 编辑/etc/bashrc，添加以下两句：
-shopt -s histappend PROMPT_COMMAND=&amp;#39;history -a&amp;#39; 1.2 给历史命令加上执行时间 编辑/etc/profile文件，加入如下一行： export HISTTIMEFORMAT=&#39;%F %T &#39;
-1.3 超时退出 编辑/etc/profile文件，加入如下一行： export TMOUT=3600</description>
+shopt -s histappend PROMPT_COMMAND=&amp;#39;history -a&amp;#39; 1.2 给历史命令加上执行时间 编辑/etc/profile文件，加入如下一行： export HISTTIMEFORMAT=&#39;%F %T &#39;</description>
     </item>
     
     <item>
@@ -113,8 +107,7 @@ shopt -s histappend PROMPT_COMMAND=&amp;#39;history -a&amp;#39; 1.2 给历史命
       <pubDate>Sun, 01 Jul 2018 23:14:58 +0800</pubDate>
       
       <guid>http://itbing.cn/posts/2018/2018-07-01-linux-base-operate/</guid>
-      <description>一、必须要熟练掌握的操作 1.1 忘记root密码（进入单用户模式） 1.2 进急救模式 1.3 配置IP地址 1.4 配置主机名 1.5 扫描磁盘、磁盘分区、挂载分区 1.6 LVM卷组管理 1.7 分区的扩展和收缩 1.8 VNC设置 1.9 定时设置
-二、详细配置步骤 2.</description>
+      <description>一、必须要熟练掌握的操作 1.1 忘记root密码（进入单用户模式） 1.2 进急救模式 1.3 配置IP地址 1.4 配置主机名 1.5 扫描磁盘、磁盘分区、挂载分区 1.6 LVM卷组管理 1.7 分区的扩展和收缩 1.</description>
     </item>
     
     <item>
@@ -128,8 +121,7 @@ shopt -s histappend PROMPT_COMMAND=&amp;#39;history -a&amp;#39; 1.2 给历史命
 1.1 源码发布 直接源码压缩打包方式，后缀一般为tar.gz,tar.bz2,zip这类文件，这种源码包Linux/Unix各大平台都能支持安装。
 1.2 发行版本自定义打包方式 发行版本自己定义的软件打包方式，如RedHat的RPM包，debian的deb包。
 1.3 编译好的软件 厂商自己编译打包好的软件，直接赋予执行权限就可以执行的软件包。
-二、Linux软件安装方式 根据软件发布方式的不同，安装方法也不同，主要有四种方法：
-2.1 源码编译安装 源码方式的软件包安装，需要gcc工具支持，Linux/Unix等系统平台都支持安装，但需要耗费比较长的时间进行编译。 源码安装一般都是四步： 2.1.1 解压压缩包 tar -zxvf *.</description>
+二、Linux软件安装方式 根据软件发布方式的不同，安装方法也不同，主要有四种方法：</description>
     </item>
     
     <item>
@@ -149,7 +141,7 @@ Last_IO_Errno: 1236 Last_IO_Error: Got fatal error 1236 from master when reading
       
       <guid>http://itbing.cn/posts/2018/2018-05-31-mysql-cant-find-file/</guid>
       <description>错误提示：
-/usr/libexec/mysqld: Can&amp;#39;t find file: &amp;#39;./mysql/plugin.frm&amp;#39; (errno: 13) 180530 15:19:43 [ERROR] Can&amp;#39;t open the mysql.plugin table. Please run mysql_upgrade to create it.</description>
+/usr/libexec/mysqld: Can&amp;#39;t find file: &amp;#39;./mysql/plugin.frm&amp;#39; (errno: 13) 180530 15:19:43 [ERROR] Can&amp;#39;t open the mysql.</description>
     </item>
     
     <item>
@@ -173,8 +165,7 @@ Last_IO_Errno: 1236 Last_IO_Error: Got fatal error 1236 from master when reading
       <description>最近发现有台服务器中毒了，手动去查杀总是会有遗漏，最后安装了Linux下的杀毒软件clamav，使用起来还是不错的。
 环境： Linux 6.8
 版本： clamav-0.99.2.tar.gz
-依赖关系： yum install pcre* zlib zlib-devel libssl-devel libssl openssl version 0.9.8 or higher
-一.安装clamav 有两种方法安装：</description>
+依赖关系： yum install pcre* zlib zlib-devel libssl-devel libssl openssl version 0.</description>
     </item>
     
     <item>
@@ -185,9 +176,7 @@ Last_IO_Errno: 1236 Last_IO_Error: Got fatal error 1236 from master when reading
       <guid>http://itbing.cn/posts/2017/2017-05-31-ypbind-do_ypcall/</guid>
       <description>系统环境： Oracle Linux 5.8
 操作过程： 应同事需求，想对一台服务器做IP限制，让它只能访问某几个IP。 用iptables做output限制
-如限制只能访问192.168.0.9 #iptables -I OUTPUT -d 192.168.0.9 -j ACCEPT 前面有做所有DROP
-然而ssh登录192.168.0.9时报错
-#ssh 192.168.0.9 do_ypcall: clnt_call: RPC: Unable to send; errno = Operation not permitted do_ypcall: clnt_call: RPC: Unable to send; errno = Operation not permitted 加上-vvv看详细过程</description>
+如限制只能访问192.168.0.9 #iptables -I OUTPUT -d 192.168.0.9 -j ACCEPT 前面有做所有DROP</description>
     </item>
     
     <item>
@@ -201,8 +190,7 @@ Last_IO_Errno: 1236 Last_IO_Error: Got fatal error 1236 from master when reading
 InfluxDB是用Go语言写的，专为时间序列数据持久化所开发的，由于使用Go语言，所以各平台基本都支持。类似的时间序列数据库还有OpenTSDB，Prometheus等。
 InfluxDB的Cluster功能收费，单机功能免费使用。
 1、安装 可以直接rpm安装 到http://repos.influxdata.com下载相应的版本
-#wget https://repos.influxdata.com/rhel/6Server/x86_64/stable/influxdb-1.2.0.x86_64.rpm #rpm -ivh influxdb-1.2.0.x86_64.rpm 或者 添加yum 源安装
-#cat &amp;amp;lt;&amp;amp;lt; EOF | sudo tee /etc/yum.</description>
+#wget https://repos.influxdata.com/rhel/6Server/x86_64/stable/influxdb-1.2.0.x86_64.rpm #rpm -ivh influxdb-1.2.0.x86_64.rpm 或者 添加yum 源安装</description>
     </item>
     
     <item>
@@ -213,10 +201,7 @@ InfluxDB的Cluster功能收费，单机功能免费使用。
       <guid>http://itbing.cn/posts/2016/2016-06-13-linux-ntp-attack/</guid>
       <description>被攻击服务器相关配置： ip: eth0: 172.28.9.2 eth1: 192.168.0.2 eth3: 外网IP
 某一天发现这台WEB服务器流量一直很高。 开始一直以为是WEB服务的流量很高，根本没往NTP服务那方面想。 因为我设置NTP服务的时候就有考虑到安全问题。
-检测过程： #dstat -N eth3
-可以发现发送流量非常大。
-后面还用了nethogs和iptraf两个流量分析软件进行了分析。
-nethogs 是检测进程的流量，但是检测不到UDP的流量，所以一开始也没想到是ntp的引起的。因为ntp用的是123的UDP端口。</description>
+检测过程： #dstat -N eth3</description>
     </item>
     
     <item>
@@ -231,8 +216,7 @@ nethogs 是检测进程的流量，但是检测不到UDP的流量，所以一开
 或者有时候一小心删除了某个目录也可以用备份恢复。 备份系统应有选择性的备份某些服务器系统，或某些重要的系统文件，不用全部服务器做备份。 可以专门准备一个服务器或空间，根据服务器IP创建目录，再根据日期来存放tar好的各服务器的备份文件。
 备份： 一般LINUX分区至少分三个： 一个/boot分区 一个/根分区 一个/swap交换分区 我们以这个为基础来实施备份策略。
 /boot分区安装系统后一般不会变动，所以安装完系统后就可以备份一份，以后如果有升级系统，可以再备份
-#tar -zcpf /boot.tgz /boot
-/根分区 #备份整个根目录要排除一些动态的目录和一些不必要的目录 #备份根目录应等业务应用配置完成，运行一段时间稳定后再备份，这样以后恢复出来后也能马上使用。以后应用有重大修改，运行稳定后再备份，前面的备份就可以删除</description>
+#tar -zcpf /boot.</description>
     </item>
     
     <item>
@@ -244,7 +228,7 @@ nethogs 是检测进程的流量，但是检测不到UDP的流量，所以一开
       <description>环境：SUSE Linux Enterprise Server 11 SP2
 检测到一个suse系统的zombie达到100多个
 登录服务器检测
-首先查询是哪个进程引起的 ps -ef|grep defu sfhadm 7444 7443 0 02:10 ? 00:00:00 [test.</description>
+首先查询是哪个进程引起的 ps -ef|grep defu sfhadm 7444 7443 0 02:10 ?</description>
     </item>
     
     <item>
@@ -258,8 +242,7 @@ nethogs 是检测进程的流量，但是检测不到UDP的流量，所以一开
 基本上在堡垒机上只要能执行ls、scp、ssh、passwd等几个命令就行。
 准备一台Linux服务器安装lshell工具，添加受限用户组和用户，设置好能执行的命令，做为堡垒机使用，然后在其它服务器上在/etc/hosts.allow中设置只能从这台堡垒机服务器上远程登录。
 二、安装和启用lshell 2.1、安装Linux系统 可以安装一个最简单的CentOS系统，多余的东西都不要安装，后面需要什么再安装什么。 安装完，可以加强这台服务器的安全设置，可以禁用或删除各种不需要的服务、文件。 开防火墙 开SELinux
-2.2 安装lshell工具 如果堡垒机没有联网，可以从别的地方下载安装文件，再复制过来。 文章后有提供下载地址。 如果是CentOS7，需要先安装一下依赖软件
-#yum install *ncurses* #pip install readline #git clone https://github.</description>
+2.2 安装lshell工具 如果堡垒机没有联网，可以从别的地方下载安装文件，再复制过来。 文章后有提供下载地址。 如果是CentOS7，需要先安装一下依赖软件</description>
     </item>
     
     <item>
@@ -272,9 +255,7 @@ nethogs 是检测进程的流量，但是检测不到UDP的流量，所以一开
 一、前言 为了系统安全，我们经常对Linux服务器做设置，限制远程登录的来源IP，只允许我们信任的IP进行访问。 今天要讲的几种限制IP的方法，其中“通过tcp_wrappers限制”和“通过防火墙限制”只能通过IP进行限制，就是所有用户都得遵循这个限制。而“通过ssh配置限制”和“通过pam机制限制”可以根据用户名分别来进行IP的限制。
 二、通过tcp_wrappers限制 这种方法有比较大的局限性，只能针对一些针对tcp_wrappers的服务进行限制。而SSH登录服务是刚好支持的。 这种方法就是配置文件/etc/hosts.deny和/etc/hosts.allow。
 先编辑/etc/hosts.allow，先把允许要登录的IP或者IP段添加进去。
-sshd: 192.168.0.2 172.31.1.* 192.168.10.*
-再编辑/etc/hosts.deny,拒绝所有的登录。
-sshd: ALL</description>
+sshd: 192.168.0.2 172.</description>
     </item>
     
     <item>
@@ -293,8 +274,7 @@ sshd: ALL</description>
       
       <guid>http://itbing.cn/posts/2015/2015-12-11-linux-fdisk-parted/</guid>
       <description>环境：oracle linux 6.4
-#fdisk -v fdisk (util-linux-ng 2.17.2) #parted -v parted (GNU parted) 2.1 我们讲的调整分区大小，都是要保证不损坏分区中数据为前提。 这里我们讲一下用fdisk、parted调整普通分区的方法。 LVM卷组的就不讲了，这个一般比较简单。
-切记：一般都只用于扩容分区，如果要缩减分区，特别是根目录，可能会出问题 而扩容分区时，要保证跟扩容分区相邻的分区是未分配的（或者可以先暂时删除的）</description>
+#fdisk -v fdisk (util-linux-ng 2.17.2) #parted -v parted (GNU parted) 2.1 我们讲的调整分区大小，都是要保证不损坏分区中数据为前提。 这里我们讲一下用fdisk、parted调整普通分区的方法。 LVM卷组的就不讲了，这个一般比较简单。</description>
     </item>
     
     <item>
@@ -316,7 +296,7 @@ sshd: ALL</description>
       
       <guid>http://itbing.cn/posts/2015/2015-10-31-history-script-scriptreplay-mkfifo/</guid>
       <description>环境：redhat 6.4 工具：script、scriptreplay、mkfifo
-在redhat 6中自动带有scriptreplay指令，在redhat5中没有该指令，需要手动安装 从ftp://ftp.kernel.org/pub/linux/utils/util-linux/v2.14/下载util-linux-ng-2.14.1.tar.gz 从http://rpm.pbone.net中下载util-linux-2.13-0.44.el5.x86_64.rpm 安装rpm包 #rpm -ivh util-linux-2.13-0.44.el5.x86_64.rpm 解压util-linux-ng-2.14.1.tar.gz #tar zxvf util-linux-ng-2.14.1.tar.gz 进入解压后的目录 然后运行 #./configure &amp;amp;amp;&amp;amp;amp; make &amp;amp;amp;&amp;amp;amp; make install 前言： 平时用history也能查自己操作过的命令，但是只能看自己输入的命令记录，系统的回显等等信息是看不了的。 而script工具可以记录在终端中所做的一切，包括回显信息等，就相当于是图形桌面环境下的录屏软件，不同的是，这里记录下来保存的文件是文本格式。 这些记录可以用来当作日志，保存终端所发生的一切，需要时回放查看。 也可以结合mkfifo,实时跟同事共享，协同工作。</description>
+在redhat 6中自动带有scriptreplay指令，在redhat5中没有该指令，需要手动安装 从ftp://ftp.kernel.org/pub/linux/utils/util-linux/v2.14/下载util-linux-ng-2.14.1.tar.gz 从http://rpm.pbone.net中下载util-linux-2.13-0.44.el5.x86_64.rpm 安装rpm包 #rpm -ivh util-linux-2.13-0.44.el5.x86_64.rpm 解压util-linux-ng-2.14.1.tar.gz #tar zxvf util-linux-ng-2.</description>
     </item>
     
     <item>
@@ -337,8 +317,7 @@ sshd: ALL</description>
       
       <guid>http://itbing.cn/posts/2015/2015-10-30-ntp-server-conf/</guid>
       <description>###推荐使用的NTP服务器：http://www.pool.ntp.org/zone/cn
-time.pool.aliyun.com cn.pool.ntp.org 2.cn.pool.ntp.org s1a.time.edu.cn s2c.time.edu.cn s2m.time.edu.cn time.asia.apple.com 1.asia.pool.ntp.org 3.asia.pool.ntp.org #加两个IP的，防止DNS域名解析有问题 202.112.10.60 202.112.10.36 有的可能是集群，一个域名后面有很多服务器。可以通过ntpdate -q cn.pool.ntp.org
-# ntpdate -q cn.pool.ntp.org server 202.</description>
+time.pool.aliyun.com cn.pool.ntp.org 2.cn.pool.ntp.org s1a.time.edu.cn s2c.time.edu.cn s2m.time.edu.cn time.asia.apple.com 1.asia.pool.ntp.org 3.asia.pool.ntp.org #加两个IP的，防止DNS域名解析有问题 202.112.10.60 202.112.10.36 有的可能是集群，一个域名后面有很多服务器。可以通过ntpdate -q cn.</description>
     </item>
     
   </channel>

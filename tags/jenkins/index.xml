@@ -16,9 +16,7 @@
       <description>Pipeline Pipeline Maven Integration pipeline中使用withMaven语法必须安装的插件
 Credentials Binding 凭据插件
 HTTP Request Plugin 代替curl，curl也可以调用凭据的
-Image Tag Parameter 通过harbor获取镜像列表作为参数
-simple theme jenkins的皮肤风格插件，可以美化jenkins页面
-timestamps 时间插件，可以让日志显示时间</description>
+Image Tag Parameter 通过harbor获取镜像列表作为参数</description>
     </item>
     
   </channel>

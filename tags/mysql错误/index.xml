@@ -24,7 +24,7 @@ Last_IO_Errno: 1236 Last_IO_Error: Got fatal error 1236 from master when reading
       
       <guid>http://itbing.cn/posts/2018/2018-05-31-mysql-cant-find-file/</guid>
       <description>错误提示：
-/usr/libexec/mysqld: Can&amp;#39;t find file: &amp;#39;./mysql/plugin.frm&amp;#39; (errno: 13) 180530 15:19:43 [ERROR] Can&amp;#39;t open the mysql.plugin table. Please run mysql_upgrade to create it.</description>
+/usr/libexec/mysqld: Can&amp;#39;t find file: &amp;#39;./mysql/plugin.frm&amp;#39; (errno: 13) 180530 15:19:43 [ERROR] Can&amp;#39;t open the mysql.</description>
     </item>
     
   </channel>

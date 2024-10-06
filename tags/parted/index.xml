@@ -14,8 +14,7 @@
       
       <guid>http://itbing.cn/posts/2015/2015-12-11-linux-fdisk-parted/</guid>
       <description>环境：oracle linux 6.4
-#fdisk -v fdisk (util-linux-ng 2.17.2) #parted -v parted (GNU parted) 2.1 我们讲的调整分区大小，都是要保证不损坏分区中数据为前提。 这里我们讲一下用fdisk、parted调整普通分区的方法。 LVM卷组的就不讲了，这个一般比较简单。
-切记：一般都只用于扩容分区，如果要缩减分区，特别是根目录，可能会出问题 而扩容分区时，要保证跟扩容分区相邻的分区是未分配的（或者可以先暂时删除的）</description>
+#fdisk -v fdisk (util-linux-ng 2.17.2) #parted -v parted (GNU parted) 2.1 我们讲的调整分区大小，都是要保证不损坏分区中数据为前提。 这里我们讲一下用fdisk、parted调整普通分区的方法。 LVM卷组的就不讲了，这个一般比较简单。</description>
     </item>
     
   </channel>

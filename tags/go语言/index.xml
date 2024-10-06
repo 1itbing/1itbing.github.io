@@ -14,7 +14,7 @@
       
       <guid>http://itbing.cn/posts/2019/2019-05-14-golang-print/</guid>
       <description>Print：不带格式的最基础的输出函数 a := &amp;#34;a&amp;#34; b := &amp;#34;b&amp;#34; fmt.Print(a) fmt.Print(b) 输出：ab
-Println：带一个换行效果的输出函数 a := &amp;#34;a&amp;#34; b := &amp;#34;b&amp;#34; fmt.Println(a) fmt.Println(b) 输出： a\r\nb\r\n</description>
+Println：带一个换行效果的输出函数 a := &amp;#34;a&amp;#34; b := &amp;#34;b&amp;#34; fmt.</description>
     </item>
     
     <item>
@@ -24,9 +24,7 @@ Println：带一个换行效果的输出函数 a := &amp;#34;a&amp;#34; b := &am
       
       <guid>http://itbing.cn/posts/2019/2019-05-01-golang-gomodule/</guid>
       <description>go module是Go1.11版本之后官方推出的版本管理工具，并且从Go1.13版本开始，go module将是Go语言默认的依赖管理工具。
-go module有三个可选值：off、on、auto。 GO111MODULE=off 禁用模块支持，编译时会从GOPATH和vendor文件夹中查找包。 GO111MODULE=on 启用模块支持，编译时会忽略GOPATH和vendor文件夹，只根据 go.mod下载依赖。 GO111MODULE=auto，项目根目录有go.mod文件时，开启模块支持。 使用 go module 管理依赖后会在项目根目录下生成两个文件go.mod和go.sum。
-查看自己的环境中，GO111MODULE的值。
-# go env|grep GO111MODULE GO111MODULE=&amp;#34;&amp;#34; 从Go1.</description>
+go module有三个可选值：off、on、auto。 GO111MODULE=off 禁用模块支持，编译时会从GOPATH和vendor文件夹中查找包。 GO111MODULE=on 启用模块支持，编译时会忽略GOPATH和vendor文件夹，只根据 go.mod下载依赖。 GO111MODULE=auto，项目根目录有go.mod文件时，开启模块支持。 使用 go module 管理依赖后会在项目根目录下生成两个文件go.mod和go.sum。</description>
     </item>
     
     <item>
@@ -58,8 +56,7 @@ Go1.11版本之后官方推出go module版本管理工具，并且从Go1.13版�
       
       <guid>http://itbing.cn/posts/2019/2019-03-18-golang-build/</guid>
       <description>package main import ( &amp;#34;fmt&amp;#34; ) func main() { fmt.Println(&amp;#34;&amp;#34;Hello,world!) } package 包名:必须项。 如果是要编译执行的程序，那么一定要有一个main包和main函数。
-import 库名：可选项。导入多个项包库就用（）包起来。
-func main()：主函数。 如果是要编译执行的程序，那么一定要有一个main函数。 fmt.Println(&amp;ldquo;Hello,world!&amp;quot;)：主程序内容，输出打印“Hello,world!”。</description>
+import 库名：可选项。导入多个项包库就用（）包起来。</description>
     </item>
     
     <item>

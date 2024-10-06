@@ -106,7 +106,10 @@ Linux下安装和设置： 1、安装bash-completion yum install bash-completion
 【k3s】 SUSE(Rancher)公司出品，轻量型k8s。只支持Linux平台。 网址：https://k3s.io
 【Rancher Desktop带k3s】 SUSE(Rancher)公司出品，Rancher Desktop带k3s环境。安装快捷方便。 支持macOS、Linux和Windows等多平台。
 网址：https://rancherdesktop.io
-【Docker Desktop带k8s】 Docker公司出品。 支持macOS、Linux和Windows等多平台。 网址：https://www.docker.com
+【Docker Desktop带k8s】 Docker公司出品。 支持macOS、Linux和Windows等多平台。 网址：https://www.
+	</div>
+	<div class="list__footer clearfix">
+		<a class="list__footer-readmore btn" href="/posts/2021/2021-12-01-k8s-minikube-k3s/">Read more…</a>
 	</div>
 </article><article class="list__item post">
 	
@@ -125,7 +128,6 @@ Linux下安装和设置： 1、安装bash-completion yum install bash-completion
 这里有两种方便设置的方法：
 一种是用hostAliases 在yaml中的spec块中添加一个hostAliases，然后根据格式写上IP地址和想要解析的域名。
 ....... spec: hostAliases: - ip: &#34;172.11.0.23&#34; hostnames: - pre.itbing.local ...... 这样就会把pre.itbing.local解析到172.11.0.23。 hostAliases的机制是会把这个域名解析添加进容器中的/etc/hosts。
-一种是在coreDNS添加 # kubectl -n kube-system edit configmap coredns .
 	</div>
 	<div class="list__footer clearfix">
 		<a class="list__footer-readmore btn" href="/posts/2021/2021-11-16-k8s-coredns/">Read more…</a>
@@ -145,8 +147,6 @@ Linux下安装和设置： 1、安装bash-completion yum install bash-completion
 	<div class="content list__excerpt post__content clearfix">
 		如果对Deployment的Pod template部分进行更改，例如更新template 中的 label 和容器镜像时，就会创建出一个新的 revision版本记录，如果想回滚恢复到以前某个版本状态，可以随时进行操作恢复。
 1.先创建一个deploy 这里直接用命令创建一个nginx服务的deploy # kubectl create deploy nginx-deploy --image=nginx:1.19.0 --replicas=2 -n dev
-这里用的nginx镜像是1.19.0版本
-2.查看revision版本记录 查看nginx的deploy历史版本记录
 	</div>
 	<div class="list__footer clearfix">
 		<a class="list__footer-readmore btn" href="/posts/2021/2021-11-15-k8s-record-rollout/">Read more…</a>
@@ -169,7 +169,7 @@ Linux下安装和设置： 1、安装bash-completion yum install bash-completion
 # kubectl create configmap configmap-ls --from-file=/root/ls
 注意：要把容器里的ls命令复制到你执行kubectl命令的这个系统上用来configmap存储，因为可能你执行命令的这个系统和容器的系统不一样，你如果用这个系统上的ls命令挂载进去，可能没办法正常使用。
 然后在deploy中，制作一个挂载配置，把这个configmap挂载进容器中。
-............ volumeMounts: - mountPath: /configmap/ name: configmap-ls ........... volumes: - configMap: defaultMode: 420 name: configmap-ls name: configmap-ls ls这个命令文件就会在这个容器挂载的目录/configmap/下。因为这个容器中的挂载目录是只读的，需要从挂载目录中把ls文件复制出来，再授予它执行权限就可以正常使用了。(具体步骤可以自己去操作）
+............ volumeMounts: - mountPath: /configmap/ name: configmap-ls .
 	</div>
 	<div class="list__footer clearfix">
 		<a class="list__footer-readmore btn" href="/posts/2021/2021-10-01-k8s-configmap-secret/">Read more…</a>
@@ -190,7 +190,7 @@ Linux下安装和设置： 1、安装bash-completion yum install bash-completion
 		把k8s/k3s集群导入rancher中进行管理，步骤还是很简单的。 rancher本身也是有提示说明的。
 1、登录rancher。 点击“集群”，再点击右边的“添加集群”按钮
 2、点击右边的“导入”链接 3、设置集群的名称（可随意）。 也可以在这里添加对集群管理的用户（成员角色），不过一般都是在后面细分权限划分。
-4、这里会根据你的rancher环境生成相应的命令。到要导入的集群系统上执行这个命令就行。 [root@master1 ~]# kubectl apply -f https://rancher.xxxxxx.net/v3/import/2cp2nlnkjv2l4d9tcwg6lbj72tfmjcxtvrndvhv6kx4tjcwppctnln.yaml clusterrole.rbac.authorization.k8s.io/proxy-clusterrole-kubeapiserver created clusterrolebinding.rbac.authorization.k8s.io/proxy-role-binding-kubernetes-master created namespace/cattle-system created serviceaccount/cattle created Warning: rbac.
+4、这里会根据你的rancher环境生成相应的命令。到要导入的集群系统上执行这个命令就行。 [root@master1 ~]# kubectl apply -f https://rancher.xxxxxx.net/v3/import/2cp2nlnkjv2l4d9tcwg6lbj72tfmjcxtvrndvhv6kx4tjcwppctnln.yaml clusterrole.rbac.authorization.k8s.io/proxy-clusterrole-kubeapiserver created clusterrolebinding.
 	</div>
 	<div class="list__footer clearfix">
 		<a class="list__footer-readmore btn" href="/posts/2021/2021-07-07-k8s-rancher-import/">Read more…</a>
@@ -211,7 +211,7 @@ Linux下安装和设置： 1、安装bash-completion yum install bash-completion
 		Docker安装方法： 以前1.x版本，镜像名是rancher/server，现在一般都是用2.x版本，镜像名是rancher/rancher
 $ docker pull rancher/rancher
 这个会安装最新版本的rancher，如果想指定版本安装，可以先查询有哪些版本，再加上版本号进行安装。
-$ curl -s https://registry.hub.docker.com/v2/repositories/rancher/rancher/tags/?page_size=100| jq \&#39;.&#34;results&#34;[] .name\&#39; &#34;v2.7-head&#34; &#34;v2.7-828fe615a30ed0302d39df1a78366ce4f4a8b381-head&#34; &#34;v2.7-828fe615a30ed0302d39df1a78366ce4f4a8b381-linux-amd64&#34; &#34;v2.7-828fe615a30ed0302d39df1a78366ce4f4a8b381-linux-arm64&#34; &#34;v2.7-828fe615a30ed0302d39df1a78366ce4f4a8b381-linux-s390x&#34; &#34;v2.7-cd8eea1fdf0dd0071bfdcae4f1eb7de2c5b3722f-head&#34; &#34;v2.
+$ curl -s https://registry.hub.docker.com/v2/repositories/rancher/rancher/tags/?page_size=100| jq \&#39;.&#34;results&#34;[] .name\&#39; &#34;v2.7-head&#34; &#34;v2.
 	</div>
 	<div class="list__footer clearfix">
 		<a class="list__footer-readmore btn" href="/posts/2021/2021-07-06-k8s-rancher/">Read more…</a>
@@ -231,7 +231,7 @@ $ curl -s https://registry.hub.docker.com/v2/repositories/rancher/rancher/tags/?
 	<div class="content list__excerpt post__content clearfix">
 		k8s在使用时，不仅是运维人员需要使用，很多时候还需要给开发人员来使用。 给开发人员使用，就不可能让他们用命令行去使用，这个时候就需要有web页面这种管理方式。 k8s的web管理方式其实不只有dashboard这一种，还有很多其它的解决方案，比如Rancher，其实就比dashboard更好用。
 一、查询kubernetes版本，下载对应的dashboard版本 安装前要先确认自己的kubernetes版本，因为dashboard要对应不同的kubernetes版本来进行安装使用，如果版本不对应，安装完打开可能会报错。
-# kubectl version Client Version: version.Info{Major:&amp;quot;1&amp;quot;, Minor:&amp;quot;19&amp;quot;, GitVersion:&amp;quot;v1.19.0&amp;quot;, GitCommit:&amp;quot;e19964183377d0ec2052d1f1fa930c4d7575bd50&amp;quot;, GitTreeState:&amp;quot;clean&amp;quot;, BuildDate:&amp;quot;2020-08-26T14:30:33Z&amp;quot;, GoVersion:&amp;quot;go1.15&amp;quot;, Compiler:&amp;quot;gc&amp;quot;, Platform:&amp;quot;linux/amd64&amp;quot;} Server Version: version.
+# kubectl version Client Version: version.Info{Major:&amp;quot;1&amp;quot;, Minor:&amp;quot;19&amp;quot;, GitVersion:&amp;quot;v1.19.0&amp;quot;, GitCommit:&amp;quot;e19964183377d0ec2052d1f1fa930c4d7575bd50&amp;quot;, GitTreeState:&amp;quot;clean&amp;quot;, BuildDate:&amp;quot;2020-08-26T14:30:33Z&amp;quot;, GoVersion:&amp;quot;go1.
 	</div>
 	<div class="list__footer clearfix">
 		<a class="list__footer-readmore btn" href="/posts/2021/2021-05-10-k8s-dashboard/">Read more…</a>
@@ -283,9 +283,7 @@ pod： k8s集群管理的最小单位。k8s不会直接管理docker容器，而�
 	<div class="content list__excerpt post__content clearfix">
 		Kubernetes管理资源的两种方式: 1、用纯命令管理 比如用命令创建一个nginx服务，并且设置2个pod负载
 # kubectl run nginx-deployment --image=nginx:1.7.9 --replicas=2
-比如用命令更新服务的image镜像版本 # kubectl set image deploy/nginx nginx:nginx:1.8.0
-2、用yaml文件管理 有纯命令管理的话，其实是不够规范化的，有问题了也不好追溯。 所以生产上其实都是用yaml文件来管理k8s，这也是官方推荐的方式。
-用yaml文件创建一个nginx应用服务：
+比如用命令更新服务的image镜像版本 # kubectl set image deploy/nginx nginx:nginx:1.
 	</div>
 	<div class="list__footer clearfix">
 		<a class="list__footer-readmore btn" href="/posts/2021/2021-03-19-k8s-manage/">Read more…</a>
@@ -368,7 +366,6 @@ fstab文件中的格式： 磁盘路径 挂载的目录 磁盘格式 挂载的�
 二、在CentOS6上的安装及启用 2.1 安装telnet-server 在CentOS6中，telnet服务是由xinetd管理的，没有单独的服务，所以需要一起安装xinetd才行。 注意，在Linux系统中，telnet服务相对应的软件名称是telnet-server，而不是telnet，telnet这个名称只是telnet服务的客户端。
 # yum install xinetd telnet-server
 执行 chkconfig &ndash;list，在最后一段会显示由xinetd管理的一些服务。
-# chkconfig --list .
 	</div>
 	<div class="list__footer clearfix">
 		<a class="list__footer-readmore btn" href="/posts/2020/2020-05-21-linux-telnet-server/">Read more…</a>
@@ -405,8 +402,6 @@ fstab文件中的格式： 磁盘路径 挂载的目录 磁盘格式 挂载的�
 	<div class="content list__excerpt post__content clearfix">
 		前一篇文章讲了用Docker普通方法创建Tomcat服务，大家对Docker容器已经有了一定的认识。 Docker更好的地方是可以完全定制化自己的镜像和容器。
 我们可以通过创建Dockerfile文件定制化自己的镜像。 Dockerfile文件支持的指令大概有十三个： FROM MAINTAINER RUN CMD EXPOSE ENV ADD COPY ENTRYPOINT VOLUME USER WORKDIR
-通过这十三个命令，我们就可以构建我们自己的镜像了。
-首先，创建一个目录，用于存放Dockerfile文件和制作镜像需要的一些文件。 # mkdir nginx # cd nginx # vim Dockerfile FROM centos:7 MAINTAINER itbing xxxxx@qq.
 	</div>
 	<div class="list__footer clearfix">
 		<a class="list__footer-readmore btn" href="/posts/2019/2019-09-24-dockerfile-nginx/">Read more…</a>
@@ -449,8 +444,7 @@ fstab文件中的格式： 磁盘路径 挂载的目录 磁盘格式 挂载的�
 CentOS6上虽然还可以安装Docker，但是不推荐在CentOS6上进行安装，CentOS6也没办法安装最新版本的docker-ce版本。 如果要学习和在生产中使用Docker，推荐在CentOS7上安装docker-ce版本。
 一、在CentOS7上安装docker-ce 在CentOS7上安装Docker还是比较简单的。
 CentOS本身就有提供一个docker版本可以安装，但版本较旧，不推荐使用。
-# yum list|grep docker docker.x86_64 1.13.1-102.git7f2769b.el7.centos 要想安装最新版的Docker版本，还是需要从Docker官网下载repo文件来进行安装。 把repo文件下载到/etc/yum.repos.d目录下。
-#cd /etc/yum.repos.d #wget https://download.
+# yum list|grep docker docker.x86_64 1.
 	</div>
 	<div class="list__footer clearfix">
 		<a class="list__footer-readmore btn" href="/posts/2019/2019-09-12-centos7-docker-setup/">Read more…</a>
@@ -474,67 +468,77 @@ CentOS本身就有提供一个docker版本可以安装，但版本较旧，不�
 			<li class="widget__item"><a class="widget__link" href="/posts/2021/2021-12-01-k8s-minikube-k3s/">k8s环境的几个替代产品-可用于入门、测试和开发等环境</a></li>
 			<li class="widget__item"><a class="widget__link" href="/posts/2021/2021-11-16-k8s-coredns/">在Kubernetes中自定义域名解析</a></li>
 			<li class="widget__item"><a class="widget__link" href="/posts/2021/2021-11-15-k8s-record-rollout/">Kubernetes更新和回滚</a></li>
+			<li class="widget__item"><a class="widget__link" href="/posts/2021/2021-10-01-k8s-configmap-secret/">k8s:configmap/secret存储二进制文件研究</a></li>
+			<li class="widget__item"><a class="widget__link" href="/posts/2021/2021-07-07-k8s-rancher-import/">rancher导入k8s/k3s集群</a></li>
+			<li class="widget__item"><a class="widget__link" href="/posts/2021/2021-07-06-k8s-rancher/">rancher的安装与设置</a></li>
+			<li class="widget__item"><a class="widget__link" href="/posts/2021/2021-05-10-k8s-dashboard/">Kubernetes的web管理：dashboard的安装</a></li>
+			<li class="widget__item"><a class="widget__link" href="/posts/2021/2021-03-20-k8s-setup/">Kubernetes的安装部署</a></li>
+			<li class="widget__item"><a class="widget__link" href="/posts/2021/2021-03-20-k8s-name/">Kubernetes的一些名词概念</a></li>
+			<li class="widget__item"><a class="widget__link" href="/posts/2021/2021-03-19-k8s-manage/">Kubernetes管理资源的两种方式</a></li>
+			<li class="widget__item"><a class="widget__link" href="/posts/2020/2020-08-19-linux-kvm-setup/">linux上用kvm快速创建虚拟机</a></li>
+			<li class="widget__item"><a class="widget__link" href="/posts/2020/2020-07-15-mysql-ignoring-query/">MySQL报错Ignoring query to other database的真正原因</a></li>
+			<li class="widget__item"><a class="widget__link" href="/posts/2020/2020-06-11-linux-autofs/">Linux上自动挂载磁盘的几种方法</a></li>
 		</ul>
 	</div>
 </div>
 <div class="widget-taglist widget">
 	<h4 class="widget__title">Tags</h4>
 	<div class="widget__content">
-		<a class="widget-taglist__link widget__link btn" href="/tags/ansible/" title="ansible">ansible</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/clamav/" title="clamav">clamav</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/coding/" title="coding">coding</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/dashboard/" title="dashboard">dashboard</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/do_ypcall/" title="do_ypcall">do_ypcall</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/docker/" title="Docker">Docker</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/expect/" title="expect">expect</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/fdisk/" title="fdisk">fdisk</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/go-module/" title="go module">go module</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/gopath/" title="GOPATH">GOPATH</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/goproxy/" title="GOPROXY">GOPROXY</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/goroot/" title="GOROOT">GOROOT</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/go%E8%AF%AD%E8%A8%80/" title="go语言">go语言</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/history/" title="history">history</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/influxdb/" title="InfluxDB">InfluxDB</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/ip%E9%99%90%E5%88%B6/" title="IP限制">IP限制</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/jenkins/" title="jenkins">jenkins</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/k3s/" title="k3s">k3s</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/k8s/" title="k8s">k8s</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/kubernetes/" title="Kubernetes">Kubernetes</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/kvm/" title="kvm">kvm</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/linux/" title="linux">linux</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/linux-site/" title="linux site">linux site</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/lsehll/" title="lsehll">lsehll</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/mkfifo/" title="mkfifo">mkfifo</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/mysql/" title="mysql">mysql</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/mysql%E9%94%99%E8%AF%AF/" title="MySQL错误">MySQL错误</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/ntp/" title="ntp">ntp</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/parted/" title="parted">parted</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/print/" title="Print">Print</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/puppet/" title="Puppet">Puppet</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/rancher/" title="rancher">rancher</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/saltstack/" title="SaltStack">SaltStack</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/script/" title="script">script</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/scriptreplay/" title="scriptreplay">scriptreplay</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/sendemail/" title="sendEmail">sendEmail</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/shell/" title="shell">shell</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/solaris/" title="solaris">solaris</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/sshpass/" title="sshpass">sshpass</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/suse/" title="suse">suse</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/tar%E5%A4%87%E4%BB%BD%E6%81%A2%E5%A4%8D/" title="tar备份恢复">tar备份恢复</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/tcp_wrappers/" title="tcp_wrappers">tcp_wrappers</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/telnet-server/" title="telnet server">telnet server</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/ypbind/" title="ypbind">ypbind</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/zfs/" title="zfs">zfs</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/%E4%B8%BB%E5%A4%87%E5%90%8C%E6%AD%A5/" title="主备同步">主备同步</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/%E5%83%B5%E5%B0%B8%E8%BF%9B%E7%A8%8B/" title="僵尸进程">僵尸进程</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/%E5%9F%BA%E6%9C%AC%E9%85%8D%E7%BD%AE%E6%93%8D%E4%BD%9C/" title="基本配置操作">基本配置操作</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/%E5%A0%A1%E5%9E%92%E6%9C%BA/" title="堡垒机">堡垒机</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/%E6%95%85%E9%9A%9C%E5%88%86%E6%9E%90/" title="故障分析">故障分析</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/%E6%9D%80%E6%AF%92%E8%BD%AF%E4%BB%B6/" title="杀毒软件">杀毒软件</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/%E8%87%AA%E5%8A%A8%E6%8C%82%E8%BD%BD/" title="自动挂载">自动挂载</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/%E8%BD%AF%E4%BB%B6%E5%AE%89%E8%A3%85/" title="软件安装">软件安装</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/%E8%BF%90%E7%BB%B4%E5%B7%A5%E7%A8%8B%E5%B8%88/" title="运维工程师">运维工程师</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/%E9%98%B2%E7%81%AB%E5%A2%99/" title="防火墙">防火墙</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/ansible/" title="ansible">ansible (2)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/clamav/" title="clamav">clamav (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/coding/" title="coding">coding (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/dashboard/" title="dashboard">dashboard (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/do_ypcall/" title="do_ypcall">do_ypcall (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/docker/" title="Docker">Docker (6)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/expect/" title="expect">expect (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/fdisk/" title="fdisk">fdisk (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/go-module/" title="go module">go module (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/gopath/" title="GOPATH">GOPATH (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/goproxy/" title="GOPROXY">GOPROXY (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/goroot/" title="GOROOT">GOROOT (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/go%E8%AF%AD%E8%A8%80/" title="go语言">go语言 (6)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/history/" title="history">history (2)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/influxdb/" title="InfluxDB">InfluxDB (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/ip%E9%99%90%E5%88%B6/" title="IP限制">IP限制 (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/jenkins/" title="jenkins">jenkins (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/k3s/" title="k3s">k3s (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/k8s/" title="k8s">k8s (12)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/kubernetes/" title="Kubernetes">Kubernetes (12)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/kvm/" title="kvm">kvm (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/linux/" title="linux">linux (27)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/linux-site/" title="linux site">linux site (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/lsehll/" title="lsehll">lsehll (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/mkfifo/" title="mkfifo">mkfifo (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/mysql/" title="mysql">mysql (3)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/mysql%E9%94%99%E8%AF%AF/" title="MySQL错误">MySQL错误 (2)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/ntp/" title="ntp">ntp (2)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/parted/" title="parted">parted (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/print/" title="Print">Print (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/puppet/" title="Puppet">Puppet (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/rancher/" title="rancher">rancher (2)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/saltstack/" title="SaltStack">SaltStack (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/script/" title="script">script (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/scriptreplay/" title="scriptreplay">scriptreplay (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/sendemail/" title="sendEmail">sendEmail (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/shell/" title="shell">shell (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/solaris/" title="solaris">solaris (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/sshpass/" title="sshpass">sshpass (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/suse/" title="suse">suse (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/tar%E5%A4%87%E4%BB%BD%E6%81%A2%E5%A4%8D/" title="tar备份恢复">tar备份恢复 (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/tcp_wrappers/" title="tcp_wrappers">tcp_wrappers (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/telnet-server/" title="telnet server">telnet server (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/ypbind/" title="ypbind">ypbind (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/zfs/" title="zfs">zfs (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E4%B8%BB%E5%A4%87%E5%90%8C%E6%AD%A5/" title="主备同步">主备同步 (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E5%83%B5%E5%B0%B8%E8%BF%9B%E7%A8%8B/" title="僵尸进程">僵尸进程 (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E5%9F%BA%E6%9C%AC%E9%85%8D%E7%BD%AE%E6%93%8D%E4%BD%9C/" title="基本配置操作">基本配置操作 (2)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E5%A0%A1%E5%9E%92%E6%9C%BA/" title="堡垒机">堡垒机 (2)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E6%95%85%E9%9A%9C%E5%88%86%E6%9E%90/" title="故障分析">故障分析 (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E6%9D%80%E6%AF%92%E8%BD%AF%E4%BB%B6/" title="杀毒软件">杀毒软件 (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E8%87%AA%E5%8A%A8%E6%8C%82%E8%BD%BD/" title="自动挂载">自动挂载 (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E8%BD%AF%E4%BB%B6%E5%AE%89%E8%A3%85/" title="软件安装">软件安装 (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E8%BF%90%E7%BB%B4%E5%B7%A5%E7%A8%8B%E5%B8%88/" title="运维工程师">运维工程师 (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E9%98%B2%E7%81%AB%E5%A2%99/" title="防火墙">防火墙 (1)</a>
 	</div>
 </div>
 </aside>

@@ -15,10 +15,7 @@
       <guid>http://itbing.cn/posts/2016/2016-06-13-linux-ntp-attack/</guid>
       <description>被攻击服务器相关配置： ip: eth0: 172.28.9.2 eth1: 192.168.0.2 eth3: 外网IP
 某一天发现这台WEB服务器流量一直很高。 开始一直以为是WEB服务的流量很高，根本没往NTP服务那方面想。 因为我设置NTP服务的时候就有考虑到安全问题。
-检测过程： #dstat -N eth3
-可以发现发送流量非常大。
-后面还用了nethogs和iptraf两个流量分析软件进行了分析。
-nethogs 是检测进程的流量，但是检测不到UDP的流量，所以一开始也没想到是ntp的引起的。因为ntp用的是123的UDP端口。</description>
+检测过程： #dstat -N eth3</description>
     </item>
     
     <item>
@@ -28,8 +25,7 @@ nethogs 是检测进程的流量，但是检测不到UDP的流量，所以一开
       
       <guid>http://itbing.cn/posts/2015/2015-10-30-ntp-server-conf/</guid>
       <description>###推荐使用的NTP服务器：http://www.pool.ntp.org/zone/cn
-time.pool.aliyun.com cn.pool.ntp.org 2.cn.pool.ntp.org s1a.time.edu.cn s2c.time.edu.cn s2m.time.edu.cn time.asia.apple.com 1.asia.pool.ntp.org 3.asia.pool.ntp.org #加两个IP的，防止DNS域名解析有问题 202.112.10.60 202.112.10.36 有的可能是集群，一个域名后面有很多服务器。可以通过ntpdate -q cn.pool.ntp.org
-# ntpdate -q cn.pool.ntp.org server 202.</description>
+time.pool.aliyun.com cn.pool.ntp.org 2.cn.pool.ntp.org s1a.time.edu.cn s2c.time.edu.cn s2m.time.edu.cn time.asia.apple.com 1.asia.pool.ntp.org 3.asia.pool.ntp.org #加两个IP的，防止DNS域名解析有问题 202.112.10.60 202.112.10.36 有的可能是集群，一个域名后面有很多服务器。可以通过ntpdate -q cn.</description>
     </item>
     
   </channel>

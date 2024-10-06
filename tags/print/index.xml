@@ -14,7 +14,7 @@
       
       <guid>http://itbing.cn/posts/2019/2019-05-14-golang-print/</guid>
       <description>Print：不带格式的最基础的输出函数 a := &amp;#34;a&amp;#34; b := &amp;#34;b&amp;#34; fmt.Print(a) fmt.Print(b) 输出：ab
-Println：带一个换行效果的输出函数 a := &amp;#34;a&amp;#34; b := &amp;#34;b&amp;#34; fmt.Println(a) fmt.Println(b) 输出： a\r\nb\r\n</description>
+Println：带一个换行效果的输出函数 a := &amp;#34;a&amp;#34; b := &amp;#34;b&amp;#34; fmt.</description>
     </item>
     
   </channel>

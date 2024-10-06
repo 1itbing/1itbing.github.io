@@ -16,7 +16,7 @@
       <description>把k8s/k3s集群导入rancher中进行管理，步骤还是很简单的。 rancher本身也是有提示说明的。
 1、登录rancher。 点击“集群”，再点击右边的“添加集群”按钮
 2、点击右边的“导入”链接 3、设置集群的名称（可随意）。 也可以在这里添加对集群管理的用户（成员角色），不过一般都是在后面细分权限划分。
-4、这里会根据你的rancher环境生成相应的命令。到要导入的集群系统上执行这个命令就行。 [root@master1 ~]# kubectl apply -f https://rancher.xxxxxx.net/v3/import/2cp2nlnkjv2l4d9tcwg6lbj72tfmjcxtvrndvhv6kx4tjcwppctnln.yaml clusterrole.rbac.authorization.k8s.io/proxy-clusterrole-kubeapiserver created clusterrolebinding.rbac.authorization.k8s.io/proxy-role-binding-kubernetes-master created namespace/cattle-system created serviceaccount/cattle created Warning: rbac.</description>
+4、这里会根据你的rancher环境生成相应的命令。到要导入的集群系统上执行这个命令就行。 [root@master1 ~]# kubectl apply -f https://rancher.xxxxxx.net/v3/import/2cp2nlnkjv2l4d9tcwg6lbj72tfmjcxtvrndvhv6kx4tjcwppctnln.yaml clusterrole.rbac.authorization.k8s.io/proxy-clusterrole-kubeapiserver created clusterrolebinding.</description>
     </item>
     
     <item>
@@ -28,7 +28,7 @@
       <description>Docker安装方法： 以前1.x版本，镜像名是rancher/server，现在一般都是用2.x版本，镜像名是rancher/rancher
 $ docker pull rancher/rancher
 这个会安装最新版本的rancher，如果想指定版本安装，可以先查询有哪些版本，再加上版本号进行安装。
-$ curl -s https://registry.hub.docker.com/v2/repositories/rancher/rancher/tags/?page_size=100| jq \&amp;#39;.&amp;#34;results&amp;#34;[] .name\&amp;#39; &amp;#34;v2.7-head&amp;#34; &amp;#34;v2.7-828fe615a30ed0302d39df1a78366ce4f4a8b381-head&amp;#34; &amp;#34;v2.7-828fe615a30ed0302d39df1a78366ce4f4a8b381-linux-amd64&amp;#34; &amp;#34;v2.7-828fe615a30ed0302d39df1a78366ce4f4a8b381-linux-arm64&amp;#34; &amp;#34;v2.7-828fe615a30ed0302d39df1a78366ce4f4a8b381-linux-s390x&amp;#34; &amp;#34;v2.7-cd8eea1fdf0dd0071bfdcae4f1eb7de2c5b3722f-head&amp;#34; &amp;#34;v2.</description>
+$ curl -s https://registry.hub.docker.com/v2/repositories/rancher/rancher/tags/?page_size=100| jq \&amp;#39;.&amp;#34;results&amp;#34;[] .name\&amp;#39; &amp;#34;v2.7-head&amp;#34; &amp;#34;v2.</description>
     </item>
     
   </channel>

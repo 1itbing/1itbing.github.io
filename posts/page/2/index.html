@@ -62,7 +62,7 @@
 		一、说明 先说一下，现在要安装Docker的话，一定要在CentOS7上安装Docker-ce。docker-io是比较老的版本，很多功能是没有的。 CentOS6默认也只支持到Docker1.7（但其实CentOS6是可以支持到Docker1.9的）,后面的版本都需要安装在CentOS7上。 CentOS6也不能安装Docker0.7以下的版本了，比如Docker0.5/0.6,基本上是没办法使用的。因为最早Docker是在Ubuntu上的。
 CentOS6安装Docker必须要升级内核到3.10及以上内核版本才行，内核还必须开启aufs模块。
 我这里也就是单纯做个研究，就讲一下怎么在CentOS6上升级内核，然后再安装Docker1.7,再升级到1.9。
-二、操作系统环境 # cat /etc/issue CentOS release 6.5 (Final) # uname -r 2.6.32-431.el6.x86_64 三、基础环境的准备 1、安装开发平台工具 #yum groupinstall &quot;Development tools&quot;
+二、操作系统环境 # cat /etc/issue CentOS release 6.5 (Final) # uname -r 2.
 	</div>
 	<div class="list__footer clearfix">
 		<a class="list__footer-readmore btn" href="/posts/2019/2019-09-11-centos6-docker-io-docker-engine/">Read more…</a>
@@ -85,9 +85,6 @@ Docker 最初是由dotCloud公司创始人Solomon Hykes发起的一个公司内�
 在2013年底，由于Docker的火爆，dotCloud公司改名为Docker。
 Docker最早是在Ubuntu 12.04上开发实现的； Red Hat则从 RHEL6.5 开始对Docker进行支持。
 多种docker版本的混乱情况 先讲一讲为什么会有docker.io,docker-io这种的命名方式。 在Docker技术出现之前，Linux是已经有一个docker的工具的，但此docker非彼Docker。
-这个docker是一个窗口停靠栏程序，就像苹果的Mac系统中的dock那个程序一样的一个工具。 这是它的官网http://icculus.org/openbox/2/docker/， 里面有介绍。
-为了区分开来，我们以Docker和docker来区分。
-Docker：指容器技术。 docker：指窗口停靠栏程序。
 	</div>
 	<div class="list__footer clearfix">
 		<a class="list__footer-readmore btn" href="/posts/2019/2019-09-11-docker-history/">Read more…</a>
@@ -109,8 +106,6 @@ Docker：指容器技术。 docker：指窗口停靠栏程序。
 Credentials Binding 凭据插件
 HTTP Request Plugin 代替curl，curl也可以调用凭据的
 Image Tag Parameter 通过harbor获取镜像列表作为参数
-simple theme jenkins的皮肤风格插件，可以美化jenkins页面
-timestamps 时间插件，可以让日志显示时间
 	</div>
 	<div class="list__footer clearfix">
 		<a class="list__footer-readmore btn" href="/posts/2019/2019-09-07-jenkins-plugins/">Read more…</a>
@@ -150,7 +145,7 @@ timestamps 时间插件，可以让日志显示时间
 	<div class="content list__excerpt post__content clearfix">
 		不要用过多的if嵌套
 重构前：
-def project_version(request,group_name,branch_name,project_name): if branch_name and group_name and project_name: project_name_with_namespace = &#39;%s/%s&#39; %(group_name,project_name) project = gl.projects.get(project_name_with_namespace) if project: branches = [] branch = project.
+def project_version(request,group_name,branch_name,project_name): if branch_name and group_name and project_name: project_name_with_namespace = &#39;%s/%s&#39; %(group_name,project_name) project = gl.
 	</div>
 	<div class="list__footer clearfix">
 		<a class="list__footer-readmore btn" href="/posts/2019/2019-06-01-coding-too-many-if/">Read more…</a>
@@ -169,7 +164,7 @@ def project_version(request,group_name,branch_name,project_name): if branch_name
 	</header>
 	<div class="content list__excerpt post__content clearfix">
 		Print：不带格式的最基础的输出函数 a := &#34;a&#34; b := &#34;b&#34; fmt.Print(a) fmt.Print(b) 输出：ab
-Println：带一个换行效果的输出函数 a := &#34;a&#34; b := &#34;b&#34; fmt.Println(a) fmt.Println(b) 输出： a\r\nb\r\n
+Println：带一个换行效果的输出函数 a := &#34;a&#34; b := &#34;b&#34; fmt.
 	</div>
 	<div class="list__footer clearfix">
 		<a class="list__footer-readmore btn" href="/posts/2019/2019-05-14-golang-print/">Read more…</a>
@@ -189,8 +184,6 @@ Println：带一个换行效果的输出函数 a := &#34;a&#34; b := &#34;b&#34;
 	<div class="content list__excerpt post__content clearfix">
 		go module是Go1.11版本之后官方推出的版本管理工具，并且从Go1.13版本开始，go module将是Go语言默认的依赖管理工具。
 go module有三个可选值：off、on、auto。 GO111MODULE=off 禁用模块支持，编译时会从GOPATH和vendor文件夹中查找包。 GO111MODULE=on 启用模块支持，编译时会忽略GOPATH和vendor文件夹，只根据 go.mod下载依赖。 GO111MODULE=auto，项目根目录有go.mod文件时，开启模块支持。 使用 go module 管理依赖后会在项目根目录下生成两个文件go.mod和go.sum。
-查看自己的环境中，GO111MODULE的值。
-# go env|grep GO111MODULE GO111MODULE=&#34;&#34; 从Go1.
 	</div>
 	<div class="list__footer clearfix">
 		<a class="list__footer-readmore btn" href="/posts/2019/2019-05-01-golang-gomodule/">Read more…</a>
@@ -247,7 +240,6 @@ Go1.11版本之后官方推出go module版本管理工具，并且从Go1.13版�
 	<div class="content list__excerpt post__content clearfix">
 		package main import ( &#34;fmt&#34; ) func main() { fmt.Println(&#34;&#34;Hello,world!) } package 包名:必须项。 如果是要编译执行的程序，那么一定要有一个main包和main函数。
 import 库名：可选项。导入多个项包库就用（）包起来。
-func main()：主函数。 如果是要编译执行的程序，那么一定要有一个main函数。 fmt.Println(&ldquo;Hello,world!&quot;)：主程序内容，输出打印“Hello,world!”。
 	</div>
 	<div class="list__footer clearfix">
 		<a class="list__footer-readmore btn" href="/posts/2019/2019-03-18-golang-build/">Read more…</a>
@@ -289,7 +281,6 @@ nexus社区提供的 https://gonexus.dev ngoproxy.io https://goproxy.io\
 可以右键，复制链接地址，使用wget下载 #wget http://caspian.dotconf.net/menu/Software/SendEmail/sendEmail-v1.56.tar.gz
 解压：
 #tar -zxvf sendEmail-v1.56.tar.gz #cd sendEmail-v1.56 把里面的主要程序复制到环境变量目录下，即可使用 #cp sendEmail /usr/bin/
-这个工具都不需要赋权，因为本身已经设置好了执行权限。 然后就可以执行此命令了。 # sendEmail -help
 	</div>
 	<div class="list__footer clearfix">
 		<a class="list__footer-readmore btn" href="/posts/2018/2018-10-18-linux-sendemail/">Read more…</a>
@@ -311,7 +302,6 @@ nexus社区提供的 https://gonexus.dev ngoproxy.io https://goproxy.io\
 二、软件下载站： 2.1 Linux软件包下载 http://pkgs.org 各种开源的Linux(CentOS/Debian/Ubuntu)系统软件基本都有下载
 2.2 rpm包软件的下载站 http://rpmfind.net/ http://rpm.pbone.net
 2.3 主要是SUSE下的软件 https://software.opensuse.org/package/dstat 注意下拉查看显示其它版本
-2.4 托管站，有各种开源软件 http://sourceforge.net https://github.com
 	</div>
 	<div class="list__footer clearfix">
 		<a class="list__footer-readmore btn" href="/posts/2018/2018-08-12-linux-site/">Read more…</a>
@@ -332,7 +322,6 @@ nexus社区提供的 https://gonexus.dev ngoproxy.io https://goproxy.io\
 		平时在管理系统时，总有一些不人性化的地方，也有很多不方便管理的地方，我们可以通过修改一些系统配置来使我们管理系统更方便。
 一、系统优化 1.1 命令实时记录 编辑/etc/bashrc，添加以下两句：
 shopt -s histappend PROMPT_COMMAND=&#39;history -a&#39; 1.2 给历史命令加上执行时间 编辑/etc/profile文件，加入如下一行： export HISTTIMEFORMAT='%F %T '
-1.3 超时退出 编辑/etc/profile文件，加入如下一行： export TMOUT=3600
 	</div>
 	<div class="list__footer clearfix">
 		<a class="list__footer-readmore btn" href="/posts/2018/2018-07-13-linux-base-set/">Read more…</a>
@@ -350,8 +339,7 @@ shopt -s histappend PROMPT_COMMAND=&#39;history -a&#39; 1.2 给历史命令加�
 	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0a14 14 0 1 1 0 28 1 1 0 0 1 0-28m0 3a3 3 0 1 0 0 22 3 3 0 0 0 0-22m1 4h-2v8.4l6.8 4.4L22 18l-6-3.8z"/></svg><time class="meta__text" datetime="2018-07-01T23:14:58&#43;08:00">July 01, 2018</time></div></div>
 	</header>
 	<div class="content list__excerpt post__content clearfix">
-		一、必须要熟练掌握的操作 1.1 忘记root密码（进入单用户模式） 1.2 进急救模式 1.3 配置IP地址 1.4 配置主机名 1.5 扫描磁盘、磁盘分区、挂载分区 1.6 LVM卷组管理 1.7 分区的扩展和收缩 1.8 VNC设置 1.9 定时设置
-二、详细配置步骤 2.
+		一、必须要熟练掌握的操作 1.1 忘记root密码（进入单用户模式） 1.2 进急救模式 1.3 配置IP地址 1.4 配置主机名 1.5 扫描磁盘、磁盘分区、挂载分区 1.6 LVM卷组管理 1.7 分区的扩展和收缩 1.
 	</div>
 	<div class="list__footer clearfix">
 		<a class="list__footer-readmore btn" href="/posts/2018/2018-07-01-linux-base-operate/">Read more…</a>
@@ -375,7 +363,6 @@ shopt -s histappend PROMPT_COMMAND=&#39;history -a&#39; 1.2 给历史命令加�
 1.2 发行版本自定义打包方式 发行版本自己定义的软件打包方式，如RedHat的RPM包，debian的deb包。
 1.3 编译好的软件 厂商自己编译打包好的软件，直接赋予执行权限就可以执行的软件包。
 二、Linux软件安装方式 根据软件发布方式的不同，安装方法也不同，主要有四种方法：
-2.1 源码编译安装 源码方式的软件包安装，需要gcc工具支持，Linux/Unix等系统平台都支持安装，但需要耗费比较长的时间进行编译。 源码安装一般都是四步： 2.1.1 解压压缩包 tar -zxvf *.
 	</div>
 	<div class="list__footer clearfix">
 		<a class="list__footer-readmore btn" href="/posts/2018/2018-07-01-linux-softtool-setup/">Read more…</a>
@@ -413,7 +400,7 @@ Last_IO_Errno: 1236 Last_IO_Error: Got fatal error 1236 from master when reading
 	</header>
 	<div class="content list__excerpt post__content clearfix">
 		错误提示：
-/usr/libexec/mysqld: Can&#39;t find file: &#39;./mysql/plugin.frm&#39; (errno: 13) 180530 15:19:43 [ERROR] Can&#39;t open the mysql.plugin table. Please run mysql_upgrade to create it.
+/usr/libexec/mysqld: Can&#39;t find file: &#39;./mysql/plugin.frm&#39; (errno: 13) 180530 15:19:43 [ERROR] Can&#39;t open the mysql.
 	</div>
 	<div class="list__footer clearfix">
 		<a class="list__footer-readmore btn" href="/posts/2018/2018-05-31-mysql-cant-find-file/">Read more…</a>
@@ -455,8 +442,7 @@ Last_IO_Errno: 1236 Last_IO_Error: Got fatal error 1236 from master when reading
 		最近发现有台服务器中毒了，手动去查杀总是会有遗漏，最后安装了Linux下的杀毒软件clamav，使用起来还是不错的。
 环境： Linux 6.8
 版本： clamav-0.99.2.tar.gz
-依赖关系： yum install pcre* zlib zlib-devel libssl-devel libssl openssl version 0.9.8 or higher
-一.安装clamav 有两种方法安装：
+依赖关系： yum install pcre* zlib zlib-devel libssl-devel libssl openssl version 0.
 	</div>
 	<div class="list__footer clearfix">
 		<a class="list__footer-readmore btn" href="/posts/2017/2015-06-31-clamav/">Read more…</a>
@@ -482,67 +468,77 @@ Last_IO_Errno: 1236 Last_IO_Error: Got fatal error 1236 from master when reading
 			<li class="widget__item"><a class="widget__link" href="/posts/2021/2021-12-01-k8s-minikube-k3s/">k8s环境的几个替代产品-可用于入门、测试和开发等环境</a></li>
 			<li class="widget__item"><a class="widget__link" href="/posts/2021/2021-11-16-k8s-coredns/">在Kubernetes中自定义域名解析</a></li>
 			<li class="widget__item"><a class="widget__link" href="/posts/2021/2021-11-15-k8s-record-rollout/">Kubernetes更新和回滚</a></li>
+			<li class="widget__item"><a class="widget__link" href="/posts/2021/2021-10-01-k8s-configmap-secret/">k8s:configmap/secret存储二进制文件研究</a></li>
+			<li class="widget__item"><a class="widget__link" href="/posts/2021/2021-07-07-k8s-rancher-import/">rancher导入k8s/k3s集群</a></li>
+			<li class="widget__item"><a class="widget__link" href="/posts/2021/2021-07-06-k8s-rancher/">rancher的安装与设置</a></li>
+			<li class="widget__item"><a class="widget__link" href="/posts/2021/2021-05-10-k8s-dashboard/">Kubernetes的web管理：dashboard的安装</a></li>
+			<li class="widget__item"><a class="widget__link" href="/posts/2021/2021-03-20-k8s-setup/">Kubernetes的安装部署</a></li>
+			<li class="widget__item"><a class="widget__link" href="/posts/2021/2021-03-20-k8s-name/">Kubernetes的一些名词概念</a></li>
+			<li class="widget__item"><a class="widget__link" href="/posts/2021/2021-03-19-k8s-manage/">Kubernetes管理资源的两种方式</a></li>
+			<li class="widget__item"><a class="widget__link" href="/posts/2020/2020-08-19-linux-kvm-setup/">linux上用kvm快速创建虚拟机</a></li>
+			<li class="widget__item"><a class="widget__link" href="/posts/2020/2020-07-15-mysql-ignoring-query/">MySQL报错Ignoring query to other database的真正原因</a></li>
+			<li class="widget__item"><a class="widget__link" href="/posts/2020/2020-06-11-linux-autofs/">Linux上自动挂载磁盘的几种方法</a></li>
 		</ul>
 	</div>
 </div>
 <div class="widget-taglist widget">
 	<h4 class="widget__title">Tags</h4>
 	<div class="widget__content">
-		<a class="widget-taglist__link widget__link btn" href="/tags/ansible/" title="ansible">ansible</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/clamav/" title="clamav">clamav</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/coding/" title="coding">coding</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/dashboard/" title="dashboard">dashboard</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/do_ypcall/" title="do_ypcall">do_ypcall</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/docker/" title="Docker">Docker</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/expect/" title="expect">expect</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/fdisk/" title="fdisk">fdisk</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/go-module/" title="go module">go module</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/gopath/" title="GOPATH">GOPATH</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/goproxy/" title="GOPROXY">GOPROXY</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/goroot/" title="GOROOT">GOROOT</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/go%E8%AF%AD%E8%A8%80/" title="go语言">go语言</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/history/" title="history">history</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/influxdb/" title="InfluxDB">InfluxDB</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/ip%E9%99%90%E5%88%B6/" title="IP限制">IP限制</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/jenkins/" title="jenkins">jenkins</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/k3s/" title="k3s">k3s</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/k8s/" title="k8s">k8s</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/kubernetes/" title="Kubernetes">Kubernetes</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/kvm/" title="kvm">kvm</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/linux/" title="linux">linux</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/linux-site/" title="linux site">linux site</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/lsehll/" title="lsehll">lsehll</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/mkfifo/" title="mkfifo">mkfifo</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/mysql/" title="mysql">mysql</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/mysql%E9%94%99%E8%AF%AF/" title="MySQL错误">MySQL错误</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/ntp/" title="ntp">ntp</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/parted/" title="parted">parted</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/print/" title="Print">Print</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/puppet/" title="Puppet">Puppet</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/rancher/" title="rancher">rancher</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/saltstack/" title="SaltStack">SaltStack</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/script/" title="script">script</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/scriptreplay/" title="scriptreplay">scriptreplay</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/sendemail/" title="sendEmail">sendEmail</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/shell/" title="shell">shell</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/solaris/" title="solaris">solaris</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/sshpass/" title="sshpass">sshpass</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/suse/" title="suse">suse</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/tar%E5%A4%87%E4%BB%BD%E6%81%A2%E5%A4%8D/" title="tar备份恢复">tar备份恢复</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/tcp_wrappers/" title="tcp_wrappers">tcp_wrappers</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/telnet-server/" title="telnet server">telnet server</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/ypbind/" title="ypbind">ypbind</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/zfs/" title="zfs">zfs</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/%E4%B8%BB%E5%A4%87%E5%90%8C%E6%AD%A5/" title="主备同步">主备同步</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/%E5%83%B5%E5%B0%B8%E8%BF%9B%E7%A8%8B/" title="僵尸进程">僵尸进程</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/%E5%9F%BA%E6%9C%AC%E9%85%8D%E7%BD%AE%E6%93%8D%E4%BD%9C/" title="基本配置操作">基本配置操作</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/%E5%A0%A1%E5%9E%92%E6%9C%BA/" title="堡垒机">堡垒机</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/%E6%95%85%E9%9A%9C%E5%88%86%E6%9E%90/" title="故障分析">故障分析</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/%E6%9D%80%E6%AF%92%E8%BD%AF%E4%BB%B6/" title="杀毒软件">杀毒软件</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/%E8%87%AA%E5%8A%A8%E6%8C%82%E8%BD%BD/" title="自动挂载">自动挂载</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/%E8%BD%AF%E4%BB%B6%E5%AE%89%E8%A3%85/" title="软件安装">软件安装</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/%E8%BF%90%E7%BB%B4%E5%B7%A5%E7%A8%8B%E5%B8%88/" title="运维工程师">运维工程师</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/%E9%98%B2%E7%81%AB%E5%A2%99/" title="防火墙">防火墙</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/ansible/" title="ansible">ansible (2)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/clamav/" title="clamav">clamav (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/coding/" title="coding">coding (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/dashboard/" title="dashboard">dashboard (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/do_ypcall/" title="do_ypcall">do_ypcall (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/docker/" title="Docker">Docker (6)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/expect/" title="expect">expect (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/fdisk/" title="fdisk">fdisk (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/go-module/" title="go module">go module (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/gopath/" title="GOPATH">GOPATH (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/goproxy/" title="GOPROXY">GOPROXY (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/goroot/" title="GOROOT">GOROOT (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/go%E8%AF%AD%E8%A8%80/" title="go语言">go语言 (6)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/history/" title="history">history (2)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/influxdb/" title="InfluxDB">InfluxDB (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/ip%E9%99%90%E5%88%B6/" title="IP限制">IP限制 (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/jenkins/" title="jenkins">jenkins (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/k3s/" title="k3s">k3s (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/k8s/" title="k8s">k8s (12)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/kubernetes/" title="Kubernetes">Kubernetes (12)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/kvm/" title="kvm">kvm (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/linux/" title="linux">linux (27)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/linux-site/" title="linux site">linux site (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/lsehll/" title="lsehll">lsehll (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/mkfifo/" title="mkfifo">mkfifo (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/mysql/" title="mysql">mysql (3)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/mysql%E9%94%99%E8%AF%AF/" title="MySQL错误">MySQL错误 (2)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/ntp/" title="ntp">ntp (2)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/parted/" title="parted">parted (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/print/" title="Print">Print (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/puppet/" title="Puppet">Puppet (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/rancher/" title="rancher">rancher (2)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/saltstack/" title="SaltStack">SaltStack (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/script/" title="script">script (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/scriptreplay/" title="scriptreplay">scriptreplay (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/sendemail/" title="sendEmail">sendEmail (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/shell/" title="shell">shell (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/solaris/" title="solaris">solaris (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/sshpass/" title="sshpass">sshpass (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/suse/" title="suse">suse (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/tar%E5%A4%87%E4%BB%BD%E6%81%A2%E5%A4%8D/" title="tar备份恢复">tar备份恢复 (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/tcp_wrappers/" title="tcp_wrappers">tcp_wrappers (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/telnet-server/" title="telnet server">telnet server (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/ypbind/" title="ypbind">ypbind (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/zfs/" title="zfs">zfs (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E4%B8%BB%E5%A4%87%E5%90%8C%E6%AD%A5/" title="主备同步">主备同步 (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E5%83%B5%E5%B0%B8%E8%BF%9B%E7%A8%8B/" title="僵尸进程">僵尸进程 (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E5%9F%BA%E6%9C%AC%E9%85%8D%E7%BD%AE%E6%93%8D%E4%BD%9C/" title="基本配置操作">基本配置操作 (2)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E5%A0%A1%E5%9E%92%E6%9C%BA/" title="堡垒机">堡垒机 (2)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E6%95%85%E9%9A%9C%E5%88%86%E6%9E%90/" title="故障分析">故障分析 (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E6%9D%80%E6%AF%92%E8%BD%AF%E4%BB%B6/" title="杀毒软件">杀毒软件 (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E8%87%AA%E5%8A%A8%E6%8C%82%E8%BD%BD/" title="自动挂载">自动挂载 (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E8%BD%AF%E4%BB%B6%E5%AE%89%E8%A3%85/" title="软件安装">软件安装 (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E8%BF%90%E7%BB%B4%E5%B7%A5%E7%A8%8B%E5%B8%88/" title="运维工程师">运维工程师 (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E9%98%B2%E7%81%AB%E5%A2%99/" title="防火墙">防火墙 (1)</a>
 	</div>
 </div>
 </aside>

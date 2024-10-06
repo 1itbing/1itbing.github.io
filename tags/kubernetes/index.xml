@@ -46,7 +46,7 @@ Linux下安装和设置： 1、安装bash-completion yum install bash-completion
 【k3s】 SUSE(Rancher)公司出品，轻量型k8s。只支持Linux平台。 网址：https://k3s.io
 【Rancher Desktop带k3s】 SUSE(Rancher)公司出品，Rancher Desktop带k3s环境。安装快捷方便。 支持macOS、Linux和Windows等多平台。
 网址：https://rancherdesktop.io
-【Docker Desktop带k8s】 Docker公司出品。 支持macOS、Linux和Windows等多平台。 网址：https://www.docker.com</description>
+【Docker Desktop带k8s】 Docker公司出品。 支持macOS、Linux和Windows等多平台。 网址：https://www.</description>
     </item>
     
     <item>
@@ -58,8 +58,7 @@ Linux下安装和设置： 1、安装bash-completion yum install bash-completion
       <description>有时候需要在k8s容器中给一些主机名做一下域名解析指向某一个IP地址，一般想到的都是在容器中的/etc/hosts添加配置，但这种方法不够智能，修改一次就要重新创建一个镜像，非常麻烦。
 这里有两种方便设置的方法：
 一种是用hostAliases 在yaml中的spec块中添加一个hostAliases，然后根据格式写上IP地址和想要解析的域名。
-....... spec: hostAliases: - ip: &amp;#34;172.11.0.23&amp;#34; hostnames: - pre.itbing.local ...... 这样就会把pre.itbing.local解析到172.11.0.23。 hostAliases的机制是会把这个域名解析添加进容器中的/etc/hosts。
-一种是在coreDNS添加 # kubectl -n kube-system edit configmap coredns .</description>
+....... spec: hostAliases: - ip: &amp;#34;172.11.0.23&amp;#34; hostnames: - pre.itbing.local ...... 这样就会把pre.itbing.local解析到172.11.0.23。 hostAliases的机制是会把这个域名解析添加进容器中的/etc/hosts。</description>
     </item>
     
     <item>
@@ -69,9 +68,7 @@ Linux下安装和设置： 1、安装bash-completion yum install bash-completion
       
       <guid>http://itbing.cn/posts/2021/2021-11-15-k8s-record-rollout/</guid>
       <description>如果对Deployment的Pod template部分进行更改，例如更新template 中的 label 和容器镜像时，就会创建出一个新的 revision版本记录，如果想回滚恢复到以前某个版本状态，可以随时进行操作恢复。
-1.先创建一个deploy 这里直接用命令创建一个nginx服务的deploy # kubectl create deploy nginx-deploy --image=nginx:1.19.0 --replicas=2 -n dev
-这里用的nginx镜像是1.19.0版本
-2.查看revision版本记录 查看nginx的deploy历史版本记录</description>
+1.先创建一个deploy 这里直接用命令创建一个nginx服务的deploy # kubectl create deploy nginx-deploy --image=nginx:1.19.0 --replicas=2 -n dev</description>
     </item>
     
     <item>
@@ -85,7 +82,7 @@ Linux下安装和设置： 1、安装bash-completion yum install bash-completion
 # kubectl create configmap configmap-ls --from-file=/root/ls
 注意：要把容器里的ls命令复制到你执行kubectl命令的这个系统上用来configmap存储，因为可能你执行命令的这个系统和容器的系统不一样，你如果用这个系统上的ls命令挂载进去，可能没办法正常使用。
 然后在deploy中，制作一个挂载配置，把这个configmap挂载进容器中。
-............ volumeMounts: - mountPath: /configmap/ name: configmap-ls ........... volumes: - configMap: defaultMode: 420 name: configmap-ls name: configmap-ls ls这个命令文件就会在这个容器挂载的目录/configmap/下。因为这个容器中的挂载目录是只读的，需要从挂载目录中把ls文件复制出来，再授予它执行权限就可以正常使用了。(具体步骤可以自己去操作）</description>
+............ volumeMounts: - mountPath: /configmap/ name: configmap-ls .</description>
     </item>
     
     <item>
@@ -97,7 +94,7 @@ Linux下安装和设置： 1、安装bash-completion yum install bash-completion
       <description>把k8s/k3s集群导入rancher中进行管理，步骤还是很简单的。 rancher本身也是有提示说明的。
 1、登录rancher。 点击“集群”，再点击右边的“添加集群”按钮
 2、点击右边的“导入”链接 3、设置集群的名称（可随意）。 也可以在这里添加对集群管理的用户（成员角色），不过一般都是在后面细分权限划分。
-4、这里会根据你的rancher环境生成相应的命令。到要导入的集群系统上执行这个命令就行。 [root@master1 ~]# kubectl apply -f https://rancher.xxxxxx.net/v3/import/2cp2nlnkjv2l4d9tcwg6lbj72tfmjcxtvrndvhv6kx4tjcwppctnln.yaml clusterrole.rbac.authorization.k8s.io/proxy-clusterrole-kubeapiserver created clusterrolebinding.rbac.authorization.k8s.io/proxy-role-binding-kubernetes-master created namespace/cattle-system created serviceaccount/cattle created Warning: rbac.</description>
+4、这里会根据你的rancher环境生成相应的命令。到要导入的集群系统上执行这个命令就行。 [root@master1 ~]# kubectl apply -f https://rancher.xxxxxx.net/v3/import/2cp2nlnkjv2l4d9tcwg6lbj72tfmjcxtvrndvhv6kx4tjcwppctnln.yaml clusterrole.rbac.authorization.k8s.io/proxy-clusterrole-kubeapiserver created clusterrolebinding.</description>
     </item>
     
     <item>
@@ -109,7 +106,7 @@ Linux下安装和设置： 1、安装bash-completion yum install bash-completion
       <description>Docker安装方法： 以前1.x版本，镜像名是rancher/server，现在一般都是用2.x版本，镜像名是rancher/rancher
 $ docker pull rancher/rancher
 这个会安装最新版本的rancher，如果想指定版本安装，可以先查询有哪些版本，再加上版本号进行安装。
-$ curl -s https://registry.hub.docker.com/v2/repositories/rancher/rancher/tags/?page_size=100| jq \&amp;#39;.&amp;#34;results&amp;#34;[] .name\&amp;#39; &amp;#34;v2.7-head&amp;#34; &amp;#34;v2.7-828fe615a30ed0302d39df1a78366ce4f4a8b381-head&amp;#34; &amp;#34;v2.7-828fe615a30ed0302d39df1a78366ce4f4a8b381-linux-amd64&amp;#34; &amp;#34;v2.7-828fe615a30ed0302d39df1a78366ce4f4a8b381-linux-arm64&amp;#34; &amp;#34;v2.7-828fe615a30ed0302d39df1a78366ce4f4a8b381-linux-s390x&amp;#34; &amp;#34;v2.7-cd8eea1fdf0dd0071bfdcae4f1eb7de2c5b3722f-head&amp;#34; &amp;#34;v2.</description>
+$ curl -s https://registry.hub.docker.com/v2/repositories/rancher/rancher/tags/?page_size=100| jq \&amp;#39;.&amp;#34;results&amp;#34;[] .name\&amp;#39; &amp;#34;v2.7-head&amp;#34; &amp;#34;v2.</description>
     </item>
     
     <item>
@@ -120,7 +117,7 @@ $ curl -s https://registry.hub.docker.com/v2/repositories/rancher/rancher/tags/?
       <guid>http://itbing.cn/posts/2021/2021-05-10-k8s-dashboard/</guid>
       <description>k8s在使用时，不仅是运维人员需要使用，很多时候还需要给开发人员来使用。 给开发人员使用，就不可能让他们用命令行去使用，这个时候就需要有web页面这种管理方式。 k8s的web管理方式其实不只有dashboard这一种，还有很多其它的解决方案，比如Rancher，其实就比dashboard更好用。
 一、查询kubernetes版本，下载对应的dashboard版本 安装前要先确认自己的kubernetes版本，因为dashboard要对应不同的kubernetes版本来进行安装使用，如果版本不对应，安装完打开可能会报错。
-# kubectl version Client Version: version.Info{Major:&amp;amp;quot;1&amp;amp;quot;, Minor:&amp;amp;quot;19&amp;amp;quot;, GitVersion:&amp;amp;quot;v1.19.0&amp;amp;quot;, GitCommit:&amp;amp;quot;e19964183377d0ec2052d1f1fa930c4d7575bd50&amp;amp;quot;, GitTreeState:&amp;amp;quot;clean&amp;amp;quot;, BuildDate:&amp;amp;quot;2020-08-26T14:30:33Z&amp;amp;quot;, GoVersion:&amp;amp;quot;go1.15&amp;amp;quot;, Compiler:&amp;amp;quot;gc&amp;amp;quot;, Platform:&amp;amp;quot;linux/amd64&amp;amp;quot;} Server Version: version.</description>
+# kubectl version Client Version: version.Info{Major:&amp;amp;quot;1&amp;amp;quot;, Minor:&amp;amp;quot;19&amp;amp;quot;, GitVersion:&amp;amp;quot;v1.19.0&amp;amp;quot;, GitCommit:&amp;amp;quot;e19964183377d0ec2052d1f1fa930c4d7575bd50&amp;amp;quot;, GitTreeState:&amp;amp;quot;clean&amp;amp;quot;, BuildDate:&amp;amp;quot;2020-08-26T14:30:33Z&amp;amp;quot;, GoVersion:&amp;amp;quot;go1.</description>
     </item>
     
     <item>
@@ -151,9 +148,7 @@ pod： k8s集群管理的最小单位。k8s不会直接管理docker容器，而�
       <guid>http://itbing.cn/posts/2021/2021-03-19-k8s-manage/</guid>
       <description>Kubernetes管理资源的两种方式: 1、用纯命令管理 比如用命令创建一个nginx服务，并且设置2个pod负载
 # kubectl run nginx-deployment --image=nginx:1.7.9 --replicas=2
-比如用命令更新服务的image镜像版本 # kubectl set image deploy/nginx nginx:nginx:1.8.0
-2、用yaml文件管理 有纯命令管理的话，其实是不够规范化的，有问题了也不好追溯。 所以生产上其实都是用yaml文件来管理k8s，这也是官方推荐的方式。
-用yaml文件创建一个nginx应用服务：</description>
+比如用命令更新服务的image镜像版本 # kubectl set image deploy/nginx nginx:nginx:1.</description>
     </item>
     
   </channel>

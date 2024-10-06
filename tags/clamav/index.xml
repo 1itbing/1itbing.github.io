@@ -16,8 +16,7 @@
       <description>最近发现有台服务器中毒了，手动去查杀总是会有遗漏，最后安装了Linux下的杀毒软件clamav，使用起来还是不错的。
 环境： Linux 6.8
 版本： clamav-0.99.2.tar.gz
-依赖关系： yum install pcre* zlib zlib-devel libssl-devel libssl openssl version 0.9.8 or higher
-一.安装clamav 有两种方法安装：</description>
+依赖关系： yum install pcre* zlib zlib-devel libssl-devel libssl openssl version 0.</description>
     </item>
     
   </channel>

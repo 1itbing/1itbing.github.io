@@ -15,9 +15,7 @@
       <guid>http://itbing.cn/posts/2017/2017-05-31-ypbind-do_ypcall/</guid>
       <description>系统环境： Oracle Linux 5.8
 操作过程： 应同事需求，想对一台服务器做IP限制，让它只能访问某几个IP。 用iptables做output限制
-如限制只能访问192.168.0.9 #iptables -I OUTPUT -d 192.168.0.9 -j ACCEPT 前面有做所有DROP
-然而ssh登录192.168.0.9时报错
-#ssh 192.168.0.9 do_ypcall: clnt_call: RPC: Unable to send; errno = Operation not permitted do_ypcall: clnt_call: RPC: Unable to send; errno = Operation not permitted 加上-vvv看详细过程</description>
+如限制只能访问192.168.0.9 #iptables -I OUTPUT -d 192.168.0.9 -j ACCEPT 前面有做所有DROP</description>
     </item>
     
   </channel>

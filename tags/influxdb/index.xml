@@ -18,8 +18,7 @@
 InfluxDB是用Go语言写的，专为时间序列数据持久化所开发的，由于使用Go语言，所以各平台基本都支持。类似的时间序列数据库还有OpenTSDB，Prometheus等。
 InfluxDB的Cluster功能收费，单机功能免费使用。
 1、安装 可以直接rpm安装 到http://repos.influxdata.com下载相应的版本
-#wget https://repos.influxdata.com/rhel/6Server/x86_64/stable/influxdb-1.2.0.x86_64.rpm #rpm -ivh influxdb-1.2.0.x86_64.rpm 或者 添加yum 源安装
-#cat &amp;amp;lt;&amp;amp;lt; EOF | sudo tee /etc/yum.</description>
+#wget https://repos.influxdata.com/rhel/6Server/x86_64/stable/influxdb-1.2.0.x86_64.rpm #rpm -ivh influxdb-1.2.0.x86_64.rpm 或者 添加yum 源安装</description>
     </item>
     
   </channel>

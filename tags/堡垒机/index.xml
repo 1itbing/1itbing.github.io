@@ -18,8 +18,7 @@
 基本上在堡垒机上只要能执行ls、scp、ssh、passwd等几个命令就行。
 准备一台Linux服务器安装lshell工具，添加受限用户组和用户，设置好能执行的命令，做为堡垒机使用，然后在其它服务器上在/etc/hosts.allow中设置只能从这台堡垒机服务器上远程登录。
 二、安装和启用lshell 2.1、安装Linux系统 可以安装一个最简单的CentOS系统，多余的东西都不要安装，后面需要什么再安装什么。 安装完，可以加强这台服务器的安全设置，可以禁用或删除各种不需要的服务、文件。 开防火墙 开SELinux
-2.2 安装lshell工具 如果堡垒机没有联网，可以从别的地方下载安装文件，再复制过来。 文章后有提供下载地址。 如果是CentOS7，需要先安装一下依赖软件
-#yum install *ncurses* #pip install readline #git clone https://github.</description>
+2.2 安装lshell工具 如果堡垒机没有联网，可以从别的地方下载安装文件，再复制过来。 文章后有提供下载地址。 如果是CentOS7，需要先安装一下依赖软件</description>
     </item>
     
     <item>

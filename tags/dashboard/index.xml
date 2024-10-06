@@ -15,7 +15,7 @@
       <guid>http://itbing.cn/posts/2021/2021-05-10-k8s-dashboard/</guid>
       <description>k8s在使用时，不仅是运维人员需要使用，很多时候还需要给开发人员来使用。 给开发人员使用，就不可能让他们用命令行去使用，这个时候就需要有web页面这种管理方式。 k8s的web管理方式其实不只有dashboard这一种，还有很多其它的解决方案，比如Rancher，其实就比dashboard更好用。
 一、查询kubernetes版本，下载对应的dashboard版本 安装前要先确认自己的kubernetes版本，因为dashboard要对应不同的kubernetes版本来进行安装使用，如果版本不对应，安装完打开可能会报错。
-# kubectl version Client Version: version.Info{Major:&amp;amp;quot;1&amp;amp;quot;, Minor:&amp;amp;quot;19&amp;amp;quot;, GitVersion:&amp;amp;quot;v1.19.0&amp;amp;quot;, GitCommit:&amp;amp;quot;e19964183377d0ec2052d1f1fa930c4d7575bd50&amp;amp;quot;, GitTreeState:&amp;amp;quot;clean&amp;amp;quot;, BuildDate:&amp;amp;quot;2020-08-26T14:30:33Z&amp;amp;quot;, GoVersion:&amp;amp;quot;go1.15&amp;amp;quot;, Compiler:&amp;amp;quot;gc&amp;amp;quot;, Platform:&amp;amp;quot;linux/amd64&amp;amp;quot;} Server Version: version.</description>
+# kubectl version Client Version: version.Info{Major:&amp;amp;quot;1&amp;amp;quot;, Minor:&amp;amp;quot;19&amp;amp;quot;, GitVersion:&amp;amp;quot;v1.19.0&amp;amp;quot;, GitCommit:&amp;amp;quot;e19964183377d0ec2052d1f1fa930c4d7575bd50&amp;amp;quot;, GitTreeState:&amp;amp;quot;clean&amp;amp;quot;, BuildDate:&amp;amp;quot;2020-08-26T14:30:33Z&amp;amp;quot;, GoVersion:&amp;amp;quot;go1.</description>
     </item>
     
   </channel>
