@@ -58,14 +58,12 @@
 	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0a14 14 0 1 1 0 28 1 1 0 0 1 0-28m0 3a3 3 0 1 0 0 22 3 3 0 0 0 0-22m1 4h-2v8.4l6.8 4.4L22 18l-6-3.8z"/></svg><time class="meta__text" datetime="2022-05-08T15:22:36&#43;08:00">May 08, 2022</time></div></div>
 	</header>
 	<div class="content list__excerpt post__content clearfix">
-		可以说当年kubernetes是借着Docker的东风才发展状大的。当然，kubernetes本身也的确优秀，毕竟它是google多年先进编排理念积累的成果。
-#more
-kubernetes当年为了兼容特别火的Docker，开发了&quot;dockershim&quot;来调用Docker的API接口，通过这么一种方式，从它2014年6月7日首次发布用到了2020年12月。
-2020年12月2日，kubernetes宣布将docker-shim标识为deprecated（不赞成使用），未来将被remove。（官方文档：https://kubernetes.io/zh-cn/blog/2020/12/02/dont-panic-kubernetes-and-docker/)
-2022年5月3日，Kubernetes 1.24发布，dockershim彻底被移除。（官方文档：https://kubernetes.io/zh-cn/blog/2022/05/03/kubernetes-1-24-release-announcement/ ）
-这个变化对于其它人其实没啥感觉，因为底层的变化对于k8s整个使用没有任何影响，只是运维人员需要注意。
-首先，k8s1.24及之后的版本还是可以继续使用Docker的，只不过现在不直接支持了，需要安装一个cri-dockerd（Docker官方Mirantis开发的，源码https://github.com/Mirantis/cri-dockerd）。 但这种使用docker的方式是不推荐在生产环境中使用了。
-现在选择新的容器运行时，可以有两种选择：containerd或者CRI-O。 首推选择containerd，因为它跟docker命令几乎一模一样，只要把命令中的docker改为crictl基本上就可以直接用。很多国内的云服务商也几乎都是用containerd来替代docker。
+		<blockquote>
+<p>可以说当年kubernetes是借着Docker的东风才发展状大的。当然，kubernetes本身也的确优秀，毕竟它是google多年先进编排理念积累的成果。</p>
+</blockquote>
+	</div>
+	<div class="list__footer clearfix">
+		<a class="list__footer-readmore btn" href="/posts/2022/2022-05-08-k8s-docker-remove/">Read more…</a>
 	</div>
 </article><article class="list__item post">
 	
